@@ -1,0 +1,100 @@
+{
+  "plugins": [
+    [
+      "transform-runtime",
+      {
+        "polyfill": false,
+        "regenerator": true
+      }
+    ]
+  ],
+  "presets": [
+    "react",
+    "es2015",
+    "stage-0"
+  ],
+  "env": {
+    "relay": {
+      "plugins": [
+        "relay",
+        [
+          "react-transform",
+          {
+            "transforms": [{
+                "transform": "react-transform-hmr",
+                "imports": ["react"],
+                "locals": ["module"]
+              },
+              {
+                "transform": "react-transform-catch-errors",
+                "imports": ["react", "redbox-react"]
+              }
+            ]
+          }
+        ],
+        [
+          "module-alias", [
+            {
+              "src": "./app/assets",
+              "expose": "app/assets"
+            },
+            {
+              "src": "./app/components",
+              "expose": "app/components"
+            },
+            {
+              "src": "./app/config",
+              "expose": "app/config"
+            },
+            {
+              "src": "./app/routes",
+              "expose": "app/routes"
+            },
+            {
+              "src": "./app/themes",
+              "expose": "app/themes"
+            },
+            {
+              "src": "./app/utils",
+              "expose": "app/utils"
+            }
+          ]
+        ]
+      ]
+    },
+    "development": {
+      "plugins": [
+        [
+          "module-alias", [{
+              "src": "./server/config",
+              "expose": "server/config"
+            },
+            {
+              "src": "./server/errors",
+              "expose": "server/errors"
+            },
+            {
+              "src": "./server/graphql",
+              "expose": "server/graphql"
+            },
+            {
+              "src": "./server/middlewares",
+              "expose": "server/middlewares"
+            },
+            {
+              "src": "./server/utils",
+              "expose": "server/utils"
+            },
+            {
+              "src": "./server/IoC",
+              "expose": "AppIoC"
+            }
+          ]
+        ]
+      ]
+    },
+    "production": {
+
+    }
+  }
+}
