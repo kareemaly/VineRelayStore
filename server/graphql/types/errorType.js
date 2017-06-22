@@ -1,28 +1,23 @@
+import IoC from 'AppIoC';
 import {
-  GraphQLBoolean,
-  GraphQLFloat,
-  GraphQLID,
-  GraphQLInt,
   GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
-  GraphQLSchema,
-  GraphQLString
+  GraphQLString,
 } from 'graphql';
 
-import {
-  connectionArgs,
-  connectionDefinitions,
-  connectionFromArray,
-  fromGlobalId,
-  globalIdField,
-  mutationWithClientMutationId,
-  nodeDefinitions,
-  cursorForObjectInConnection
-} from 'graphql-relay';
-
-import IoC from 'AppIoC';
-
+/**
+ * Validation message type definition.
+ *
+ * Validation message has a key and value.
+ * e.g.
+ * ```
+ * {
+ *   key: 'password',
+ *   value: 'Password is too short.',
+ * }
+ * ```
+ */
 const validationMessageType = new GraphQLObjectType({
   name: 'ValidationMessage',
   description: 'Validation error.',
@@ -32,14 +27,38 @@ const validationMessageType = new GraphQLObjectType({
   })
 });
 
+/**
+ * Error type definition.
+ *
+ * e.g.
+ * ```
+ * {
+ *   name: 'ValidationError',
+ *   message: 'A validation error has occured while registering the user.',
+ *   validationMessages: [
+ *     {
+ *       key: 'password',
+ *       value: 'Password is too short',
+ *     },
+ *   ],
+ * }
+ * ```
+ *
+ * For full list of errors
+ * @see errors/*
+ */
 export const errorType = () => new GraphQLObjectType({
   name: 'Error',
   description: 'Unified error type in our system',
   fields: () => ({
-    message: { type: new GraphQLNonNull(GraphQLString) },
+    // Error name
     name: { type: new GraphQLNonNull(GraphQLString) },
+    // Error message
+    message: { type: new GraphQLNonNull(GraphQLString) },
+    // This only exists in ValidationError
+    // @see errors/ValidationError
     validationMessages: { type: new GraphQLList(validationMessageType) },
-    // Disable stack on production
+    // @todo need to disable this on production
     stack: { type: GraphQLString },
   }),
 });

@@ -1,45 +1,29 @@
+import IoC from 'AppIoC';
 import {
-  GraphQLBoolean,
-  GraphQLFloat,
-  GraphQLID,
-  GraphQLInt,
-  GraphQLList,
-  GraphQLNonNull,
   GraphQLObjectType,
-  GraphQLSchema,
   GraphQLString,
 } from 'graphql';
-
 import {
-  connectionArgs,
-  connectionDefinitions,
-  connectionFromArray,
-  fromGlobalId,
   globalIdField,
-  mutationWithClientMutationId,
-  nodeDefinitions,
-  cursorForObjectInConnection,
 } from 'graphql-relay';
 
-import IoC from 'AppIoC';
-
-export const userType = (
-  nodeInterface
-) => new GraphQLObjectType({
+/**
+ * User type definition.
+ */
+export const userType = (nodeInterface, userModel) => new GraphQLObjectType({
   name: 'User',
-  description: 'A person who uses our app',
   fields: () => ({
     id: globalIdField('User'),
-    firstName: { type: GraphQLString },
-    lastName: { type: GraphQLString },
-    fullName: { type: GraphQLString },
-    password: { type: GraphQLString },
-    email: { type: GraphQLString },
+    firstName: { type: GraphQLString, resolve: (user) => user.getFirstName() },
+    lastName: { type: GraphQLString, resolve: (user) => user.getLastName() },
+    displayName: { type: GraphQLString, resolve: (user) => user.getDisplayName() },
+    email: { type: GraphQLString, resolve: (user) => user.getEmail() },
   }),
   interfaces: [nodeInterface],
-  isTypeOf: obj => !!obj.firstName,
+  isTypeOf: obj => obj instanceof userModel,
 });
 
 IoC.callable('userType', [
   'nodeInterface',
+  'userModel',
 ], userType);

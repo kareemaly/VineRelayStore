@@ -117,6 +117,10 @@ export default class IoC {
       return await IoC.resolved[name];
     } catch(error) {
       console.log(`Error while resolving ${name}:`);
+      console.log(`-----------------------------`)
+      console.log(error);
+      console.log("\n");
+      console.log("\n");
       return Q.reject(error);
     }
   }

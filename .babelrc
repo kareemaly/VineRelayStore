@@ -65,7 +65,12 @@
     "development": {
       "plugins": [
         [
-          "module-alias", [{
+          "module-alias", [
+            {
+              "src": "./server/auth",
+              "expose": "server/auth"
+            },
+            {
               "src": "./server/config",
               "expose": "server/config"
             },
@@ -88,7 +93,11 @@
             {
               "src": "./server/IoC",
               "expose": "AppIoC"
-            }
+            },
+            {
+              "src": "./server/bootstrap",
+              "expose": "server/bootstrap"
+            },
           ]
         ]
       ]

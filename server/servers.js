@@ -55,9 +55,11 @@ export async function runGraphQLDevServer() {
   // Things to resolve
   const graphqlSchema = await IoC.resolve('graphqlSchema');
   const errorMiddleware = await IoC.resolve('errorMiddleware');
+  const authMiddleware = await IoC.resolve('authMiddleware');
 
   // Configure express
   const expressApp = express();
+  expressApp.use(authMiddleware.setViewer.bind(authMiddleware));
   expressApp.use(bodyParser.json());
   expressApp.use(cors());
   // Configure GraphQL with graphiql UI.
@@ -66,7 +68,6 @@ export async function runGraphQLDevServer() {
     pretty: true,
     schema: graphqlSchema,
     formatError: (error) => {
-      console.error(error);
       return error.originalError ? error.originalError.toObject() : error.toObject();
     },
   }));

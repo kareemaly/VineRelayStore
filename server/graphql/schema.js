@@ -9,8 +9,7 @@ import IoC from 'AppIoC';
 
 export const graphqlSchema = (
   nodeField,
-  createUserMutation,
-  userResolver,
+  loginUserMutation,
   userType
 ) => {
   /**
@@ -26,22 +25,17 @@ export const graphqlSchema = (
         node: nodeField,
         viewer: {
           type: new GraphQLNonNull(userType),
-          resolve: (parent, args, req) => ({
-            firstName: 'Kareem',
-            lastName: 'Mohamed',
-            email: 'kareem3d.a@gmail.com',
-            fullName: 'Kareem Mohamed',
-            password: 'pass123',
-          }),
+          // Resolve viewer from request
+          // @see auth/middlewares/AuthMiddleware
+          resolve: (parent, args, req) => req.viewer,
         },
-        users: userResolver,
-      })
+      }),
     }),
     mutation: new GraphQLObjectType({
       name: 'Mutation',
       fields: () => ({
         // User mutations
-        createUser: createUserMutation,
+        loginUser: loginUserMutation,
       })
     }),
   });
@@ -49,7 +43,6 @@ export const graphqlSchema = (
 
 IoC.callable('graphqlSchema', [
   'nodeField',
-  'createUserMutation',
-  'userResolver',
+  'loginUserMutation',
   'userType',
 ], graphqlSchema);

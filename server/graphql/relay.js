@@ -5,18 +5,16 @@ import {
 
 import IoC from 'AppIoC';
 
-export const relayNodeDefinitions = () => {
+export const relayNodeDefinitions = (
+  userRepository,
+) => {
 
   const resolveGlobalId = (globalId, { viewer }) => {
     const { type, id } = fromGlobalId(globalId);
 
     switch(type) {
       case 'User':
-        return {
-          firstName: 'Kareem',
-          lastName: 'Mohamed',
-          email: 'bitriddler@gmail.com',
-        };
+        return userRepository.findById(viewer, id);
     }
   }
 
@@ -32,6 +30,7 @@ export const relayNodeDefinitions = () => {
 };
 
 IoC.callable('relayNodeDefinitions', [
+  'userRepository',
 ], relayNodeDefinitions);
 
 IoC.callable('nodeInterface', [
