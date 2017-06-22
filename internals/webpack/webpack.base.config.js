@@ -73,7 +73,7 @@ module.exports = ({ host, port, clientDirectory, envVariables, htmlTemplate }) =
         exclude: /node_modules/,
       }, {
         test: /\.css$/,
-        loaders: ['style', 'css']
+        loaders: ['style-loader', 'css-loader']
       }, {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
         loader: 'url-loader?limit=10000&name=assets/[hash].[ext]',

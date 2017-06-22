@@ -1,5 +1,6 @@
 import IoC from 'AppIoC';
 import {
+  GraphQLBoolean,
   GraphQLObjectType,
   GraphQLString,
 } from 'graphql';
@@ -18,6 +19,8 @@ export const userType = (nodeInterface, userModel) => new GraphQLObjectType({
     lastName: { type: GraphQLString, resolve: (user) => user.getLastName() },
     displayName: { type: GraphQLString, resolve: (user) => user.getDisplayName() },
     email: { type: GraphQLString, resolve: (user) => user.getEmail() },
+    isGuest: { type: GraphQLBoolean, resolve: (user) => user.isGuest() },
+    isAdmin: { type: GraphQLBoolean, resolve: (user) => user.isAdmin() },
   }),
   interfaces: [nodeInterface],
   isTypeOf: obj => obj instanceof userModel,

@@ -4,6 +4,7 @@ import {
   RecordSource,
   Store,
 } from 'relay-runtime';
+import { getToken } from 'app/utils/token';
 
 const GRAPHQL_PORT = process.env.GRAPHQL_PORT;
 const GRAPHQL_HOST = process.env.GRAPHQL_HOST;
@@ -20,6 +21,7 @@ function fetchQuery(
     method: 'POST',
     headers: {
       'content-type': 'application/json',
+      'Authorization': `JWT ${getToken()}`,
     },
     body: JSON.stringify({
       query: operation.text,

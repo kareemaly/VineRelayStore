@@ -1,19 +1,23 @@
 import React from 'react';
 import Relay from 'react-relay';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from 'app/components/common/App';
-import AppRouter from 'app/routes/Route';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import AdminRouter from 'app/routes/AdminRouter';
+import StoreRouter from 'app/routes/StoreRouter';
 import 'whatwg-fetch';
+import 'sanitize.css/sanitize.css';
 
+//
 const rootNode = document.createElement('div');
 document.body.appendChild(rootNode);
 
+//
 ReactDOM.render(
   <BrowserRouter>
-    <App>
-      <AppRouter />
-    </App>
+    <Switch>
+      <Route path='/admin' component={AdminRouter}/>
+      <Route path='/' component={StoreRouter}/>
+    </Switch>
   </BrowserRouter>,
   rootNode
 );

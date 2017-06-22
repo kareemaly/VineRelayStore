@@ -7,7 +7,7 @@
     "migrations:rollback": "babel-node internals/migrations/rollbackMigration",
     "migrations:run": "babel-node internals/migrations/runMigrations",
     "watcher:graphql": "nodemon --watch server/graphql/**/*.js --exec \"npm run update-graphql-schema\"",
-    "watcher:app": "relay-compiler --src ./app --schema server/graphql/__generated__/schema.graphql --watch",
+    "watcher:app": "nodemon --watch app/components/**/*.js --exec \"relay-compiler --src ./app --schema server/graphql/__generated__/schema.graphql\"",
     "serve:graphql": "nodemon --watch server --exec \"babel-node server graphql\"",
     "serve:app": "babel-node server app",
     "start:graphql": "concurrently \"npm run watcher:graphql\" \"npm run serve:graphql\"",
@@ -80,6 +80,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "relay-runtime": "^1.0.0",
     "sanitize.css": "^5.0.0",
+    "styled-components": "^2.1.0",
     "whatwg-fetch": "^2.0.3"
   }
 }
