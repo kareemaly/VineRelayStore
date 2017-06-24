@@ -11,7 +11,7 @@ export default class TokenGuard {
   /**
    * Get viewer from token
    * @param  {string} token
-   * @return {User|null}
+   * @return {User}
    */
   async getViewer(token) {
     const viewerId = await this.getViewerId(token);

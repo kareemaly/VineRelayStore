@@ -9,8 +9,15 @@ import IoC from 'AppIoC';
 
 export const graphqlSchema = (
   nodeField,
+  userType,
+  brandType,
+
   loginUserMutation,
-  userType
+  createBrandMutation,
+  updateBrandMutation,
+  removeBrandMutation,
+
+  brandResolver
 ) => {
   /**
    * Construct schema (query and mutation)
@@ -29,6 +36,7 @@ export const graphqlSchema = (
           // @see auth/middlewares/AuthMiddleware
           resolve: (parent, args, req) => req.viewer,
         },
+        brands: brandResolver,
       }),
     }),
     mutation: new GraphQLObjectType({
@@ -36,6 +44,10 @@ export const graphqlSchema = (
       fields: () => ({
         // User mutations
         loginUser: loginUserMutation,
+        // Brand Mutations
+        createBrand: createBrandMutation,
+        updateBrand: updateBrandMutation,
+        removeBrand: removeBrandMutation,
       })
     }),
   });
@@ -43,6 +55,13 @@ export const graphqlSchema = (
 
 IoC.callable('graphqlSchema', [
   'nodeField',
-  'loginUserMutation',
   'userType',
+  'brandType',
+
+  'loginUserMutation',
+  'createBrandMutation',
+  'updateBrandMutation',
+  'removeBrandMutation',
+
+  'brandResolver'
 ], graphqlSchema);

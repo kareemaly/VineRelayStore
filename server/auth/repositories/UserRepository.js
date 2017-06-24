@@ -12,7 +12,7 @@ export default class UserRepository {
 
   /**
    * Get super user
-   * @return {User}
+   * @return {Promise<User>}
    */
   async getSuperUser() {
     return this.userModel.findOne({
@@ -22,9 +22,9 @@ export default class UserRepository {
 
   /**
    * Use this method to query users
-   * @param  {User|null} viewer
+   * @param  {User} viewer
    * @param  {object} inputs
-   * @return {User[]}
+   * @return {Promise<User[]>}
    * @throws {ForbiddenError} If not an admin
    */
   async query(viewer, inputs) {
@@ -48,9 +48,9 @@ export default class UserRepository {
 
   /**
    * Find user by id
-   * @param  {User|null} viewer
+   * @param  {User} viewer
    * @param  {ObjectId} id
-   * @return {User|null}
+   * @return {Promise<User>}
    * @throws {ForbiddenError} If not an admin
    */
   async findById(viewer, id) {
@@ -70,7 +70,7 @@ export default class UserRepository {
    * Get viewer by email and password
    * @param  {string} email
    * @param  {string} password
-   * @return {User|null}
+   * @return {Promise<User>}
    * @throws {ValidationError} If invalid credentials
    */
   async getViewer(email, password) {
@@ -91,9 +91,9 @@ export default class UserRepository {
 
   /**
    * Create a new user
-   * @param  {User|null} viewer
+   * @param  {User} viewer
    * @param  {Object} attributes
-   * @return {User}
+   * @return {Promise<User>}
    */
   async create(viewer, attributes) {
     // Guests cant create users
@@ -117,7 +117,7 @@ export default class UserRepository {
 
   /**
    * Remove user by id
-   * @param  {User|null} viewer
+   * @param  {User} viewer
    * @param  {ObjectId} id
    */
   async remove(viewer, id) {

@@ -14,6 +14,7 @@ const registeredDirectories = [
   'errors',
   'graphql',
   'middlewares',
+  'store',
   'utils',
 ];
 

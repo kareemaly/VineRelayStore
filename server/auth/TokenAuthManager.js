@@ -13,7 +13,7 @@ export class TokenAuthManager {
 
   /**
    * Login user
-   * @param  {User|null} currentViewer
+   * @param  {User} currentViewer
    * @param  {string} email
    * @param  {string} password
    * @return {string} token
