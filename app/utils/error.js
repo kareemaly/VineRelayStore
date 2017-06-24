@@ -27,6 +27,7 @@ export function getErrorName(error) {
   if(isRelayError(error)) {
     return error.getError().source.errors[0].name;
   }
+
   return error.name;
 }
 

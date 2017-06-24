@@ -20,7 +20,7 @@ export class TokenAuthManager {
    */
   async login(currentViewer, email, password) {
     // Check if user already logged in
-    if(currentViewer) {
+    if(!currentViewer.isGuest()) {
       throw new ForbiddenError("You are already logged in");
     }
     // Get viewer by email

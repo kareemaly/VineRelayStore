@@ -12,6 +12,21 @@ const getMongooseValidationErrors = mongooseErrors => {
 
 if(!Error.prototype.toObject) {
   Error.prototype.toObject = function() {
+    /**
+     * e.g.
+     * ```
+     * {
+     *   name: 'ValidationError',
+     *   message: 'A validation error has occured while registering the user.',
+     *   validationMessages: [
+     *     {
+     *       key: 'password',
+     *       value: 'Password is too short',
+     *     },
+     *   ],
+     * }
+     * ```
+     */
     if(this.name === 'ValidationError') {
       return {
         name: "ValidationError",

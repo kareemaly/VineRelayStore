@@ -127,8 +127,6 @@ export const userModel = (mongoose, userValidator) => {
       return false;
     }
 
-    console.log(password);
-
     return Q.ninvoke(passwordHash(password), 'verifyAgainst', this.password);
   });
 
