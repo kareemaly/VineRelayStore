@@ -7,7 +7,9 @@ import IoC from 'AppIoC';
 
 export const relayNodeDefinitions = (
   userRepository,
-  brandRepository
+  brandRepository,
+  categoryRepository,
+  productRepository
 ) => {
 
   const resolveGlobalId = (globalId, { viewer }) => {
@@ -18,6 +20,10 @@ export const relayNodeDefinitions = (
         return userRepository.findById(viewer, id);
       case 'Brand':
         return brandRepository.findById(viewer, id);
+      case 'Category':
+        return categoryRepository.findById(viewer, id);
+      case 'Product':
+        return productRepository.findById(viewer, id);
     }
   }
 
@@ -35,6 +41,8 @@ export const relayNodeDefinitions = (
 IoC.callable('relayNodeDefinitions', [
   'userRepository',
   'brandRepository',
+  'categoryRepository',
+  'productRepository',
 ], relayNodeDefinitions);
 
 IoC.callable('nodeInterface', [

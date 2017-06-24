@@ -9,15 +9,29 @@ import IoC from 'AppIoC';
 
 export const graphqlSchema = (
   nodeField,
-  userType,
-  brandType,
 
+  // User
+  userType,
   loginUserMutation,
+
+  // Brand
   createBrandMutation,
   updateBrandMutation,
   removeBrandMutation,
+  brandResolver,
 
-  brandResolver
+  // Category
+  createCategoryMutation,
+  updateCategoryMutation,
+  removeCategoryMutation,
+  categoryResolver,
+
+  // Product
+  createProductMutation,
+  updateProductMutation,
+  removeProductMutation,
+  productResolver
+
 ) => {
   /**
    * Construct schema (query and mutation)
@@ -37,6 +51,8 @@ export const graphqlSchema = (
           resolve: (parent, args, req) => req.viewer,
         },
         brands: brandResolver,
+        categories: categoryResolver,
+        products: productResolver,
       }),
     }),
     mutation: new GraphQLObjectType({
@@ -48,6 +64,14 @@ export const graphqlSchema = (
         createBrand: createBrandMutation,
         updateBrand: updateBrandMutation,
         removeBrand: removeBrandMutation,
+        // Category Mutations
+        createCategory: createCategoryMutation,
+        updateCategory: updateCategoryMutation,
+        removeCategory: removeCategoryMutation,
+        // Product Mutations
+        createProduct: createProductMutation,
+        updateProduct: updateProductMutation,
+        removeProduct: removeProductMutation,
       })
     }),
   });
@@ -55,13 +79,25 @@ export const graphqlSchema = (
 
 IoC.callable('graphqlSchema', [
   'nodeField',
+  // User
   'userType',
-  'brandType',
-
   'loginUserMutation',
+
+  // Brand
   'createBrandMutation',
   'updateBrandMutation',
   'removeBrandMutation',
+  'brandResolver',
 
-  'brandResolver'
+  // Category
+  'createCategoryMutation',
+  'updateCategoryMutation',
+  'removeCategoryMutation',
+  'categoryResolver',
+
+  // Product
+  'createProductMutation',
+  'updateProductMutation',
+  'removeProductMutation',
+  'productResolver',
 ], graphqlSchema);

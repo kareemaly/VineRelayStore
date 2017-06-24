@@ -17,27 +17,27 @@ import {
 
 import IoC from 'AppIoC';
 
-export const brandType = (
-  brandModel,
+export const productType = (
+  productModel,
   nodeInterface,
   userType
 ) => new GraphQLObjectType({
-  name: 'Brand',
+  name: 'Product',
   fields: () => ({
-    id: globalIdField('Brand'),
+    id: globalIdField('Product'),
     slug: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     creator: {
       type: new GraphQLNonNull(userType),
-      resolve: brand => brand.getCreator(),
+      resolve: product => product.getCreator(),
     },
   }),
   interfaces: [nodeInterface],
-  isTypeOf: obj => obj instanceof brandModel,
+  isTypeOf: obj => obj instanceof productModel,
 });
 
-IoC.callable('brandType', [
-  'brandModel',
+IoC.callable('productType', [
+  'productModel',
   'nodeInterface',
   'userType',
-], brandType);
+], productType);
