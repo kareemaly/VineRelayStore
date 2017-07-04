@@ -9,7 +9,6 @@ import {
   getErrorValidationMessage,
   getErrorMessage,
 } from 'app/utils/error';
-import loginUserToAdminMutation from './loginUserToAdminMutation';
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,59 +31,18 @@ class Login extends React.Component {
     });
   }
 
-  onLoginError = (error) => {
-    // Handle validation error
-    if(isValidationError(error)) {
-      this.setState({
-        emailError: getErrorValidationMessage(error, 'email'),
-        passwordError: getErrorValidationMessage(error, 'password'),
-        isLoading: false,
-      });
-    // Unexpected errors
-    } else {
-      this.setState({
-        errorMessage: getErrorMessage(error),
-        isLoading: false,
-      });
-    }
-  }
-
-  onLoginSuccess = (data) => {
-    this.setState({
-      isLoading: false,
-    });
-    // Let container handle success
-    this.props.onLoginSuccess(data);
-  }
-
-  onComplete = ({ loginUser }, errors) => {
-    if(errors) {
-      this.onLoginError(errors[0]);
-    } else {
-      this.onLoginSuccess(loginUser);
-    }
-  }
-
-  loginHandler = ({ email, password }) => {
-    this.setState({
-      emailError: '',
-      passwordError: '',
-      errorMessage: '',
-      isLoading: true,
-    });
-
-    loginUserToAdminMutation({ email, password }, this.onComplete);
-  }
-
   render() {
     const {
       email,
       password,
+    } = this.state;
+
+    const {
+      submitDisabled,
       emailError,
       passwordError,
-      errorMessage,
-      isLoading,
-    } = this.state;
+      onSubmit,
+    } = this.props;
 
     return (
       <Wrapper>
@@ -108,23 +66,20 @@ class Login extends React.Component {
         <ButtonWrapper>
           <RaisedButton
             label={'Login'}
-            disabled={isLoading}
-            onClick={() => this.loginHandler({ email, password })}
+            disabled={submitDisabled}
+            onClick={() => onSubmit({ email, password })}
           />
         </ButtonWrapper>
-        <Snackbar
-          open={!!errorMessage}
-          message={errorMessage || ''}
-          autoHideDuration={4000}
-          onRequestClose={() => this.setState({ errorMessage: '' })}
-        />
       </Wrapper>
     );
   }
 }
 
 Login.propTypes = {
-  onLoginSuccess: PropTypes.func.isRequired,
+  buttonDisabled: PropTypes.bool,
+  emailError: PropTypes.string,
+  passwordError: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Login;

@@ -9,9 +9,6 @@ const mutation = graphql`
     $input: LoginUserInput!
   ) {
     loginUser(input: $input) {
-      viewer {
-        firstName
-      }
       token
     }
   }
