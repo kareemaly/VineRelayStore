@@ -5,9 +5,19 @@ import { Switch, Route } from 'react-router-dom';
 import defaultTheme from 'app/themes/admin/default';
 
 import DefaultRoute from 'app/components/Admin/Routes/DefaultRoute';
+
 import ListProductsRoute from 'app/components/Admin/Routes/ListProductsRoute';
 import EditProductRoute from 'app/components/Admin/Routes/EditProductRoute';
 import CreateProductRoute from 'app/components/Admin/Routes/CreateProductRoute';
+
+import ListCategoriesRoute from 'app/components/Admin/Routes/ListCategoriesRoute';
+import EditCategoryRoute from 'app/components/Admin/Routes/EditCategoryRoute';
+import CreateCategoryRoute from 'app/components/Admin/Routes/CreateCategoryRoute';
+
+import ListBrandsRoute from 'app/components/Admin/Routes/ListBrandsRoute';
+import EditBrandRoute from 'app/components/Admin/Routes/EditBrandRoute';
+import CreateBrandRoute from 'app/components/Admin/Routes/CreateBrandRoute';
+
 import LoginRoute from 'app/components/Admin/Routes/LoginRoute';
 
 export default () => (
@@ -32,20 +42,55 @@ export default () => (
           path='/admin/products'
           component={ListProductsRoute}
         />
-
         {/* Create product Route */}
         <Route
           exact
           path='/admin/product/create'
           component={CreateProductRoute}
         />
-
         {/* Edit product Route */}
         <Route
           exact
           path='/admin/product/:productId'
           component={EditProductRoute}
         />
+
+        {/* List categories Route */}
+        <Route
+          path='/admin/categories'
+          component={ListCategoriesRoute}
+        />
+        {/* Create product Route */}
+        <Route
+          exact
+          path='/admin/category/create'
+          component={CreateCategoryRoute}
+        />
+        {/* Edit category Route */}
+        <Route
+          exact
+          path='/admin/category/:categoryId'
+          component={EditCategoryRoute}
+        />
+
+        {/* List products Route */}
+        <Route
+          path='/admin/brands'
+          component={ListBrandsRoute}
+        />
+        {/* Create brand Route */}
+        <Route
+          exact
+          path='/admin/brand/create'
+          component={CreateBrandRoute}
+        />
+        {/* Edit brand Route */}
+        <Route
+          exact
+          path='/admin/brand/:brandId'
+          component={EditBrandRoute}
+        />
+
 
         {/* */}
         <Route
