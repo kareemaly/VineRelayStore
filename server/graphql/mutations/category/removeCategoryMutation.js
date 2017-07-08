@@ -19,12 +19,12 @@ export const removeCategoryMutation = (categoryRepository) => mutationWithClient
   },
   outputFields: {
     deleted: { type: GraphQLBoolean },
-    id: { type: GraphQLString },
+    deletedId: { type: GraphQLString },
   },
   mutateAndGetPayload: async ({ id }, { viewer }) => {
     const { id: categoryId } = fromGlobalId(id);
     const result = await categoryRepository.remove(viewer, categoryId);
-    return { id, deleted: true };
+    return { deletedId: id, deleted: true };
   }
 });
 
