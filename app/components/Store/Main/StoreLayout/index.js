@@ -3,7 +3,8 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import styled from 'styled-components';
 
 const PageWrapper = styled.div`
-  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
 class StoreLayout extends React.Component {
@@ -20,15 +21,4 @@ class StoreLayout extends React.Component {
   }
 }
 
-export default createFragmentContainer(
-  StoreLayout,
-  graphql`
-    fragment StoreLayout_viewer on User {
-      displayName
-      firstName
-      lastName
-      email
-    }
-  `
-);
-
+export default StoreLayout;

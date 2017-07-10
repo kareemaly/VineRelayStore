@@ -23,7 +23,6 @@ export default createFragmentContainer(
     fragment HomeRoute_viewer on User {
       firstName
       isAdmin
-      ...StoreLayout_viewer
     }
   `
 );
