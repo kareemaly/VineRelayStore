@@ -14,7 +14,7 @@ import Button from 'app/components/Store/Main/Button';
 class BrandRoute extends React.Component {
   render() {
     const {
-      brand,
+      node: brand,
       viewer,
       products,
       history,
@@ -45,61 +45,39 @@ class BrandRoute extends React.Component {
   }
 }
 
-const BrandRouteContainer = createFragmentContainer(
-  withRouter(BrandRoute),
-  graphql`
-    fragment BrandRoute_viewer on User {
-      isAdmin
-    }
-
-    fragment BrandRoute_brand on Brand {
-      id
-      ...BrandHeader_brand
-      ...BrandHero_brand
-    }
-
-    fragment BrandRoute_products on ProductConnection {
-      ...ProductsGrid_products
-    }
-  `
-);
-
-export default ({ match }) => {
-  const brandId = match.params.brandId;
+export default (props) => {
+  const brandId = props.match.params.brandId;
   return (
     <QueryRenderer
       environment={relayEnvironment}
       query={graphql`
-        query BrandRouteQuery($brandId: ID!, $brandActualId: String!) {
+        query BrandRouteQuery($brandId: ID!) {
           viewer {
-            ...BrandRoute_viewer
+            isAdmin
           }
 
           node(id: $brandId) {
-            ...BrandRoute_brand
+            id
+            ...BrandHeader_brand
+            ...BrandHero_brand
           }
 
-          products(brand: $brandActualId) {
-            ...BrandRoute_products
+          products(brandId: $brandId) {
+            ...ProductsGrid_products
           }
         }
       `}
       variables={{
         brandId,
-        brandActualId: '',
       }}
-      render={({ error, props }) => {
+      render={({ error, props: relayProps }) => {
         if (error) {
           return <PageError error={error} />;
         }
 
-        if (props) {
+        if (relayProps) {
           return (
-            <BrandRouteContainer
-              brand={props.node}
-              products={props.products}
-              viewer={props.viewer}
-            />
+            <BrandRoute {...props} {...relayProps} />
           );
         }
 

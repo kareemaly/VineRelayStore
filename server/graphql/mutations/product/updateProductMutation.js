@@ -34,7 +34,6 @@ export const updateProductMutation = (productRepository, productType) => mutatio
       category,
       brand,
     });
-    console.log('product', product);
     return { product };
   }
 });

@@ -21,12 +21,12 @@ export default class ProductRepository {
       query.where('slug', inputs.slug);
     }
 
-    if(inputs.brand) {
-      query.where('brand', inputs.brand);
+    if(inputs.brandId) {
+      query.where('brand', inputs.brandId);
     }
 
-    if(inputs.category) {
-      query.where('category', inputs.category);
+    if(inputs.categoryId) {
+      query.where('category', inputs.categoryId);
     }
 
     return query.exec();
