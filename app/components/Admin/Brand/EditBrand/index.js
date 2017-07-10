@@ -71,6 +71,22 @@ class EditBrand extends React.Component {
             onChange={(event) => this.onChange({ slug: event.target.value })}
           />
         </InputWrapper>
+        <InputWrapper>
+          <TextField
+            floatingLabelText={'Logo Image Url'}
+            errorText={errors && errors.logoImage}
+            value={brand.logoImage}
+            onChange={(event) => this.onChange({ logoImage: event.target.value })}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <TextField
+            floatingLabelText={'Cover Image Url'}
+            errorText={errors && errors.coverImage}
+            value={brand.coverImage}
+            onChange={(event) => this.onChange({ coverImage: event.target.value })}
+          />
+        </InputWrapper>
         <ButtonWrapper>
           <RaisedButton
             label={'Save'}
@@ -87,10 +103,14 @@ EditBrand.propTypes = {
   brand: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
+    coverImage: PropTypes.string,
+    logoImage: PropTypes.string,
   }).isRequired,
   errors: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
+    coverImage: PropTypes.string,
+    logoImage: PropTypes.string,
   }),
   submitDisabled: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
@@ -103,6 +123,8 @@ export default createFragmentContainer(
       id
       name
       slug
+      coverImage
+      logoImage
     }
   `
 );
