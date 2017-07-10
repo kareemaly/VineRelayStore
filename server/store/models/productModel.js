@@ -12,8 +12,32 @@ export const productModel = (mongoose) => {
     name: {type: String, required: true},
     // Product slug (used in url)
     slug: {type: String, required: true, unique: true},
+    // Product main image src
+    mainImage: {type: String},
+    // Product brand
+    brand: {type: Schema.Types.ObjectId, ref: 'Brand', required:true},
+    // Product category
+    category: {type: Schema.Types.ObjectId, ref: 'Category', required:true},
     // Product creator
     creator: {type: Schema.Types.ObjectId, ref: 'User', required:true},
+  });
+
+  /**
+   * Get brand
+   * @return {Brand}
+   */
+  productSchema.method('getBrand', async function() {
+    await this.populate('brand').execPopulate();
+    return this.brand;
+  });
+
+  /**
+   * Get category
+   * @return {Category}
+   */
+  productSchema.method('getCategory', async function() {
+    await this.populate('category').execPopulate();
+    return this.category;
   });
 
   /**

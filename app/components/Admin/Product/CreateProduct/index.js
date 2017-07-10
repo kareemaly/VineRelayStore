@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import BrandSelector from 'app/components/Admin/Brand/BrandSelector';
+import CategorySelector from 'app/components/Admin/Category/CategorySelector';
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,6 +41,8 @@ class CreateProduct extends React.Component {
       errors,
       submitDisabled,
       onSubmit,
+      brands,
+      categories,
     } = this.props;
 
     const {
@@ -63,6 +67,20 @@ class CreateProduct extends React.Component {
             onChange={(event) => this.onChange({ slug: event.target.value })}
           />
         </InputWrapper>
+        <InputWrapper>
+          <BrandSelector
+            selectedBrandId={product.brandId}
+            brands={brands}
+            onChange={(brandId) => this.onChange({ brandId })}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <CategorySelector
+            selectedCategoryId={product.categoryId}
+            categories={categories}
+            onChange={(categoryId) => this.onChange({ categoryId })}
+          />
+        </InputWrapper>
         <ButtonWrapper>
           <RaisedButton
             label={'Save'}
@@ -80,6 +98,8 @@ CreateProduct.propTypes = {
     name: PropTypes.string,
     slug: PropTypes.string,
   }).isRequired,
+  brands: PropTypes.shape.isRequired,
+  categories: PropTypes.shape.isRequired,
   errors: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
@@ -91,10 +111,12 @@ CreateProduct.propTypes = {
 export default createFragmentContainer(
   CreateProduct,
   graphql`
-    fragment CreateProduct_product on Product {
-      id
-      name
-      slug
+    fragment CreateProduct_brands on BrandConnection {
+      ...BrandSelector_brands
+    }
+
+    fragment CreateProduct_categories on CategoryConnection {
+      ...CategorySelector_categories
     }
   `
 );

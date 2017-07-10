@@ -17,13 +17,24 @@ export const updateProductMutation = (productRepository, productType) => mutatio
     id: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     slug: { type: new GraphQLNonNull(GraphQLString) },
+    mainImage: { type: GraphQLString },
+    brandId: { type: new GraphQLNonNull(GraphQLString) },
+    categoryId: { type: new GraphQLNonNull(GraphQLString) },
   },
   outputFields: {
     product: { type: productType },
   },
-  mutateAndGetPayload: async ({ id, ...attrs }, { viewer }) => {
+  mutateAndGetPayload: async ({ id, categoryId, brandId, ...attrs }, { viewer }) => {
     const { id: productId } = fromGlobalId(id);
-    const product = await productRepository.update(viewer, productId, attrs);
+    // Transform category and brand relay ids
+    const { id: category } = fromGlobalId(categoryId);
+    const { id: brand } = fromGlobalId(brandId);
+    const product = await productRepository.update(viewer, productId, {
+      ...attrs,
+      category,
+      brand,
+    });
+    console.log('product', product);
     return { product };
   }
 });

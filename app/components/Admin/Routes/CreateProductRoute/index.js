@@ -68,6 +68,8 @@ class CreateProductRoute extends React.Component {
   render() {
     const {
       viewer,
+      brands,
+      categories,
     } = this.props;
 
     const {
@@ -80,6 +82,8 @@ class CreateProductRoute extends React.Component {
       <DashboardLayout viewer={viewer}>
         <Paper noPadding>
           <CreateProduct
+            brands={brands}
+            categories={categories}
             errors={validationErrors}
             disableSubmit={isLoading}
             onSubmit={this.onSubmit}
@@ -96,37 +100,32 @@ class CreateProductRoute extends React.Component {
   }
 }
 
-const CreateProductRouteContainer = createFragmentContainer(
-  withRouter(CreateProductRoute),
-  graphql`
-    fragment CreateProductRoute_viewer on User {
-      isAdmin
-      ...DashboardLayout_viewer
-    }
-  `
-);
-
-export default () => {
+export default (props) => {
   return (
     <QueryRenderer
       environment={relayEnvironment}
       query={graphql`
         query CreateProductRouteQuery {
           viewer {
-            ...CreateProductRoute_viewer
+            isAdmin
+            ...DashboardLayout_viewer
+          }
+          brands {
+            ...CreateProduct_brands
+          }
+          categories {
+            ...CreateProduct_categories
           }
         }
       `}
-      render={({ error, props }) => {
+      render={({ error, props: relayProps }) => {
         if (error) {
           return <PageError error={error} />;
         }
 
-        if (props) {
+        if (relayProps) {
           return (
-            <CreateProductRouteContainer
-              viewer={props.viewer}
-            />
+            <CreateProductRoute {...props} {...relayProps} />
           );
         }
 

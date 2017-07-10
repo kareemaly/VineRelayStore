@@ -17,9 +17,11 @@ export const productResolver = (productRepository, productsConnectionType) => ({
     ...connectionArgs,
     // Our custom search criteria goes here
     slug: { type: GraphQLString },
+    brand: { type: GraphQLString },
+    category: { type: GraphQLString },
   },
-  resolve: (viewer, { slug, ...args }) => connectionFromPromisedArray(
-    productRepository.query(viewer, { slug }),
+  resolve: (viewer, { slug, brand, category, ...args }) => connectionFromPromisedArray(
+    productRepository.query(viewer, { slug, brand, category }),
     args
   ),
 });

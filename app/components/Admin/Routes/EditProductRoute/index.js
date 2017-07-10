@@ -70,7 +70,9 @@ class EditProductRoute extends React.Component {
   render() {
     const {
       viewer,
-      product,
+      node: product,
+      brands,
+      categories,
     } = this.props;
 
     const {
@@ -84,6 +86,8 @@ class EditProductRoute extends React.Component {
         <Paper noPadding>
           <EditProduct
             product={product}
+            brands={brands}
+            categories={categories}
             errors={validationErrors}
             disableSubmit={isLoading}
             onSubmit={this.onSubmit}
@@ -100,49 +104,39 @@ class EditProductRoute extends React.Component {
   }
 }
 
-const EditProductRouteContainer = createFragmentContainer(
-  withRouter(EditProductRoute),
-  graphql`
-    fragment EditProductRoute_viewer on User {
-      isAdmin
-      ...DashboardLayout_viewer
-    }
-
-    fragment EditProductRoute_product on Product {
-      ...EditProduct_product
-    }
-  `
-);
-
-export default ({ match }) => {
-  const productId = match.params.productId;
+export default (props) => {
+  const productId = props.match.params.productId;
   return (
     <QueryRenderer
       environment={relayEnvironment}
       query={graphql`
         query EditProductRouteQuery($productId: ID!) {
           viewer {
-            ...EditProductRoute_viewer
+            isAdmin
+            ...DashboardLayout_viewer
           }
           node(id: $productId) {
-            ...EditProductRoute_product
+            ...EditProduct_product
+          }
+          brands {
+            ...EditProduct_brands
+          }
+          categories {
+            ...EditProduct_categories
           }
         }
       `}
       variables={{
         productId,
       }}
-      render={({ error, props }) => {
+      render={({ error, props: relayProps }) => {
         if (error) {
           return <PageError error={error} />;
         }
 
-        if (props) {
+        if (relayProps) {
           return (
-            <EditProductRouteContainer
-              product={props.node}
-              viewer={props.viewer}
-            />
+            <EditProductRoute {...props} {...relayProps} />
           );
         }
 

@@ -73,7 +73,7 @@ export default () => (
           component={EditCategoryRoute}
         />
 
-        {/* List products Route */}
+        {/* List brands Route */}
         <Route
           path='/admin/brands'
           component={ListBrandsRoute}

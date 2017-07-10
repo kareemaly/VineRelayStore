@@ -10,9 +10,7 @@ const mutation = graphql`
   ) {
     updateProduct(input: $input) {
       product {
-        id
-        name
-        slug
+        ...EditProduct_product
       }
     }
   }

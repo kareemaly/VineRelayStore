@@ -10,9 +10,7 @@ const mutation = graphql`
   ) {
     updateBrand(input: $input) {
       brand {
-        id
-        name
-        slug
+        ...EditBrandRoute_brand
       }
     }
   }

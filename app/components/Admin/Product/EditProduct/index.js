@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import BrandSelector from 'app/components/Admin/Brand/BrandSelector';
+import CategorySelector from 'app/components/Admin/Category/CategorySelector';
+
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,17 +23,26 @@ const ButtonWrapper = styled.div`
 class EditProduct extends React.Component {
 
   componentWillMount() {
-    this.setState({
-      product: this.props.product,
-    });
+    this.setProductFromProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     if(this.props.product !== nextProps.product) {
-      this.setState({
-        product: nextProps.product,
-      });
+      this.setProductFromProps(nextProps);
     }
+  }
+
+  setProductFromProps(props) {
+    this.setState({
+      product: {
+        id: props.product.id,
+        name: props.product.name,
+        slug: props.product.slug,
+        mainImage: props.product.mainImage,
+        categoryId: props.product.category.id,
+        brandId: props.product.brand.id,
+      },
+    });
   }
 
   onChange = (data) => {
@@ -47,6 +59,8 @@ class EditProduct extends React.Component {
       errors,
       submitDisabled,
       onSubmit,
+      brands,
+      categories,
     } = this.props;
 
     const {
@@ -71,6 +85,28 @@ class EditProduct extends React.Component {
             onChange={(event) => this.onChange({ slug: event.target.value })}
           />
         </InputWrapper>
+        <InputWrapper>
+          <TextField
+            floatingLabelText={'Main Image Url'}
+            errorText={errors && errors.mainImage}
+            value={product.mainImage}
+            onChange={(event) => this.onChange({ mainImage: event.target.value })}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <BrandSelector
+            selectedBrandId={product.brandId}
+            brands={brands}
+            onChange={(brandId) => this.onChange({ brandId })}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <CategorySelector
+            selectedCategoryId={product.categoryId}
+            categories={categories}
+            onChange={(categoryId) => this.onChange({ categoryId })}
+          />
+        </InputWrapper>
         <ButtonWrapper>
           <RaisedButton
             label={'Save'}
@@ -87,10 +123,19 @@ EditProduct.propTypes = {
   product: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
+    mainImage: PropTypes.string,
+    brand: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    category: PropTypes.shape({
+      id: PropTypes.string,
+    }),
   }).isRequired,
+  brands: PropTypes.shape.isRequired,
   errors: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
+    mainImage: PropTypes.string,
   }),
   submitDisabled: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
@@ -103,6 +148,21 @@ export default createFragmentContainer(
       id
       name
       slug
+      mainImage
+      brand {
+        id
+      }
+      category {
+        id
+      }
+    }
+
+    fragment EditProduct_brands on BrandConnection {
+      ...BrandSelector_brands
+    }
+
+    fragment EditProduct_categories on CategoryConnection {
+      ...CategorySelector_categories
     }
   `
 );
