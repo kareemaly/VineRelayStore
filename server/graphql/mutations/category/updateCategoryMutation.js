@@ -17,6 +17,8 @@ export const updateCategoryMutation = (categoryRepository, categoryType) => muta
     id: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     slug: { type: new GraphQLNonNull(GraphQLString) },
+    logoImage: { type: GraphQLString },
+    coverImage: { type: GraphQLString },
   },
   outputFields: {
     category: { type: categoryType },

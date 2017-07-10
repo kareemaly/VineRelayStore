@@ -12,6 +12,10 @@ export const categoryModel = (mongoose) => {
     name: {type: String, required: true},
     // Category slug (used in url)
     slug: {type: String, required: true, unique: true},
+    // Category cover image src
+    coverImage: {type: String},
+    // Category logo image src
+    logoImage: {type: String},
     // Category creator
     creator: {type: Schema.Types.ObjectId, ref: 'User', required:true},
   });
