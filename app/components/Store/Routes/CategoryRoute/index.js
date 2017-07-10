@@ -14,8 +14,8 @@ import Button from 'app/components/Store/Main/Button';
 class CategoryRoute extends React.Component {
   render() {
     const {
+      node: category,
       viewer,
-      category,
       products,
       history,
     } = this.props;
@@ -45,60 +45,39 @@ class CategoryRoute extends React.Component {
   }
 }
 
-const CategoryRouteContainer = createFragmentContainer(
-  withRouter(CategoryRoute),
-  graphql`
-    fragment CategoryRoute_viewer on User {
-      isAdmin
-    }
-
-    fragment CategoryRoute_category on Category {
-      id
-      ...CategoryHero_category
-      ...CategoryHeader_category
-    }
-
-    fragment CategoryRoute_products on ProductConnection {
-      ...ProductsGrid_products
-    }
-  `
-);
-
-export default ({ match }) => {
-  const categoryId = match.params.categoryId;
+export default (props) => {
+  const categoryId = props.match.params.categoryId;
   return (
     <QueryRenderer
       environment={relayEnvironment}
       query={graphql`
         query CategoryRouteQuery($categoryId: ID!) {
           viewer {
-            ...CategoryRoute_viewer
+            isAdmin
           }
 
           node(id: $categoryId) {
-            ...CategoryRoute_category
+            id
+            ...CategoryHero_category
+            ...CategoryHeader_category
           }
 
-          products {
-            ...CategoryRoute_products
+          products(categoryId: $categoryId) {
+            ...ProductsGrid_products
           }
         }
       `}
       variables={{
         categoryId,
       }}
-      render={({ error, props }) => {
+      render={({ error, props: relayProps }) => {
         if (error) {
           return <PageError error={error} />;
         }
 
-        if (props) {
+        if (relayProps) {
           return (
-            <CategoryRouteContainer
-              category={props.node}
-              products={props.products}
-              viewer={props.viewer}
-            />
+            <CategoryRoute {...props} {...relayProps} />
           );
         }
 
