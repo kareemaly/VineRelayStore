@@ -35,6 +35,10 @@
         [
           "module-alias", [
             {
+              "src": "./app/actions",
+              "expose": "app/actions"
+            },
+            {
               "src": "./app/assets",
               "expose": "app/assets"
             },
@@ -47,8 +51,20 @@
               "expose": "app/config"
             },
             {
+              "src": "./app/constants",
+              "expose": "app/constants"
+            },
+            {
+              "src": "./app/dispatcher",
+              "expose": "app/dispatcher"
+            },
+            {
               "src": "./app/routes",
               "expose": "app/routes"
+            },
+            {
+              "src": "./app/stores",
+              "expose": "app/stores"
             },
             {
               "src": "./app/themes",
