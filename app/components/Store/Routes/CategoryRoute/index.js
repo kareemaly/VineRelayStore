@@ -10,8 +10,33 @@ import CategoryHero from 'app/components/Store/Category/CategoryHero';
 import ProductsGrid from 'app/components/Store/Product/ProductsGrid';
 import AdminFooter from 'app/components/Store/Main/AdminFooter';
 import Button from 'app/components/Store/Main/Button';
+import { cartActions } from 'app/actions';
+import { cartStore } from 'app/stores';
 
 class CategoryRoute extends React.Component {
+
+  componentWillMount() {
+    this.cartListener = cartStore.addListener(() => {
+      this.forceUpdate();
+    });
+  }
+
+  componentWillUnmount() {
+    this.cartListener.remove();
+  }
+
+  isProductInCart = (productId) => {
+    return cartStore.hasItem(productId);
+  }
+
+  addProductToCart = (productId) => {
+    if(cartStore.hasItem(productId)) {
+      cartActions.removeItem(productId);
+    } else {
+      cartActions.addItem(productId);
+    }
+  }
+
   render() {
     const {
       node: category,
@@ -31,6 +56,8 @@ class CategoryRoute extends React.Component {
         <ProductsGrid
           products={products}
           onProductClick={(id) => history.push(`/product/${id}`)}
+          addProductToCart={this.addProductToCart}
+          isProductInCart={this.isProductInCart}
         />
         {
           viewer.isAdmin &&

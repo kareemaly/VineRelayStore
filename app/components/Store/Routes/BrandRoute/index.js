@@ -10,8 +10,41 @@ import BrandHero from 'app/components/Store/Brand/BrandHero';
 import ProductsGrid from 'app/components/Store/Product/ProductsGrid';
 import AdminFooter from 'app/components/Store/Main/AdminFooter';
 import Button from 'app/components/Store/Main/Button';
+import { cartActions } from 'app/actions';
+import { cartStore } from 'app/stores';
 
 class BrandRoute extends React.Component {
+
+  componentWillMount() {
+    this.cartListener = cartStore.addListener(() => {
+      this.forceUpdate();
+    });
+  }
+
+  componentWillUnmount() {
+    this.cartListener.remove();
+  }
+
+  isProductInCart = (product) => {
+    return cartStore.hasItem(product.id);
+  }
+
+  triggerProductInCart = (product) => {
+    if(cartStore.hasItem(product.id)) {
+      // Remove product from cart
+      cartActions.removeItem(product.id);
+    } else {
+      // Add product to cart
+      cartActions.addItem(
+        product.id,
+        1, // Quantity
+        product.price,
+        product.name,
+        product.mainImage
+      );
+    }
+  }
+
   render() {
     const {
       node: brand,
@@ -31,6 +64,8 @@ class BrandRoute extends React.Component {
         <ProductsGrid
           products={products}
           onProductClick={(id) => history.push(`/product/${id}`)}
+          triggerProductInCart={this.triggerProductInCart}
+          isProductInCart={this.isProductInCart}
         />
         {
           viewer.isAdmin &&

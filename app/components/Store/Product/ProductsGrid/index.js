@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { createFragmentContainer, graphql } from 'react-relay';
 import PropTypes from 'prop-types';
+import Button from 'app/components/Store/Main/Button';
 import breakpoints from 'app/utils/breakpoints';
 
 const Grid = styled.div`
@@ -34,14 +35,29 @@ const ProductName = styled.h3`
   display: flex;
 `;
 
-const ProductsGrid = ({ products, onProductClick }) => (
+const AddToCartButton = styled(Button)`
+  background: ${(props) => props.inCart ? `#333` : `#FFF`};
+`;
+
+const ProductsGrid = ({ products, onProductClick, isProductInCart, triggerProductInCart }) => (
   <Grid>
     {products.edges.map((edge, index) => (
-      <ProductItem onClick={() => onProductClick(edge.node.id)} key={index}>
+      <ProductItem key={index}>
         <ProductImage
+          onClick={() => onProductClick(edge.node.id)}
           src={edge.node.mainImage}
         />
-        <ProductName>{edge.node.name}</ProductName>
+        <ProductName
+          onClick={() => onProductClick(edge.node.id)}
+        >
+          {edge.node.name}
+        </ProductName>
+        <AddToCartButton
+          inCart={isProductInCart(edge.node)}
+          onClick={() => triggerProductInCart(edge.node)}
+        >
+          Add to cart
+        </AddToCartButton>
       </ProductItem>
     ))}
   </Grid>
@@ -58,6 +74,8 @@ ProductsGrid.propTypes = {
     })).isRequired,
   }).isRequired,
   onProductClick: PropTypes.func.isRequired,
+  isProductInCart: PropTypes.func.isRequired,
+  triggerProductInCart: PropTypes.func.isRequired,
 }
 
 export default createFragmentContainer(
