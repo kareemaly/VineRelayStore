@@ -20,6 +20,7 @@ export const orderType = (
   name: 'Order',
   fields: () => ({
     id: globalIdField('Order'),
+    orderNumber: { type: new GraphQLNonNull(GraphQLString) },
     firstName: { type: new GraphQLNonNull(GraphQLString) },
     lastName: { type: new GraphQLNonNull(GraphQLString) },
     email: { type: new GraphQLNonNull(GraphQLString) },
