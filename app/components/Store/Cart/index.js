@@ -45,7 +45,7 @@ const Cart = ({ cart, removeItem }) => (
         <CartItemQuantity>
           {item.quantity}
         </CartItemQuantity>
-        <RemoveItemButton onClick={() => removeItem(item.itemId)}>
+        <RemoveItemButton onClick={() => removeItem(item.product)}>
           Remove
         </RemoveItemButton>
       </CartItem>
@@ -56,7 +56,7 @@ const Cart = ({ cart, removeItem }) => (
 Cart.propTypes = {
   cart: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
-      itemId: PropTypes.string.isRequired,
+      product: PropTypes.string.isRequired,
       image: PropTypes.string,
       name: PropTypes.string.isRequired,
       price: PropTypes.number.isRequired,

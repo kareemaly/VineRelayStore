@@ -20,7 +20,7 @@ export default class CartStore extends Store {
       case ADD_ITEM:
       case UPDATE_ITEM:
         this.__addItem(
-          action.itemId,
+          action.product,
           action.quantity,
           action.price,
           action.name,
@@ -28,7 +28,7 @@ export default class CartStore extends Store {
         );
         break;
       case REMOVE_ITEM:
-        this.__removeItem(action.itemId);
+        this.__removeItem(action.product);
         break;
       case DESTROY:
         this.__destroy();
@@ -38,18 +38,18 @@ export default class CartStore extends Store {
 
   /**
    * Add Item to cart
-   * @param  {string} itemId
+   * @param  {string} product
    * @param  {number} quantity
    * @param  {number} price
    * @param  {string} name
    * @param  {number} image
    * @return {void}
    */
-  __addItem(itemId, quantity, price, name, image) {
-    const index = this.getItemIndex(itemId);
+  __addItem(product, quantity, price, name, image) {
+    const index = this.getItemIndex(product);
     const items = this.getItems();
 
-    const item = { itemId, quantity, price, name, image };
+    const item = { product, quantity, price, name, image };
 
     if(index > -1) {
       this.__setItems([
@@ -67,29 +67,29 @@ export default class CartStore extends Store {
 
   /**
    * Check if cart has item
-   * @param  {string} itemId
+   * @param  {string} product
    * @return {boolean}
    */
-  hasItem(itemId) {
-    return this.getItemIndex(itemId) > -1;
+  hasItem(product) {
+    return this.getItemIndex(product) > -1;
   }
 
   /**
    * Get item
-   * @param  {string} itemId
+   * @param  {string} product
    * @return {object}
    */
-  getItem(itemId) {
-    return find(this.getItems(), (item) => item.itemId === itemId);
+  getItem(product) {
+    return find(this.getItems(), (item) => item.product === product);
   }
 
   /**
    * Get item index
-   * @param  {string} itemId
+   * @param  {string} product
    * @return {number}
    */
-  getItemIndex(itemId) {
-    return findIndex(this.getItems(), (item) => item.itemId === itemId);
+  getItemIndex(product) {
+    return findIndex(this.getItems(), (item) => item.product === product);
   }
 
   /**
@@ -110,11 +110,11 @@ export default class CartStore extends Store {
 
   /**
    * Remove item from cart
-   * @param  {string} itemId
+   * @param  {string} product
    * @return {void}
    */
-  __removeItem(itemId) {
-    const index = this.getItemIndex(itemId);
+  __removeItem(product) {
+    const index = this.getItemIndex(product);
     const items = this.getItems();
 
     this.__setItems([

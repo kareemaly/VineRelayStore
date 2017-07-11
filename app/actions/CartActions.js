@@ -10,27 +10,27 @@ export default class CartActions {
     this.dispatcher = dispatcher;
   }
 
-  addItem = (itemId, quantity = 1, price, name, image) => this.dispatcher.dispatch({
+  addItem = (product, quantity = 1, price, name, image) => this.dispatcher.dispatch({
     type: ADD_ITEM,
-    itemId,
+    product,
     quantity,
     price,
     name,
     image,
   });
 
-  updateItem = (itemId, quantity = 1, price, name, image) => this.dispatcher.dispatch({
+  updateItem = (product, quantity = 1, price, name, image) => this.dispatcher.dispatch({
     type: UPDATE_ITEM,
-    itemId,
+    product,
     quantity,
     price,
     name,
     image,
   });
 
-  removeItem = (itemId) => this.dispatcher.dispatch({
+  removeItem = (product) => this.dispatcher.dispatch({
     type: REMOVE_ITEM,
-    itemId,
+    product,
   });
 
   destroy = () => this.dispatcher.dispatch({

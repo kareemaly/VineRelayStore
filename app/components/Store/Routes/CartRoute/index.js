@@ -27,8 +27,8 @@ class CartRoute extends React.Component {
     this.cartListener.remove();
   }
 
-  removeItem = (itemId) => {
-    cartActions.removeItem(itemId);
+  removeItem = (product) => {
+    cartActions.removeItem(product);
   }
 
   render() {
