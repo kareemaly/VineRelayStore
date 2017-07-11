@@ -93,6 +93,14 @@ export default class CartStore extends Store {
   }
 
   /**
+   * Check if cart is empty
+   * @return {Boolean}
+   */
+  isEmpty() {
+    return this.getItems().length === 0;
+  }
+
+  /**
    * Get cart items
    * @return {object[]}
    */

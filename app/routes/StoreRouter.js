@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Switch, Route } from 'react-router-dom';
 import defaultTheme from 'app/themes/store/default';
 
@@ -10,60 +11,70 @@ import CategoryRoute from 'app/components/Store/Routes/CategoryRoute';
 import ProductRoute from 'app/components/Store/Routes/ProductRoute';
 import HomeRoute from 'app/components/Store/Routes/HomeRoute';
 import CartRoute from 'app/components/Store/Routes/CartRoute';
+import CheckoutRoute from 'app/components/Store/Routes/CheckoutRoute';
 
 export default () => (
   <ThemeProvider theme={defaultTheme}>
-    <Switch>
-      {/* Home Route */}
-      <Route
-        exact
-        path='/'
-        component={HomeRoute}
-      />
-      {/* List brands Route */}
-      <Route
-        path='/brands'
-        component={BrandsRoute}
-      />
-      {/* Show brand Route */}
-      <Route
-        exact
-        path='/brand/:brandId'
-        component={BrandRoute}
-      />
+    <MuiThemeProvider theme={defaultTheme}>
+      <Switch>
+        {/* Home Route */}
+        <Route
+          exact
+          path='/'
+          component={HomeRoute}
+        />
+        {/* List brands Route */}
+        <Route
+          path='/brands'
+          component={BrandsRoute}
+        />
+        {/* Show brand Route */}
+        <Route
+          exact
+          path='/brand/:brandId'
+          component={BrandRoute}
+        />
 
-      {/* List categories Route */}
-      <Route
-        path='/categories'
-        component={CategoriesRoute}
-      />
-      {/* Show category Route */}
-      <Route
-        exact
-        path='/category/:categoryId'
-        component={CategoryRoute}
-      />
+        {/* List categories Route */}
+        <Route
+          path='/categories'
+          component={CategoriesRoute}
+        />
+        {/* Show category Route */}
+        <Route
+          exact
+          path='/category/:categoryId'
+          component={CategoryRoute}
+        />
 
-      {/* Show product Route */}
-      <Route
-        exact
-        path='/product/:productId'
-        component={ProductRoute}
-      />
+        {/* Show product Route */}
+        <Route
+          exact
+          path='/product/:productId'
+          component={ProductRoute}
+        />
 
-      {/* Show cart Route */}
-      <Route
-        exact
-        path='/cart'
-        component={CartRoute}
-      />
+        {/* Show cart Route */}
+        <Route
+          exact
+          path='/cart'
+          component={CartRoute}
+        />
+
+        {/* Show checkout Route */}
+        <Route
+          exact
+          path='/checkout'
+          component={CheckoutRoute}
+        />
 
 
-      <Route
-        exact
-        path='/products'
-        component={() => <div>Products</div>}
-      />
-    </Switch>
+        <Route
+          exact
+          path='/products'
+          component={() => <div>Products</div>}
+        />
+      </Switch>
+    </MuiThemeProvider>
   </ThemeProvider>
 );
