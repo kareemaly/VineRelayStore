@@ -9,7 +9,9 @@ export const relayNodeDefinitions = (
   userRepository,
   brandRepository,
   categoryRepository,
-  productRepository
+  productRepository,
+  orderRepository,
+  orderItemRepository
 ) => {
 
   const resolveGlobalId = (globalId, { viewer }) => {
@@ -24,6 +26,10 @@ export const relayNodeDefinitions = (
         return categoryRepository.findById(viewer, id);
       case 'Product':
         return productRepository.findById(viewer, id);
+      case 'Order':
+        return orderRepository.findById(viewer, id);
+      case 'OrderItem':
+        return orderItemRepository.findById(viewer, id);
     }
   }
 
@@ -43,6 +49,8 @@ IoC.callable('relayNodeDefinitions', [
   'brandRepository',
   'categoryRepository',
   'productRepository',
+  'orderRepository',
+  'orderItemRepository',
 ], relayNodeDefinitions);
 
 IoC.callable('nodeInterface', [

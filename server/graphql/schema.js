@@ -30,7 +30,13 @@ export const graphqlSchema = (
   createProductMutation,
   updateProductMutation,
   removeProductMutation,
-  productResolver
+  productResolver,
+
+  // Order
+  basicCheckoutMutation,
+  updateOrderStatusMutation,
+  removeOrderMutation,
+  orderResolver
 
 ) => {
   /**
@@ -72,6 +78,10 @@ export const graphqlSchema = (
         createProduct: createProductMutation,
         updateProduct: updateProductMutation,
         removeProduct: removeProductMutation,
+        // Order Mutations
+        basicCheckout: basicCheckoutMutation,
+        updateOrderStatus: updateOrderStatusMutation,
+        removeOrder: removeOrderMutation,
       })
     }),
   });
@@ -100,4 +110,10 @@ IoC.callable('graphqlSchema', [
   'updateProductMutation',
   'removeProductMutation',
   'productResolver',
+
+  // Order
+  'basicCheckoutMutation',
+  'updateOrderStatusMutation',
+  'removeOrderMutation',
+  'orderResolver',
 ], graphqlSchema);
