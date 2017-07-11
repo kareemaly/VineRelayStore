@@ -9,6 +9,7 @@ import CategoriesRoute from 'app/components/Store/Routes/CategoriesRoute';
 import CategoryRoute from 'app/components/Store/Routes/CategoryRoute';
 import ProductRoute from 'app/components/Store/Routes/ProductRoute';
 import HomeRoute from 'app/components/Store/Routes/HomeRoute';
+import CartRoute from 'app/components/Store/Routes/CartRoute';
 
 export default () => (
   <ThemeProvider theme={defaultTheme}>
@@ -48,6 +49,13 @@ export default () => (
         exact
         path='/product/:productId'
         component={ProductRoute}
+      />
+
+      {/* Show cart Route */}
+      <Route
+        exact
+        path='/cart'
+        component={CartRoute}
       />
 
 
