@@ -5,6 +5,7 @@ import styled from 'styled-components';
 const PageWrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
+  padding-bottom: 100px;
 `;
 
 class StoreLayout extends React.Component {
