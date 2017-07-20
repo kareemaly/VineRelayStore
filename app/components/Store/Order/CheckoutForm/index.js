@@ -1,18 +1,48 @@
 import React from 'react';
 import styled from 'styled-components';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import LeftChevronIcon from 'app/components/Store/Icons/LeftChevronIcon';
+import RightChevronIcon from 'app/components/Store/Icons/RightChevronIcon';
+import Button from 'app/components/Store/Main/Button';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
+const Title = styled.h2`
+
+`;
+
+const Divider = styled.div`
+  width: 100%;
+  height: 1px;
+  background: #EEE;
+`;
+
 const InputWrapper = styled.div`
 `;
 
-const ButtonWrapper = styled.div`
+const ButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin-top: 16px;
+`;
+
+const RequiredWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+`;
+
+const BackButtonIcon = styled(LeftChevronIcon)`
+  opacity: 0.5;
+  margin-right: 10px;
+`;
+
+const CheckoutButtonIcon = styled(RightChevronIcon)`
+  opacity: 0.5;
+  margin-left: 10px;
 `;
 
 class CheckoutForm extends React.Component {
@@ -20,15 +50,15 @@ class CheckoutForm extends React.Component {
   componentWillMount() {
     this.setState({
       order: {
-        firstName: 'kareem',
-        lastName: 'mohamed',
-        email: 'k@goodsense.jp',
-        addressLine1: 'Kareem Portsaid',
+        firstName: '',
+        lastName: '',
+        email: '',
+        addressLine1: '',
         addressLine2: '',
-        city: 'Portsaid',
-        state: 'Egypt',
-        zipCode: '12345',
-        phoneNumber: '01203123',
+        city: '',
+        state: '',
+        zipCode: '',
+        phoneNumber: '',
       }
     });
   }
@@ -47,6 +77,7 @@ class CheckoutForm extends React.Component {
       errors,
       submitDisabled,
       onSubmit,
+      onBackToCartClick,
     } = this.props;
 
     const {
@@ -55,9 +86,17 @@ class CheckoutForm extends React.Component {
 
     return (
       <Wrapper>
+        <Title>
+          Delivery Address
+        </Title>
+        <Divider />
+        <RequiredWrapper>
+          <small>* Required field</small>
+        </RequiredWrapper>
         <InputWrapper>
           <TextField
-            floatingLabelText={'First name'}
+            fullWidth
+            floatingLabelText={'*First name'}
             errorText={errors && errors.firstName}
             value={order.firstName}
             onChange={(event) => this.onChange({ firstName: event.target.value })}
@@ -65,7 +104,8 @@ class CheckoutForm extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
-            floatingLabelText={'Last name'}
+            fullWidth
+            floatingLabelText={'*Last name'}
             errorText={errors && errors.lastName}
             value={order.lastName}
             onChange={(event) => this.onChange({ lastName: event.target.value })}
@@ -73,7 +113,8 @@ class CheckoutForm extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
-            floatingLabelText={'Email'}
+            fullWidth
+            floatingLabelText={'*Email'}
             errorText={errors && errors.email}
             value={order.email}
             onChange={(event) => this.onChange({ email: event.target.value })}
@@ -81,7 +122,8 @@ class CheckoutForm extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
-            floatingLabelText={'Address Line 1'}
+            fullWidth
+            floatingLabelText={'*Address Line 1'}
             errorText={errors && errors.addressLine1}
             value={order.addressLine1}
             onChange={(event) => this.onChange({ addressLine1: event.target.value })}
@@ -89,6 +131,7 @@ class CheckoutForm extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Address Line 2'}
             errorText={errors && errors.addressLine2}
             value={order.addressLine2}
@@ -97,7 +140,8 @@ class CheckoutForm extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
-            floatingLabelText={'City'}
+            fullWidth
+            floatingLabelText={'*City'}
             errorText={errors && errors.city}
             value={order.city}
             onChange={(event) => this.onChange({ city: event.target.value })}
@@ -105,7 +149,8 @@ class CheckoutForm extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
-            floatingLabelText={'State'}
+            fullWidth
+            floatingLabelText={'*State'}
             errorText={errors && errors.state}
             value={order.state}
             onChange={(event) => this.onChange({ state: event.target.value })}
@@ -113,7 +158,8 @@ class CheckoutForm extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
-            floatingLabelText={'Zip code'}
+            fullWidth
+            floatingLabelText={'*Zip code'}
             errorText={errors && errors.zipCode}
             value={order.zipCode}
             onChange={(event) => this.onChange({ zipCode: event.target.value })}
@@ -121,19 +167,31 @@ class CheckoutForm extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
-            floatingLabelText={'Phone Number'}
+            fullWidth
+            floatingLabelText={'*Phone Number'}
             errorText={errors && errors.phoneNumber}
             value={order.phoneNumber}
             onChange={(event) => this.onChange({ phoneNumber: event.target.value })}
           />
         </InputWrapper>
-        <ButtonWrapper>
-          <RaisedButton
-            label={'Save'}
+        <ButtonsWrapper>
+          <Button
+            primary
+            disabled={submitDisabled}
+            onClick={onBackToCartClick}
+          >
+            <BackButtonIcon />
+            Back to cart
+          </Button>
+          <Button
+            primary
             disabled={submitDisabled}
             onClick={() => onSubmit(order)}
-          />
-        </ButtonWrapper>
+          >
+            Checkout
+            <CheckoutButtonIcon />
+          </Button>
+        </ButtonsWrapper>
       </Wrapper>
     );
   }
