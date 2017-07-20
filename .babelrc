@@ -87,6 +87,10 @@
               "expose": "server/auth"
             },
             {
+              "src": "./server/store",
+              "expose": "server/store"
+            },
+            {
               "src": "./server/config",
               "expose": "server/config"
             },
