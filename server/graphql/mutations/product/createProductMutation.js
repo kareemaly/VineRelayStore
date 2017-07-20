@@ -16,6 +16,7 @@ export const createProductMutation = (productRepository, productType) => mutatio
   name: 'CreateProduct',
   inputFields: {
     name: { type: new GraphQLNonNull(GraphQLString) },
+    slug: { type: GraphQLString },
     price: { type: new GraphQLNonNull(GraphQLFloat) },
     brandId: { type: new GraphQLNonNull(GraphQLString) },
     categoryId: { type: new GraphQLNonNull(GraphQLString) },

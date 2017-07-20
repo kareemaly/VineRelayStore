@@ -31,6 +31,16 @@ export const categoryModel = (mongoose) => {
     return this.creator;
   });
 
+  /**
+   * Generate slug if user didnt input it
+   */
+  categorySchema.pre('validate', async function(next) {
+    if(! this.slug) {
+      this.slug = slugify(this.name);
+    }
+    next();
+  });
+
   categorySchema.plugin(uniqueValidator);
 
   return mongoose.model('Category', categorySchema);

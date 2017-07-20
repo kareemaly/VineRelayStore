@@ -14,7 +14,7 @@ export const createBrandMutation = (brandRepository, brandType) => mutationWithC
   name: 'CreateBrand',
   inputFields: {
     name: { type: new GraphQLNonNull(GraphQLString) },
-    slug: { type: new GraphQLNonNull(GraphQLString) },
+    slug: { type: GraphQLString },
   },
   outputFields: {
     brand: { type: brandType },

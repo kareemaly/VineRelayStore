@@ -14,7 +14,7 @@ export const createCategoryMutation = (categoryRepository, categoryType) => muta
   name: 'CreateCategory',
   inputFields: {
     name: { type: new GraphQLNonNull(GraphQLString) },
-    slug: { type: new GraphQLNonNull(GraphQLString) },
+    slug: { type: GraphQLString },
   },
   outputFields: {
     category: { type: categoryType },

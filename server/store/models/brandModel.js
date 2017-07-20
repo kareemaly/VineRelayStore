@@ -31,6 +31,16 @@ export const brandModel = (mongoose) => {
     return this.creator;
   });
 
+  /**
+   * Generate slug if user didnt input it
+   */
+  brandSchema.pre('validate', async function(next) {
+    if(! this.slug) {
+      this.slug = slugify(this.name);
+    }
+    next();
+  });
+
   brandSchema.plugin(uniqueValidator);
 
   return mongoose.model('Brand', brandSchema);

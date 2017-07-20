@@ -51,6 +51,9 @@ export const productModel = (mongoose, slugify) => {
     return this.creator;
   });
 
+  /**
+   * Generate slug if user didnt input it
+   */
   productSchema.pre('validate', async function(next) {
     if(! this.slug) {
       this.slug = slugify(this.name);
