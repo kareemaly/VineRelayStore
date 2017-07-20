@@ -1,9 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import styled from 'styled-components';
 import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import StoreLayout from 'app/components/Store/Main/StoreLayout';
+import Paper from 'app/components/Store/Main/Paper';
 import CheckoutForm from 'app/components/Store/Order/CheckoutForm';
+import OrderSummary from 'app/components/Store/Order/OrderSummary';
 import {
   isValidationError,
   getErrorValidationObject,
@@ -11,7 +14,29 @@ import {
 } from 'app/utils/error';
 import { cartStore } from 'app/stores';
 import { cartActions } from 'app/actions';
+import breakpoints from 'app/utils/breakpoints';
 import basicCheckoutMutation from './basicCheckoutMutation';
+
+const StyledPaper = styled(Paper)`
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+
+  @media only screen and (max-width: ${breakpoints.tablet}px) {
+    flex-direction: column;
+  }
+`;
+
+const SummaryWrapper = styled.div`
+  flex-basis: 45%;
+  @media only screen and (max-width: ${breakpoints.tablet}px) {
+    margin-bottom: 20px;
+  }
+`;
+
+const FormWrapper = styled.div`
+  flex-basis: 45%;
+`;
 
 class CheckoutRoute extends React.Component {
   componentWillMount() {
@@ -22,7 +47,18 @@ class CheckoutRoute extends React.Component {
     this.setState({
       snackbarMessage: '',
       validationErrors: {},
+      cart: cartStore.get(),
     });
+
+    this.cartListener = cartStore.addListener(() => {
+      this.setState({
+        cart: cartStore.get(),
+      });
+    })
+  }
+
+  componentWillUnmount() {
+    this.cartListener.remove();
   }
 
   onCheckoutSuccess = ({ order }) => {
@@ -64,9 +100,9 @@ class CheckoutRoute extends React.Component {
     basicCheckoutMutation({
       ...orderDetails,
       items: cartStore.getItems().map((item) => ({
+        // Only send mutation required attributes
         quantity: item.quantity,
         product: item.product,
-        price: 200,
       })),
     }, this.onCheckoutComplete);
   }
@@ -80,15 +116,26 @@ class CheckoutRoute extends React.Component {
       validationErrors,
       isLoading,
       snackbarMessage,
+      cart,
     } = this.state;
 
     return (
       <StoreLayout>
-        <CheckoutForm
-          errors={validationErrors}
-          submitDisabled={isLoading}
-          onSubmit={this.onSubmit}
-        />
+        <StyledPaper paddings={['top', 'bottom', 'left', 'right']}>
+          <SummaryWrapper>
+            <OrderSummary
+              cart={cart}
+            />
+          </SummaryWrapper>
+          <FormWrapper>
+            <CheckoutForm
+              onBackToCartClick={() => history.push(`/cart`)}
+              errors={validationErrors}
+              submitDisabled={isLoading}
+              onSubmit={this.onSubmit}
+            />
+          </FormWrapper>
+        </StyledPaper>
         {snackbarMessage}
       </StoreLayout>
     );
