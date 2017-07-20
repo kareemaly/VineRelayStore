@@ -10,6 +10,8 @@ export const brandModel = (mongoose) => {
   const brandSchema = new Schema({
     // Brand name
     name: {type: String, required: true},
+    // Brand description
+    description: {type: String},
     // Brand slug (used in url)
     slug: {type: String, required: true, unique: true},
     // Brand cover image src

@@ -30,6 +30,12 @@ export const orderType = (
     state: { type: new GraphQLNonNull(GraphQLString) },
     zipCode: { type: new GraphQLNonNull(GraphQLString) },
     phoneNumber: { type: new GraphQLNonNull(GraphQLString) },
+    status: { type: new GraphQLNonNull(GraphQLString) },
+    // Readble text for end users
+    statusText: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: order => order.getReadableStatusText()
+    },
     items: {
       type: new GraphQLList(orderItemType),
       resolve: (order) => orderItemRepository.findByOrder(order),

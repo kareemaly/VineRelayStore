@@ -10,6 +10,8 @@ export const categoryModel = (mongoose) => {
   const categorySchema = new Schema({
     // Category name
     name: {type: String, required: true},
+    // Category description
+    description: {type: String},
     // Category slug (used in url)
     slug: {type: String, required: true, unique: true},
     // Category cover image src

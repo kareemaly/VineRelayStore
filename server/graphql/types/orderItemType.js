@@ -22,9 +22,9 @@ export const orderItemType = (
   fields: () => ({
     id: globalIdField('OrderItem'),
     quantity: { type: new GraphQLNonNull(GraphQLInt) },
-    price: { type: new GraphQLNonNull(GraphQLFloat) },
     product: {
-      type: new GraphQLNonNull(productType),
+      // This can be null if product has been removed
+      type: productType,
       resolve: (item) => item.getProduct(),
     },
   }),

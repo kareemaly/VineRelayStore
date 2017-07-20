@@ -39,6 +39,7 @@ class EditProduct extends React.Component {
         name: props.product.name,
         slug: props.product.slug,
         mainImage: props.product.mainImage,
+        price: props.product.price,
         categoryId: props.product.category.id,
         brandId: props.product.brand.id,
       },
@@ -71,6 +72,7 @@ class EditProduct extends React.Component {
       <Wrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Name'}
             errorText={errors && errors.name}
             value={product.name}
@@ -79,6 +81,7 @@ class EditProduct extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Slug'}
             errorText={errors && errors.slug}
             value={product.slug}
@@ -87,6 +90,16 @@ class EditProduct extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
+            fullWidth
+            floatingLabelText={'Price'}
+            errorText={errors && errors.price}
+            value={product.price}
+            onChange={(event) => this.onChange({ price: event.target.value })}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <TextField
+            fullWidth
             floatingLabelText={'Main Image Url'}
             errorText={errors && errors.mainImage}
             value={product.mainImage}
@@ -124,6 +137,7 @@ EditProduct.propTypes = {
     name: PropTypes.string,
     slug: PropTypes.string,
     mainImage: PropTypes.string,
+    price: PropTypes.number,
     brand: PropTypes.shape({
       id: PropTypes.string,
     }),
@@ -131,11 +145,12 @@ EditProduct.propTypes = {
       id: PropTypes.string,
     }),
   }).isRequired,
-  brands: PropTypes.shape.isRequired,
+  brands: PropTypes.object.isRequired,
   errors: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
     mainImage: PropTypes.string,
+    price: PropTypes.number,
   }),
   submitDisabled: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
@@ -149,6 +164,7 @@ export default createFragmentContainer(
       name
       slug
       mainImage
+      price
       brand {
         id
       }

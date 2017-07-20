@@ -4,18 +4,29 @@ import styled from 'styled-components';
 import MaterialPaper from 'material-ui/Paper';
 
 const StyledMaterialPaper = styled(MaterialPaper)`
-  ${(props) => !props.noPadding && `padding: 20px;`}
+  max-width: ${(props) => props.theme.maxWidth}px;
+  margin: 0 auto;
 `;
 
-const Paper = ({ noPadding, ...props }) => (
+const ContentWrapper = styled.div`
+  ${(props) => props.paddings.indexOf('left') > -1 && `padding-left: 16px;`}
+  ${(props) => props.paddings.indexOf('right') > -1 && `padding-right: 16px;`}
+  ${(props) => props.paddings.indexOf('top') > -1 && `padding-top: 16px;`}
+  ${(props) => props.paddings.indexOf('bottom') > -1 && `padding-bottom: 16px;`}
+`;
+
+const Paper = ({ paddings = [], children, ...props }) => (
   <StyledMaterialPaper
-    noPadding={noPadding}
     {...props}
-  />
+  >
+    <ContentWrapper paddings={paddings}>
+      {children}
+    </ContentWrapper>
+  </StyledMaterialPaper>
 );
 
 Paper.propTypes = {
-  noPadding: PropTypes.bool,
+  paddings: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default Paper;

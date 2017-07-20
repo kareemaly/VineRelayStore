@@ -30,7 +30,7 @@ class CreateProductRoute extends React.Component {
   }
 
   onCreateSuccess = (id) => {
-    this.props.history.replace(`/admin/product/${id}`);
+    // this.props.history.replace(`/admin/product/${id}`);
   }
 
   onCreateError = (error) => {
@@ -80,7 +80,7 @@ class CreateProductRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper noPadding>
+        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
           <CreateProduct
             brands={brands}
             categories={categories}

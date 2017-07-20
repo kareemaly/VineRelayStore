@@ -48,6 +48,7 @@ class Login extends React.Component {
       <Wrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Email'}
             errorText={emailError}
             value={email}
@@ -56,6 +57,7 @@ class Login extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Password'}
             errorText={passwordError}
             type={'password'}

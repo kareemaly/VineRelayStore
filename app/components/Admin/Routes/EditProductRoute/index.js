@@ -83,7 +83,7 @@ class EditProductRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper noPadding>
+        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
           <EditProduct
             product={product}
             brands={brands}

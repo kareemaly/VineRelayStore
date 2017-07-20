@@ -81,7 +81,7 @@ class EditBrandRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper noPadding>
+        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
           <EditBrand
             brand={brand}
             errors={validationErrors}

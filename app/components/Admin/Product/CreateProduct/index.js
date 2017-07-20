@@ -53,6 +53,7 @@ class CreateProduct extends React.Component {
       <Wrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Name'}
             errorText={errors && errors.name}
             value={product.name}
@@ -61,10 +62,20 @@ class CreateProduct extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Slug'}
             errorText={errors && errors.slug}
             value={product.slug}
             onChange={(event) => this.onChange({ slug: event.target.value })}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <TextField
+            fullWidth
+            floatingLabelText={'Price'}
+            errorText={errors && errors.price}
+            value={product.price}
+            onChange={(event) => this.onChange({ price: event.target.value })}
           />
         </InputWrapper>
         <InputWrapper>
@@ -97,12 +108,18 @@ CreateProduct.propTypes = {
   product: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
+    price: PropTypes.number,
+    brandId: PropTypes.string,
+    categoryId: PropTypes.string,
   }).isRequired,
   brands: PropTypes.shape.isRequired,
   categories: PropTypes.shape.isRequired,
   errors: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
+    price: PropTypes.number,
+    brandId: PropTypes.string,
+    categoryId: PropTypes.string,
   }),
   submitDisabled: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,

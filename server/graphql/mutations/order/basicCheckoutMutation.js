@@ -17,7 +17,6 @@ const orderItemInput = new GraphQLInputObjectType({
   name: 'OrderItemInput',
   fields: () => ({
     quantity: { type: new GraphQLNonNull(GraphQLInt) },
-    price: { type: new GraphQLNonNull(GraphQLFloat) },
     product: { type: new GraphQLNonNull(GraphQLID) },
   }),
 });

@@ -15,7 +15,7 @@ export default class OrderRepository {
    * @return {Promise<Order[]>}
    * @throws {ForbiddenError} If viewer is not an admin
    */
-  async query(viewer, inputs) {
+  async query(viewer, inputs = {}) {
     if(!viewer.isAdmin()) {
       throw new ForbiddenError("You are not authorized to make this action.");
     }
@@ -57,6 +57,33 @@ export default class OrderRepository {
   }
 
   /**
+   * Update order status
+   * @param  {User} viewer
+   * @param  {ObjectId} id
+   * @param  {string} status
+   * @return {Promise<Order>}
+   * @throws {ForbiddenError} If viewer is not an admin
+   * @throws {ModelNotFoundError} If order doesnt exist
+   */
+  async updateStatus(viewer, id, status) {
+    if(!viewer.isAdmin()) {
+      throw new ForbiddenError("You are not authorized to make this action.");
+    }
+
+    // Find the order
+    const order = await this.orderModel.findById(id);
+
+    if(!order) {
+      throw new ModelNotFoundError("The order you are trying to update doesnt exist");
+    }
+
+    // Update order status
+    order.status = status;
+
+    return order.save();
+  }
+
+  /**
    * Remove order by id
    * @param  {User} viewer
    * @param  {ObjectId} id
@@ -75,7 +102,7 @@ export default class OrderRepository {
       throw new ModelNotFoundError("The order you are requesting to remove doesnt exist");
     }
 
-    return await order.remove();
+    return order.remove();
   }
 }
 

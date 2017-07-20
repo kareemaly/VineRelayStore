@@ -9,8 +9,8 @@ import ListProducts from 'app/components/Admin/Product/ListProducts';
 import Paper from 'app/components/Admin/Main/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import { getErrorMessage } from 'app/utils/error';
+import FloatingCreateButton from 'app/components/Admin/Main/FloatingCreateButton';
 import removeProductMutation from './removeProductMutation';
-
 
 class ListProductsRoute extends React.Component {
   componentWillMount() {
@@ -50,6 +50,7 @@ class ListProductsRoute extends React.Component {
     const {
       viewer,
       products,
+      history,
     } = this.props;
 
     const {
@@ -58,7 +59,7 @@ class ListProductsRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper noPadding>
+        <Paper>
           <ListProducts
             products={products}
             onEditProduct={this.gotoEditProduct}
@@ -70,6 +71,9 @@ class ListProductsRoute extends React.Component {
           message={snackbarMessage || ''}
           autoHideDuration={4000}
           onRequestClose={() => this.setState({ snackbarMessage: '' })}
+        />
+        <FloatingCreateButton
+          onClick={() => history.push(`/admin/product/create`)}
         />
       </DashboardLayout>
     );

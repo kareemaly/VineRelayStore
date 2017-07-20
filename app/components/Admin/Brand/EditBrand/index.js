@@ -57,6 +57,7 @@ class EditBrand extends React.Component {
       <Wrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Name'}
             errorText={errors && errors.name}
             value={brand.name}
@@ -65,6 +66,7 @@ class EditBrand extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Slug'}
             errorText={errors && errors.slug}
             value={brand.slug}
@@ -73,6 +75,18 @@ class EditBrand extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
+            fullWidth
+            floatingLabelText={'Description'}
+            errorText={errors && errors.description}
+            value={brand.description}
+            onChange={(event) => this.onChange({ description: event.target.value })}
+            multiLine
+            rows={3}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <TextField
+            fullWidth
             floatingLabelText={'Logo Image Url'}
             errorText={errors && errors.logoImage}
             value={brand.logoImage}
@@ -81,6 +95,7 @@ class EditBrand extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Cover Image Url'}
             errorText={errors && errors.coverImage}
             value={brand.coverImage}
@@ -103,12 +118,14 @@ EditBrand.propTypes = {
   brand: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
+    description: PropTypes.string,
     coverImage: PropTypes.string,
     logoImage: PropTypes.string,
   }).isRequired,
   errors: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
+    description: PropTypes.string,
     coverImage: PropTypes.string,
     logoImage: PropTypes.string,
   }),
@@ -123,6 +140,7 @@ export default createFragmentContainer(
       id
       name
       slug
+      description
       coverImage
       logoImage
     }

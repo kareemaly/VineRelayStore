@@ -78,7 +78,7 @@ class CreateCategoryRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper noPadding>
+        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
           <CreateCategory
             errors={validationErrors}
             disableSubmit={isLoading}

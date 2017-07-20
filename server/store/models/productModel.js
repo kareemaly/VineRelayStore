@@ -2,7 +2,7 @@ import IoC from 'AppIoC';
 import { Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
-export const productModel = (mongoose) => {
+export const productModel = (mongoose, slugify) => {
   /**
    * Product schema definition
    * @type {Schema}
@@ -12,6 +12,8 @@ export const productModel = (mongoose) => {
     name: {type: String, required: true},
     // Product slug (used in url)
     slug: {type: String, required: true, unique: true},
+    // Product price
+    price: {type: Number},
     // Product main image src
     mainImage: {type: String},
     // Product brand
@@ -49,9 +51,19 @@ export const productModel = (mongoose) => {
     return this.creator;
   });
 
+  productSchema.pre('validate', async function(next) {
+    if(! this.slug) {
+      this.slug = slugify(this.name);
+    }
+    next();
+  });
+
   productSchema.plugin(uniqueValidator);
 
   return mongoose.model('Product', productSchema);
 }
 
-IoC.callable('productModel', ['connection'], productModel);
+IoC.callable('productModel', [
+  'connection',
+  'slugify',
+], productModel);

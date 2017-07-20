@@ -2,6 +2,7 @@ import IoC from 'AppIoC';
 import {
   GraphQLNonNull,
   GraphQLString,
+  GraphQLFloat,
 } from 'graphql';
 import {
   mutationWithClientMutationId,
@@ -16,7 +17,8 @@ export const updateProductMutation = (productRepository, productType) => mutatio
   inputFields: {
     id: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
-    slug: { type: new GraphQLNonNull(GraphQLString) },
+    slug: { type: GraphQLString },
+    price: { type: new GraphQLNonNull(GraphQLFloat) },
     mainImage: { type: GraphQLString },
     brandId: { type: new GraphQLNonNull(GraphQLString) },
     categoryId: { type: new GraphQLNonNull(GraphQLString) },

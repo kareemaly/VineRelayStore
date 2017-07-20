@@ -49,6 +49,7 @@ class CreateBrand extends React.Component {
       <Wrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Name'}
             errorText={errors && errors.name}
             value={brand.name}
@@ -57,6 +58,7 @@ class CreateBrand extends React.Component {
         </InputWrapper>
         <InputWrapper>
           <TextField
+            fullWidth
             floatingLabelText={'Slug'}
             errorText={errors && errors.slug}
             value={brand.slug}

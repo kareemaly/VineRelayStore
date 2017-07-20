@@ -9,7 +9,6 @@ export const orderItemModel = (mongoose) => {
    */
   const orderItemSchema = new Schema({
     product: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
-    price: { type: Number },
     quantity: { type: Number },
     // Order
     order: { type: Schema.Types.ObjectId, ref: 'Order', required: true },

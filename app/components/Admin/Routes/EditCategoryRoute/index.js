@@ -81,7 +81,7 @@ class EditCategoryRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper noPadding>
+        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
           <EditCategory
             category={category}
             errors={validationErrors}

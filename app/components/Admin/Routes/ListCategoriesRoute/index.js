@@ -9,6 +9,7 @@ import ListCategories from 'app/components/Admin/Category/ListCategories';
 import Paper from 'app/components/Admin/Main/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import { getErrorMessage } from 'app/utils/error';
+import FloatingCreateButton from 'app/components/Admin/Main/FloatingCreateButton';
 import removeCategoryMutation from './removeCategoryMutation';
 
 
@@ -50,6 +51,7 @@ class ListCategoriesRoute extends React.Component {
     const {
       viewer,
       categories,
+      history,
     } = this.props;
 
     const {
@@ -58,7 +60,7 @@ class ListCategoriesRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper noPadding>
+        <Paper>
           <ListCategories
             categories={categories}
             onEditCategory={this.gotoEditCategory}
@@ -70,6 +72,9 @@ class ListCategoriesRoute extends React.Component {
           message={snackbarMessage || ''}
           autoHideDuration={4000}
           onRequestClose={() => this.setState({ snackbarMessage: '' })}
+        />
+        <FloatingCreateButton
+          onClick={() => history.push(`/admin/category/create`)}
         />
       </DashboardLayout>
     );
