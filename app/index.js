@@ -7,6 +7,7 @@ import StoreRouter from 'app/routes/StoreRouter';
 import 'app/config/materialui';
 import 'whatwg-fetch';
 import 'sanitize.css/sanitize.css';
+import './global-styles';
 
 //
 const rootNode = document.createElement('div');
