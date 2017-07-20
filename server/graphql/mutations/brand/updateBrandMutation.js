@@ -16,6 +16,7 @@ export const updateBrandMutation = (brandRepository, brandType) => mutationWithC
   inputFields: {
     id: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
+    description: { type: GraphQLString },
     slug: { type: new GraphQLNonNull(GraphQLString) },
     coverImage: { type: GraphQLString },
     logoImage: { type: GraphQLString },

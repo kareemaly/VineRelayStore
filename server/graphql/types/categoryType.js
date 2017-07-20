@@ -27,6 +27,7 @@ export const categoryType = (
     id: globalIdField('Category'),
     slug: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
+    description: { type: GraphQLString },
     logoImage: { type: GraphQLString },
     coverImage: { type: GraphQLString },
     creator: {

@@ -27,6 +27,7 @@ export const brandType = (
     id: globalIdField('Brand'),
     slug: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
+    description: { type: GraphQLString },
     coverImage: { type: GraphQLString },
     logoImage: { type: GraphQLString },
     creator: {
