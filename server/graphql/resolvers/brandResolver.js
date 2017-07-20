@@ -18,7 +18,7 @@ export const brandResolver = (brandRepository, brandsConnectionType) => ({
     // Our custom search criteria goes here
     slug: { type: GraphQLString },
   },
-  resolve: (viewer, { slug, ...args }) => connectionFromPromisedArray(
+  resolve: (_, { slug, ...args }, { viewer }) => connectionFromPromisedArray(
     brandRepository.query(viewer, { slug }),
     args
   ),

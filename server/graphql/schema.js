@@ -59,6 +59,7 @@ export const graphqlSchema = (
         brands: brandResolver,
         categories: categoryResolver,
         products: productResolver,
+        orders: orderResolver,
       }),
     }),
     mutation: new GraphQLObjectType({
