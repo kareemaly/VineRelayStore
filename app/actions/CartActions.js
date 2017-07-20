@@ -1,6 +1,6 @@
 import {
   ADD_ITEM,
-  UPDATE_ITEM,
+  UPDATE_ITEM_QUANTITY,
   REMOVE_ITEM,
   DESTROY,
 } from 'app/constants/cartActions';
@@ -19,13 +19,10 @@ export default class CartActions {
     image,
   });
 
-  updateItem = (product, quantity = 1, price, name, image) => this.dispatcher.dispatch({
-    type: UPDATE_ITEM,
+  updateItemQuantity = (product, quantity = 1) => this.dispatcher.dispatch({
+    type: UPDATE_ITEM_QUANTITY,
     product,
     quantity,
-    price,
-    name,
-    image,
   });
 
   removeItem = (product) => this.dispatcher.dispatch({

@@ -3,7 +3,7 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import {
   ADD_ITEM,
-  UPDATE_ITEM,
+  UPDATE_ITEM_QUANTITY,
   REMOVE_ITEM,
   DESTROY,
 } from 'app/constants/cartActions';
@@ -18,13 +18,18 @@ export default class CartStore extends Store {
   __onDispatch(action) {
     switch(action.type) {
       case ADD_ITEM:
-      case UPDATE_ITEM:
         this.__addItem(
           action.product,
           action.quantity,
           action.price,
           action.name,
           action.image
+        );
+        break;
+      case UPDATE_ITEM_QUANTITY:
+        this.__updateItemQuantity(
+          action.product,
+          action.quantity,
         );
         break;
       case REMOVE_ITEM:
@@ -63,6 +68,35 @@ export default class CartStore extends Store {
         item,
       ]);
     }
+  }
+
+  /**
+   * Add Item to cart
+   * @param  {string} product
+   * @param  {number} quantity
+   * @param  {number} price
+   * @param  {string} name
+   * @param  {number} image
+   * @return {void}
+   */
+  __updateItemQuantity(product, quantity) {
+    console.log('product', product);
+    const index = this.getItemIndex(product);
+    const items = this.getItems();
+
+    // You cant update quantity because item doesnt exist
+    if(index < 0) {
+      throw new Error('Item doesn\'t exist, cant\'t update quantity');
+    }
+
+    this.__setItems([
+      ...items.slice(0, index),
+      {
+        ...items[index],
+        quantity,
+      },
+      ...items.slice(index + 1),
+    ]);
   }
 
   /**
@@ -146,8 +180,18 @@ export default class CartStore extends Store {
    * @return {void}
    */
   __save(cart) {
+    // Re-calculate total price everytime you save the cart
+    cart.totalPrice = this.__calculateTotalPrice();
     localStorage.setItem('rs_cart', JSON.stringify(cart));
     this.__emitChange();
+  }
+
+  /**
+   * Calculate Total price
+   * @return {number}
+   */
+  __calculateTotalPrice() {
+    return this.getItems().reduce((sum, item) => sum + item.price, 0);
   }
 
   /**
@@ -157,4 +201,5 @@ export default class CartStore extends Store {
   __destroy() {
     localStorage.removeItem('rs_cart');
   }
+
 }
