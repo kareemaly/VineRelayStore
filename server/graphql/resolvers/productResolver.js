@@ -35,7 +35,7 @@ export const productResolver = (productRepository, productsConnectionType) => {
       brandId: { type: GraphQLID },
       categoryId: { type: GraphQLID },
     },
-    resolve: (viewer, args) =>
+    resolve: (_, args, { viewer }) =>
       connectionFromPromisedArray(searchProducts(viewer, args), args),
   };
 }

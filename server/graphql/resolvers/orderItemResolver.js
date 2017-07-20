@@ -19,7 +19,7 @@ export const orderItemResolver = (orderItemRepository, orderItemsConnectionType)
     ...connectionArgs,
     // Custom search criteria goes here
   },
-  resolve: (viewer, args) =>
+  resolve: (_, args, { viewer }) =>
     connectionFromPromisedArray(orderItemRepository.query(viewer), args),
 });
 
