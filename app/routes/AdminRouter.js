@@ -1,8 +1,9 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Switch, Route } from 'react-router-dom';
-import defaultTheme from 'app/themes/admin/default';
+import defaultTheme from 'app/themes/default';
 
 import DefaultRoute from 'app/components/Admin/Routes/DefaultRoute';
 
@@ -18,11 +19,14 @@ import ListBrandsRoute from 'app/components/Admin/Routes/ListBrandsRoute';
 import EditBrandRoute from 'app/components/Admin/Routes/EditBrandRoute';
 import CreateBrandRoute from 'app/components/Admin/Routes/CreateBrandRoute';
 
+import ListOrdersRoute from 'app/components/Admin/Routes/ListOrdersRoute';
+import ViewOrderRoute from 'app/components/Admin/Routes/ViewOrderRoute';
+
 import LoginRoute from 'app/components/Admin/Routes/LoginRoute';
 
 export default () => (
   <ThemeProvider theme={defaultTheme}>
-    <MuiThemeProvider theme={defaultTheme}>
+    <MuiThemeProvider muiTheme={getMuiTheme(defaultTheme)}>
       <Switch>
         {/* Login Route */}
         <Route
@@ -91,12 +95,18 @@ export default () => (
           component={EditBrandRoute}
         />
 
-
-        {/* */}
+        {/* List orders Route */}
         <Route
-          path='/admin/test'
-          component={() => <div>Test</div>}
+          path='/admin/orders'
+          component={ListOrdersRoute}
         />
+        {/* View order Route */}
+        <Route
+          exact
+          path='/admin/order/:orderId'
+          component={ViewOrderRoute}
+        />
+
       </Switch>
     </MuiThemeProvider>
   </ThemeProvider>

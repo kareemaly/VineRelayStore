@@ -1,6 +1,13 @@
 import IoC from 'AppIoC';
 import { Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
+import {
+  UNCONFIRMED,
+  CONFIRMED,
+  OUT_FOR_DELIVERY,
+  DELIVERED,
+  FAILED,
+} from 'server/store/constants/orderStatuses';
 
 const generateUniqueOrderNumber = async (orderModel) => {
   let uniqueId = Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -15,6 +22,14 @@ const generateUniqueOrderNumber = async (orderModel) => {
 }
 
 export const orderModel = (mongoose) => {
+  const orderStatuses = [
+    UNCONFIRMED,
+    CONFIRMED,
+    OUT_FOR_DELIVERY,
+    DELIVERED,
+    FAILED,
+  ];
+
   /**
    * Order schema definition
    * @type {Schema}
@@ -29,12 +44,33 @@ export const orderModel = (mongoose) => {
     city: { type: String, required: true },
     state: { type: String, required: true },
     zipCode: { type: String, required: true },
-    phoneNumber: { type: String },
+    phoneNumber: { type: String, required: true },
+    // Order status
+    status: {type: String, enum: orderStatuses, default: UNCONFIRMED},
+  });
+
+  /**
+   * Get readable status text for end users
+   * @return {string}
+   */
+  orderSchema.method('getReadableStatusText', function() {
+    switch(this.status) {
+      case CONFIRMED:
+        return 'Confirmed';
+      case OUT_FOR_DELIVERY:
+        return 'Out for delivery';
+      case DELIVERED:
+        return 'Delivered';
+      case FAILED:
+        return 'Failed';
+      default:
+        return 'Unconfirmed';
+    }
   });
 
   orderSchema.pre("validate", async function(next) {
     try {
-      if (this.orderNumber) {
+      if (! this.orderNumber) {
         // Generate unique order number
         this.orderNumber = await generateUniqueOrderNumber(this.constructor);
       }
