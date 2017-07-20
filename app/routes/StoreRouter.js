@@ -2,7 +2,7 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Switch, Route } from 'react-router-dom';
-import defaultTheme from 'app/themes/store/default';
+import defaultTheme from 'app/themes/default';
 
 import BrandsRoute from 'app/components/Store/Routes/BrandsRoute';
 import BrandRoute from 'app/components/Store/Routes/BrandRoute';
@@ -12,6 +12,9 @@ import ProductRoute from 'app/components/Store/Routes/ProductRoute';
 import HomeRoute from 'app/components/Store/Routes/HomeRoute';
 import CartRoute from 'app/components/Store/Routes/CartRoute';
 import CheckoutRoute from 'app/components/Store/Routes/CheckoutRoute';
+import CheckoutThanksRoute from 'app/components/Store/Routes/CheckoutThanksRoute';
+import AboutRoute from 'app/components/Store/Routes/AboutRoute';
+import FontsRoute from 'app/components/Store/Routes/FontsRoute';
 
 export default () => (
   <ThemeProvider theme={defaultTheme}>
@@ -68,11 +71,24 @@ export default () => (
           component={CheckoutRoute}
         />
 
+        {/* Show checkout thanks Route */}
+        <Route
+          exact
+          path='/checkout/thanks/:orderNumber'
+          component={CheckoutThanksRoute}
+        />
+
+        {/* Show about  Route */}
+        <Route
+          exact
+          path='/about'
+          component={AboutRoute}
+        />
 
         <Route
           exact
-          path='/products'
-          component={() => <div>Products</div>}
+          path='/fonts'
+          component={FontsRoute}
         />
       </Switch>
     </MuiThemeProvider>

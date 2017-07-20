@@ -7,9 +7,7 @@ import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
 import StoreLayout from 'app/components/Store/Main/StoreLayout';
 import CategoriesGrid from 'app/components/Store/Category/CategoriesGrid';
-
-const Title = styled.h2`
-`;
+import Paper from 'app/components/Store/Main/Paper';
 
 class CategoriesRoute extends React.Component {
   render() {
@@ -20,44 +18,38 @@ class CategoriesRoute extends React.Component {
 
     return (
       <StoreLayout>
-        <Title>
-          Categories
-        </Title>
-        <CategoriesGrid
-          categories={categories}
-          onCategoryClick={(id) => history.push(`category/${id}`)}
-        />
+        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+          <h1>Shop By Categories</h1>
+          <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
+        </Paper>
+        <Paper paddings={[ 'bottom', 'left', 'right' ]}>
+          <CategoriesGrid
+            categories={categories}
+            onCategoryClick={(id) => history.push(`category/${id}`)}
+          />
+        </Paper>
       </StoreLayout>
     );
   }
 }
 
-const CategoriesRouteContainer = createFragmentContainer(
-  withRouter(CategoriesRoute),
-  graphql`
-    fragment CategoriesRoute_categories on CategoryConnection {
-      ...CategoriesGrid_categories
-    }
-  `
-);
-
-export default () => (
+export default (props) => (
   <QueryRenderer
     environment={relayEnvironment}
     query={graphql`
       query CategoriesRouteQuery {
         categories {
-          ...CategoriesRoute_categories
+          ...CategoriesGrid_categories
         }
       }
     `}
-    render={({ error, props }) => {
+    render={({ error, props: relayProps }) => {
       if (error) {
         return <PageError error={error} />;
       }
 
-      if (props) {
-        return <CategoriesRouteContainer {...props} />;
+      if (relayProps) {
+        return <CategoriesRoute {...relayProps} {...props} />;
       }
 
       return <PageLoader />;

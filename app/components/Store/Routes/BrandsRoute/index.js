@@ -7,9 +7,7 @@ import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
 import StoreLayout from 'app/components/Store/Main/StoreLayout';
 import BrandsGrid from 'app/components/Store/Brand/BrandsGrid';
-
-const Title = styled.h2`
-`;
+import Paper from 'app/components/Store/Main/Paper';
 
 class BrandsRoute extends React.Component {
   render() {
@@ -20,44 +18,38 @@ class BrandsRoute extends React.Component {
 
     return (
       <StoreLayout>
-        <Title>
-          Brands
-        </Title>
-        <BrandsGrid
-          brands={brands}
-          onBrandClick={(id) => history.push(`brand/${id}`)}
-        />
+        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+          <h1>Shop By Brands</h1>
+          <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
+        </Paper>
+        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+          <BrandsGrid
+            brands={brands}
+            onBrandClick={(id) => history.push(`brand/${id}`)}
+          />
+        </Paper>
       </StoreLayout>
     );
   }
 }
 
-const BrandsRouteContainer = createFragmentContainer(
-  withRouter(BrandsRoute),
-  graphql`
-    fragment BrandsRoute_brands on BrandConnection {
-      ...BrandsGrid_brands
-    }
-  `
-);
-
-export default () => (
+export default (props) => (
   <QueryRenderer
     environment={relayEnvironment}
     query={graphql`
       query BrandsRouteQuery {
         brands {
-          ...BrandsRoute_brands
+          ...BrandsGrid_brands
         }
       }
     `}
-    render={({ error, props }) => {
+    render={({ error, props: relayProps }) => {
       if (error) {
         return <PageError error={error} />;
       }
 
-      if (props) {
-        return <BrandsRouteContainer {...props} />;
+      if (relayProps) {
+        return <BrandsRoute {...props} {...relayProps} />;
       }
 
       return <PageLoader />;

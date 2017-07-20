@@ -1,25 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { createFragmentContainer, graphql } from 'react-relay';
-import PropTypes from 'prop-types';
-import breakpoints from 'app/utils/breakpoints';
-
-const Grid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
+import Grid from 'app/components/Store/Main/Grid';
 
 const CategoryItem = styled.div`
-  padding: 24px;
-  width: 33%;
-
-  @media only screen and (max-width: ${breakpoints.tablet}px) {
-    width: 50%;
-  }
-
-  @media only screen and (max-width: ${breakpoints.mobile}px) {
-    width: 100%;
-  }
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
 `;
 
 const CategoryImage = styled.div`
@@ -27,15 +15,20 @@ const CategoryImage = styled.div`
   background-position: center;
   background-size: cover;
   width: 100%;
-  height: 200px;
+  height: 150px;
 `;
 
 const CategoryName = styled.h3`
-  display: flex;
 `;
 
 const CategoriesGrid = ({ categories, onCategoryClick }) => (
-  <Grid>
+  <Grid
+    itemsPerRow={{
+      mobile: 1,
+      tablet: 2,
+      desktop: 3,
+    }}
+  >
     {categories.edges.map((edge, index) => (
       <CategoryItem onClick={() => onCategoryClick(edge.node.id)} key={index}>
         <CategoryImage

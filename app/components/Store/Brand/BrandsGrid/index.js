@@ -1,25 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { createFragmentContainer, graphql } from 'react-relay';
-import PropTypes from 'prop-types';
-import breakpoints from 'app/utils/breakpoints';
-
-const Grid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
+import Grid from 'app/components/Store/Main/Grid';
 
 const BrandItem = styled.div`
-  padding: 24px;
-  width: 33%;
-
-  @media only screen and (max-width: ${breakpoints.tablet}px) {
-    width: 50%;
-  }
-
-  @media only screen and (max-width: ${breakpoints.mobile}px) {
-    width: 100%;
-  }
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
 `;
 
 const BrandImage = styled.div`
@@ -27,15 +15,20 @@ const BrandImage = styled.div`
   background-position: center;
   background-size: cover;
   width: 100%;
-  height: 200px;
+  height: 150px;
 `;
 
 const BrandName = styled.h3`
-  display: flex;
 `;
 
 const BrandsGrid = ({ brands, onBrandClick }) => (
-  <Grid>
+  <Grid
+    itemsPerRow={{
+      mobile: 1,
+      tablet: 2,
+      desktop: 3,
+    }}
+  >
     {brands.edges.map((edge, index) => (
       <BrandItem onClick={() => onBrandClick(edge.node.id)} key={index}>
         <BrandImage
