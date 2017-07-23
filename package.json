@@ -1,5 +1,5 @@
 {
-  "name": "relaystore",
+  "name": "vinerelay",
   "version": "0.0.1",
   "scripts": {
     "migrations": "babel-node internals/migrations/runMigrations",
