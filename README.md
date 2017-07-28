@@ -12,72 +12,42 @@ Is VineRelay for you?
 - If you are looking for best practices on how to build Relay apps.
 - If you are starting to build a shop with React, Relay and GraphQL.
 
-Getting started
--------------
-- Start by clonning this repo and install dependencies.
-
-  ```shell
-  git clone https://github.com/VineRelay/VineRelayStore
-  cd VineRelayStore
-  npm install
-  ```
-
-- Set required environment variables
-  - Copy `.env-sample` to `.env`
-  - Available environment variables are:
-    - `SECRET_KEY`: **REQUIRED** will be used to encrypt jwt tokens.
-    - `NODE_ENV`: **REQUIRED** available environments are `development` and `production`.
-    - `GRAPHQL_PORT`: **REQUIRED** Graphql server port
-    - `APP_PORT`: **REQUIRED** Frontend server app
-    - `MONGODB_URI`: **REQUIRED** Mongodb URI including auth username and password if exists.
-    - `SUPER_USER_EMAIL`: **REQUIRED** the email of the super user. ***A user will be created that will have access to all apis, More about that later***.
-    - `SUPER_USER_PASSWORD`: **REQUIRED** the password of the super user 
-
-- Run database migrations
-
-  ```shell
-  npm run migrations
-  ```
-
-- Now run both the frontend and graphql servers in two terminals
-
-  ```shell
-  # First terminal (frontend server)
-  npm run start:app
-  ```
-
-  ```shell
-  # Second terminal (graphql server)
-  npm run start:graphql
-  ```
-
-Two servers should be running on ports defined in `.env` file
-  - GraphQL server `localhost:8080`
-  - Frontend server `localhost:3000`
-
-Developing
------------
-
-### Built With
-- Frontend
-  - React: 15.6.1
-  - StyledComponents: 2.1.0
-  - MaterialUI: 0.18.3
-  - ReactRelay: 1.0.0 (RelayModern)
-- Backend
-  - Express: 4.15.3
-  - GraphQL: 0.10.3
-  - Mongoose: 4.10.7
+Documentation
+---------------------
+- Getting Started
+  - [Installation](/docs/start/installation.md)
+  - [Configuration](/docs/start/configuration.md)
+- [Directory Structure](/docs/structure/index.md)
+- Architecture Concepts
+  - [IoC](/docs/architecutre/ioc.md)
 - Workflow
-  - Webpack: 3.0.0
-  - DotEnv: 4.0.0
-
-### Prerequisites
-- node > 6.9.0
-- npm > 3.10.0
-- Facebook watchman, [Install from here](https://facebook.github.io/watchman/docs/install.html).
-- MongoDB instance running.
-  - `MONGODB_URI` in `.env` need to point to this mongodb instance.
-
-### Deploying / Publishing
-***Comming Soon***
+  - [Architecture](/docs/'workflow/architecture'.md)
+  - [Watchers](/docs/workflow/watchers.md)
+  - [Servers](/docs/workflow/servers.md)
+- Authentication
+  - [Models](/docs/auth/models.md)
+  - [User Types](/docs/auth/user-types.md)
+  - [Super User](/docs/auth/super-user.md)
+  - [Guest User](/docs/auth/guest-user.md)
+  - [JWT](/docs/auth/jwt.md)
+  - [GraphQL Types](/docs/authentication/grahpql-types.md)
+  - [GraphQL Mutations](/docs/authentication/grahpql-mutations.md)
+- Store Basics
+  - [Basic Models](/docs/store/models.md)
+  - [GraphQL Types](/docs/store/grahpql-types.md)
+  - [GraphQL Mutations](/docs/store/grahpql-mutations.md)
+- Store Cart
+  - [Client vs Server](/docs/cart/client-server.md)
+  - [Flux](/docs/cart/client-server.md)
+- Store Checkout
+  - [Order Model](/docs/checkout/order-model.md)
+  - [Basic checkout](/docs/checkout/basic-checkout.md)
+  - [GraphQL Types](/docs/checkout/grahpql-types.md)
+  - [GraphQL Mutations](/docs/checkout/grahpql-mutations.md)
+- Database
+  - [MongoDB](/docs/database/mongodb.md)
+  - [Migrations](/docs/database/migrations.md)
+- Deployment **SOON**
+- Tutorials
+  - [GraphQL Object Type](/docs/tutorials/graphql-object-type.md)
+  - [GraphQL Connections](/docs/tutorials/graphql-connections.md)
