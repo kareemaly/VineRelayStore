@@ -122,7 +122,7 @@ IoC.callable('charactersResolver', [ 'charactersConnectionType' ], charactersRes
 
 #### GraphQL schema
 Open the graphql schema definition file `/server/graphql/schema.js`.
-- Add dependency on `charactersResolver`, [More about IOC dependencies](../ioc.md).
+- Add dependency on `charactersResolver`, [More about IOC dependencies](../architecture/ioc.md).
 - Add `charactersResolver` in the query object type
 ```babel
 return new GraphQLSchema({

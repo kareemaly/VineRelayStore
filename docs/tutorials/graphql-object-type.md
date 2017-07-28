@@ -80,7 +80,7 @@ IoC.callable('jonSnowResolver', [
 
 #### GraphQL schema
 Open the graphql schema definition file `/server/graphql/schema.js`.
-- Add dependency on `jonSnowResolver`, [More about IOC dependencies](../architecture/ioc).
+- Add dependency on `jonSnowResolver`, [More about IOC dependencies](../architecture/ioc.md).
 - Add `jonSnowResolver` in the query object type
 ```babel
 return new GraphQLSchema({
@@ -100,4 +100,6 @@ return new GraphQLSchema({
 That's it! Back to the browser you should see the expected response.
 
 This is useful only for returning one object, e.g. `themeOptionsType`, `aboutContentType`, ..etc.
-But when it comes to return an array of objects... [Next: Relay Connections Tutorial](graphql-relay-connections)
+But when it comes to return an array of objects...
+
+[Next: Relay Connections Tutorial](./graphql-relay-connections.md)
