@@ -2,8 +2,6 @@
 
 VineRelay
 ---------------
-> The best of both worlds. React and GraphQL.
-
 VineRelay is Content Management Boilerplate which enables you to quickly scaffold a shop with the basic features using React, Relay and GraphQL.
 
 Is VineRelay for you?
