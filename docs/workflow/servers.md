@@ -1,7 +1,7 @@
 Servers
 ------------
 
-# GraphQL Server
+## GraphQL Server
 You can run the graphql server by running this command
 ```shell
 npm run serve:graphql
@@ -13,7 +13,7 @@ This command will run the graphql server on `GRAPHQL_PORT`. The server is also s
 - Run `npm run watcher:graphql` on another terminal to `watch` and `update-graphql-schema`.
 - Or use `npm run start:graphql` command to run both `npm run serve:graphql` and `npm run watcher:graphql` on the same terminal using [concurrently](https://github.com/kimmobrunfeldt/concurrently).
 
-# Frontend Server
+## Frontend Server
 You can run the frontend app server by running this command
 ```shell
 npm run serve:app

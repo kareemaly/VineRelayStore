@@ -2,10 +2,10 @@ GraphQL Relay Connections Tutorial
 ----------------
 This tutorial will show you how to create graphql relay connections.
 
-#### Prerequisites
+## Prerequisites
 - Make sure to understand [Relay Connections](https://facebook.github.io/relay/docs/graphql-connections.html).
 
-#### First step
+## First step
 Start by running the graphql server
 ```shell
 npm run start:graphql
@@ -51,7 +51,7 @@ The response we expect to get
 }
 ```
 
-#### GraphQL types
+## GraphQL types
 Create a new file `characterType.js` inside `/server/graphql/types/`, This file will define the character type and the connection type.
 ```babel
 import IoC from 'AppIoC';
@@ -86,7 +86,7 @@ IoC.callable('charactersConnectionType', [ 'characterType' ], charactersConnecti
 
 ```
 
-#### GraphQL resolver
+## GraphQL resolver
 Create a new file `charactersResolver.js` inside `/server/graphql/resolvers` that defines how to resolve the characters array.
 ```babel
 import IoC from 'AppIoC';
@@ -120,7 +120,7 @@ IoC.callable('charactersResolver', [ 'charactersConnectionType' ], charactersRes
 
 **ProTip** The resolve method can return a promise that returns an array of characters, All you need to do is change `connectionFromArray` to `connectionFromPromisedArray`, [More about this](https://github.com/graphql/graphql-relay-js). 
 
-#### GraphQL schema
+## GraphQL schema
 Open the graphql schema definition file `/server/graphql/schema.js`.
 - Add dependency on `charactersResolver`, [More about IOC dependencies](../architecture/ioc.md).
 - Add `charactersResolver` in the query object type

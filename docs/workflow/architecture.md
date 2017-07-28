@@ -1,7 +1,7 @@
 Workflow Architecture
 -----------------
 
-# Development Workflow architecture
+## Development Workflow architecture
 Getting GraphQL to work with relay needs specific handling that might get complicated and difficult to maintain if not handled correctly.
 
 Here's a virtualization of how the development workflow works

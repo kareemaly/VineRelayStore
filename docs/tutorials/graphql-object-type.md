@@ -31,7 +31,7 @@ The response we expect to get
 }
 ```
 
-#### GraphQL type
+## GraphQL type
 Create a new file `jonSnowType.js` inside `/server/graphql/types/` that defines Jon Snow graphql object type.
 ```babel
 import IoC from 'AppIoC';
@@ -57,7 +57,7 @@ export const jonSnowType = () => new GraphQLObjectType({
 IoC.callable('jonSnowType', [], jonSnowType);
 ```
 
-#### GraphQL resolver
+## GraphQL resolver
 Create a new file `jonSnowResolver.js` inside `/server/graphql/resolvers` that defines how to resolve Jon Snow object.
 ```babel
 import IoC from 'AppIoC';
@@ -78,7 +78,7 @@ IoC.callable('jonSnowResolver', [
 
 **ProTip** The resolve method can return a promise that returns the Jon Snow object.
 
-#### GraphQL schema
+## GraphQL schema
 Open the graphql schema definition file `/server/graphql/schema.js`.
 - Add dependency on `jonSnowResolver`, [More about IOC dependencies](../architecture/ioc.md).
 - Add `jonSnowResolver` in the query object type

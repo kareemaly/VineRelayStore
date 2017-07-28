@@ -1,7 +1,7 @@
 Watchers
 ---------------
 
-# GraphQL watcher
+## GraphQL watcher
 You can run the watcher with the following command
 ```shell
 npm run watcher:graphql
@@ -23,7 +23,7 @@ This script gets our graphql schema and converts to:
 These conversions are required by **ReactRelay** in the frontend app to understand our graphql schema.
 
 
-# Frontend application watcher
+## Frontend application watcher
 You can the watcher with the following command
 ```shell
 npm run watcher:app

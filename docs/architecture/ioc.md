@@ -1,7 +1,7 @@
 Inversion of Control (IoC) and Dependency Injection (DI)
 -------------
 
-# Usage
+## Usage
 You can find a lot of good articles explaining these design patterns in depth, Instead I will give you here an example of how to use the implementation of the `IoC` class that you can find in `server/IoC`.
 
 You have a `ProductRepository` class has a dependency of `MySQLStorage`, so our code might look like this:
@@ -77,7 +77,7 @@ with
 IoC.singleton('productRepository', [ 'mongoStorage' ], ProductRepository);
 ```
 
-# IoC available methods
+## IoC available methods
 
 ### singleton
 Used to bind a class instance, every call to `IoC.resolve('className')` will return the same instance.

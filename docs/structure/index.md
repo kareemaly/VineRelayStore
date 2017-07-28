@@ -5,14 +5,14 @@ This repository contains two apps that are meant to be hosted separately (can be
 - **GraphQL Application**: Hosts GraphQL APIs.
 - **Web Application**: Hosts React/Relay frontend web application.
 
-# GraphQL Application
+## GraphQL Application
 All files concerning this application are contained in `/server` directory.
 
-# Web Application
+## Web Application
 All files concerning this application are contained in `/app` directory.
 
-# Internals
+## Internals
 Webpack and other scripts are contained in `/internals` directory.
 
-# Migrations
+## Migrations
 Generated database migrations can be found in `/migrations` directory.
