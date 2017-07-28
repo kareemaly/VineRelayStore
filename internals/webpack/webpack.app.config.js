@@ -18,8 +18,4 @@ module.exports = configureWebpack({
   port,
   clientDirectory,
   htmlTemplate,
-  envVariables: {
-    'process.env.GRAPHQL_PORT': JSON.stringify(process.env.GRAPHQL_PORT || 8080),
-    'process.env.GRAPHQL_HOST': JSON.stringify(process.env.GRAPHQL_HOST || 'localhost'),
-  },
 });

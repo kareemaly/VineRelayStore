@@ -3,9 +3,11 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
+require('dotenv').config();
+
 const NODE_ENV = process.env.NODE_ENV;
 
-module.exports = ({ host, port, clientDirectory, envVariables, htmlTemplate }) => {
+module.exports = ({ host, port, clientDirectory, htmlTemplate }) => {
   let appEntry;
   let devtool;
   let plugins;
@@ -17,10 +19,7 @@ module.exports = ({ host, port, clientDirectory, envVariables, htmlTemplate }) =
     devtool = 'source-map';
     plugins = [
       new LodashModuleReplacementPlugin,
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-        ...envVariables,
-      }),
+      new webpack.DefinePlugin(prepareProcessVariables()),
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(),
       new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
@@ -41,10 +40,7 @@ module.exports = ({ host, port, clientDirectory, envVariables, htmlTemplate }) =
     devtool = 'eval';
     plugins = [
       new LodashModuleReplacementPlugin,
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-        ...envVariables,
-      }),
+      new webpack.DefinePlugin(prepareProcessVariables()),
       new webpack.NoEmitOnErrorsPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       htmlTemplate,
@@ -81,4 +77,14 @@ module.exports = ({ host, port, clientDirectory, envVariables, htmlTemplate }) =
     },
     plugins
   };
+}
+
+const prepareProcessVariables = () => {
+  let envVariables = {};
+  for(let key in process.env) {
+    if(process.env.hasOwnProperty(key)) {
+      envVariables[`process.env.${key}`] = JSON.stringify(process.env[key]);
+    }
+  }
+  return envVariables;
 }

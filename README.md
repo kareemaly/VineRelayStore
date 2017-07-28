@@ -8,13 +8,13 @@ VineRelay is Content Management Boilerplate which enables you to quickly scaffol
 
 Is VineRelay for you?
 ---------------
-- If you are lost while trying to unhderstand how to build React, Relay and GraphQL apps.
+- If you are lost while trying to understand how to build React, Relay and GraphQL apps.
 - If you are looking for best practices on how to build Relay apps.
 - If you are starting to build a shop with React, Relay and GraphQL.
 
 Getting started
 -------------
-- Start by clonning this repo and installing dependencies.
+- Start by clonning this repo and install dependencies.
 
   ```shell
   git clone https://github.com/VineRelay/VineRelayStore
@@ -73,8 +73,11 @@ Developing
   - DotEnv: 4.0.0
 
 ### Prerequisites
+- node > 6.9.0
+- npm > 3.10.0
+- Facebook watchman, [Install from here](https://facebook.github.io/watchman/docs/install.html).
 - MongoDB instance running.
-  - `MONGODB_URI` in `.env` need to point to this mongodb instance. 
+  - `MONGODB_URI` in `.env` need to point to this mongodb instance.
 
 ### Deploying / Publishing
 ***Comming Soon***

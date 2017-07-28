@@ -12,9 +12,13 @@ const graphQLFile = path.resolve(process.cwd(), 'server/graphql/__generated__/sc
 
 async function updateSchema(schema) {
   try {
+    // Get our graphql schema
     const schema = await IoC.resolve('graphqlSchema');
+    // Convert to json
     const json = await graphql(schema, introspectionQuery);
+    // Save json to schema.json
     fs.writeFileSync(jsonFile, JSON.stringify(json, null, 2));
+    // Convert and save to schema.grahpql
     fs.writeFileSync(graphQLFile, printSchema(schema));
     console.log(chalk.green('Schema has been regenerated ✓'));
     process.exit();
