@@ -29,13 +29,13 @@ To run this application on your machine you will need to have the following
     - `SUPER_USER_EMAIL`: **REQUIRED** the email of the super user. ***A user will be created that will have access to all apis, More about that later***.
     - `SUPER_USER_PASSWORD`: **REQUIRED** the password of the super user 
 
-- Run database migrations, [More about database migrations](/database/migrations.md)
+- Run database migrations, [More about database migrations](../database/migrations.md)
 
   ```shell
   npm run migrations
   ```
 
-- Now run both the frontend and graphql servers in two terminals, [More about development workflow](/workflow/architecture.md)
+- Now run both the frontend and graphql servers in two terminals, [More about development workflow](../workflow/architecture.md)
 
   ```shell
   # First terminal (frontend server)
