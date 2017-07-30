@@ -19,7 +19,6 @@
     "build:app": "webpack --config internals/webpack/webpack.prod.config.js --color -p --progress",
     "build:server": "./node_modules/.bin/babel ./server --out-dir ./build-server",
     "start:prod": "cross-env NODE_ENV=production node build-server",
-    "heroku-prebuild": "brew install watchman",
     "heroku-postbuild": "npm run build:prod"
   },
   "engines": {
