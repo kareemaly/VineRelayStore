@@ -20,7 +20,7 @@ if(process.env.NODE_ENV === 'production')
   promise = runProductionServer();
 }
 /**
- * On developmenet each server runs separately.
+ * On development each server runs separately.
  * So track argument passed to run the correct server
  */
 else
@@ -33,6 +33,9 @@ else
     case 'app':
       promise = runRelayDevServer();
       break;
+
+    default:
+      throw new Error("You have to pass either `graphql` or `app` in development");
   }
 }
 

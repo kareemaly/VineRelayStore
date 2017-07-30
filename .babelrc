@@ -6,124 +6,50 @@
         "polyfill": false,
         "regenerator": true
       }
+    ],
+    [
+      "module-alias", [
+        {
+          "src": "./server/auth",
+          "expose": "server/auth"
+        },
+        {
+          "src": "./server/store",
+          "expose": "server/store"
+        },
+        {
+          "src": "./server/config",
+          "expose": "server/config"
+        },
+        {
+          "src": "./server/errors",
+          "expose": "server/errors"
+        },
+        {
+          "src": "./server/graphql",
+          "expose": "server/graphql"
+        },
+        {
+          "src": "./server/middlewares",
+          "expose": "server/middlewares"
+        },
+        {
+          "src": "./server/utils",
+          "expose": "server/utils"
+        },
+        {
+          "src": "./server/IoC",
+          "expose": "AppIoC"
+        },
+        {
+          "src": "./server/bootstrap",
+          "expose": "server/bootstrap"
+        },
+      ]
     ]
   ],
   "presets": [
-    "react",
     "es2015",
     "stage-0"
-  ],
-  "env": {
-    "relay": {
-      "plugins": [
-        "relay",
-        [
-          "react-transform",
-          {
-            "transforms": [{
-                "transform": "react-transform-hmr",
-                "imports": ["react"],
-                "locals": ["module"]
-              },
-              {
-                "transform": "react-transform-catch-errors",
-                "imports": ["react", "redbox-react"]
-              }
-            ]
-          }
-        ],
-        [
-          "module-alias", [
-            {
-              "src": "./app/actions",
-              "expose": "app/actions"
-            },
-            {
-              "src": "./app/assets",
-              "expose": "app/assets"
-            },
-            {
-              "src": "./app/components",
-              "expose": "app/components"
-            },
-            {
-              "src": "./app/config",
-              "expose": "app/config"
-            },
-            {
-              "src": "./app/constants",
-              "expose": "app/constants"
-            },
-            {
-              "src": "./app/dispatcher",
-              "expose": "app/dispatcher"
-            },
-            {
-              "src": "./app/routes",
-              "expose": "app/routes"
-            },
-            {
-              "src": "./app/stores",
-              "expose": "app/stores"
-            },
-            {
-              "src": "./app/themes",
-              "expose": "app/themes"
-            },
-            {
-              "src": "./app/utils",
-              "expose": "app/utils"
-            }
-          ]
-        ]
-      ]
-    },
-    "development": {
-      "plugins": [
-        [
-          "module-alias", [
-            {
-              "src": "./server/auth",
-              "expose": "server/auth"
-            },
-            {
-              "src": "./server/store",
-              "expose": "server/store"
-            },
-            {
-              "src": "./server/config",
-              "expose": "server/config"
-            },
-            {
-              "src": "./server/errors",
-              "expose": "server/errors"
-            },
-            {
-              "src": "./server/graphql",
-              "expose": "server/graphql"
-            },
-            {
-              "src": "./server/middlewares",
-              "expose": "server/middlewares"
-            },
-            {
-              "src": "./server/utils",
-              "expose": "server/utils"
-            },
-            {
-              "src": "./server/IoC",
-              "expose": "AppIoC"
-            },
-            {
-              "src": "./server/bootstrap",
-              "expose": "server/bootstrap"
-            },
-          ]
-        ]
-      ]
-    },
-    "production": {
-
-    }
-  }
+  ]
 }

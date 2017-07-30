@@ -3,80 +3,74 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
-require('dotenv').config();
+if (fs.existsSync(path.join(process.cwd(), '.env'))) {
+  require('dotenv').config();
+}
 
-const NODE_ENV = process.env.NODE_ENV;
-
-module.exports = ({ host, port, clientDirectory, htmlTemplate }) => {
-  let appEntry;
-  let devtool;
-  let plugins;
-
-  if (NODE_ENV === 'production') {
-    appEntry = [
-      path.join(clientDirectory, 'index.js'),
-    ];
-    devtool = 'source-map';
-    plugins = [
-      new LodashModuleReplacementPlugin,
-      new webpack.DefinePlugin(prepareProcessVariables()),
-      new webpack.optimize.DedupePlugin(),
-      new webpack.optimize.OccurrenceOrderPlugin(),
-      new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: false,
-          screw_ie8: true,
-        },
-      }),
-      htmlTemplate,
-    ];
-  } else {
-    appEntry = [
-      path.join(clientDirectory, 'index.js'),
-      `webpack-dev-server/client?http://${host}:${port}`,
-      'webpack/hot/only-dev-server',
-    ];
-    devtool = 'eval';
-    plugins = [
-      new LodashModuleReplacementPlugin,
-      new webpack.DefinePlugin(prepareProcessVariables()),
-      new webpack.NoEmitOnErrorsPlugin(),
-      new webpack.HotModuleReplacementPlugin(),
-      htmlTemplate,
-    ];
+module.exports = (options) => ({
+  entry: options.entry,
+  output: Object.assign({ // Compile into js/build.js
+    path: path.resolve(process.cwd(), 'build'),
+    publicPath: '/',
+  }, options.output), // Merge with env dependent settings
+  plugins: [
+    new webpack.DefinePlugin(prepareProcessVariables()),
+    new webpack.NamedModulesPlugin(),
+  ].concat(options.plugins),
+  devtool: options.devtool,
+  module: {
+    loaders: [{
+      test: /\.jsx?$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/,
+      query: {
+        "plugins": [ "relay" ],
+        "presets": [
+          [
+            "latest",
+            {
+              "es2015": {
+                "modules": false
+              }
+            }
+          ],
+          "react",
+          "stage-0",
+        ].concat(options.babelPresets || []),
+      },
+    },{
+      test: /\.json$/,
+      loader: 'json-loader',
+      exclude: /node_modules/,
+    }, {
+      test: /\.css$/,
+      loaders: ['style-loader', 'css-loader']
+    }, {
+      test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+      loader: 'url-loader?limit=10000&name=assets/[hash].[ext]',
+    }]
+  },
+  target: 'web',
+  resolve: {
+    alias: getAliases(),
   }
+});
 
-  return {
-    entry: {
-      app: appEntry,
-      vendor: ['react', 'react-dom', 'react-relay', 'react-router'],
-    },
-    output: {
-      path: path.join(__dirname, 'build'),
-      publicPath: '/',
-      filename: '[name].js',
-    },
-    devtool,
-    module: {
-      loaders: [{
-        test: /\.jsx?$/,
-        loader: 'babel-loader?forceEnv=relay',
-        exclude: /node_modules/,
-      },{
-        test: /\.json$/,
-        loader: 'json-loader',
-        exclude: /node_modules/,
-      }, {
-        test: /\.css$/,
-        loaders: ['style-loader', 'css-loader']
-      }, {
-        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
-        loader: 'url-loader?limit=10000&name=assets/[hash].[ext]',
-      }]
-    },
-    plugins
-  };
+const getAliases = () => {
+  let aliases = {};
+
+  const directories = getDirectories(path.resolve(process.cwd(), 'app'));
+
+  directories.map((directory) => {
+    aliases[`app/${directory}`] = path.join(process.cwd(), 'app', directory);
+  });
+
+  return aliases;
+}
+
+const getDirectories = (srcpath) => {
+  return fs.readdirSync(srcpath)
+    .filter(file => fs.lstatSync(path.join(srcpath, file)).isDirectory())
 }
 
 const prepareProcessVariables = () => {

@@ -9,7 +9,7 @@ export function getUniqueIds(array) {
  * Get id from mongoose relation
  * @param {Object|string} object Mongoose document or id
  */
-export function getDocumentId(object): string {
+export function getDocumentId(object) {
   return (object instanceof Object) && object._id ? String(object._id) : String(object);
 }
 

@@ -1,13 +1,16 @@
 import path from 'path';
 import fs from 'fs';
-import webpack from 'webpack';
 import express from 'express';
 import graphQLHTTP from 'express-graphql';
-import WebpackDevServer from 'webpack-dev-server';
 import IoC from 'AppIoC';
 import historyApiFallback from 'connect-history-api-fallback';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import compression from 'compression';
+import {
+  addFrontendDevMiddlewares,
+  addFrontendProdMiddlewares,
+} from './frontendMiddleware';
 import logger from './logger';
 
 const GRAPHQL_PORT = process.env.GRAPHQL_PORT || 8080;
@@ -22,24 +25,15 @@ const appBuildDirectory = path.resolve(process.cwd(), 'build');
  * This requires a graphql server running on GRAPHQL_PORT.
  */
 export async function runRelayDevServer() {
-  // Launch Relay by using webpack.config.js
-  const webpackConfig = require('../internals/webpack/webpack.app.config');
-  const relayServer = new WebpackDevServer(webpack(webpackConfig), {
-    contentBase: '/build/',
+  const relayServer = express();
+
+  addFrontendDevMiddlewares(relayServer, {
     proxy: {
       '/graphql': `http://${host}:${GRAPHQL_PORT}`,
       '/api/v1': `http://${host}:${GRAPHQL_PORT}`
     },
-    stats: {
-      colors: true,
-      chunks:false
-    },
-    hot: true,
-    historyApiFallback: true
   });
 
-  // Serve static resources
-  relayServer.use('/', express.static(appBuildDirectory));
   relayServer.listen(APP_PORT, host, () => {
     logger.appStarted(APP_PORT, host);
   });
@@ -78,6 +72,37 @@ export async function runGraphQLDevServer() {
   });
 }
 
+/**
+ * Running both GraphQL and Frontend applications.
+ */
 export async function runProductionServer() {
-  throw new Error("Not implemented");
+  // Bootstrap server application
+  require('./bootstrap');
+
+  // Things to resolve
+  const graphqlSchema = await IoC.resolve('graphqlSchema');
+  const errorMiddleware = await IoC.resolve('errorMiddleware');
+  const authMiddleware = await IoC.resolve('authMiddleware');
+
+  // Configure express
+  const expressApp = express();
+  expressApp.use(authMiddleware.setViewer.bind(authMiddleware));
+  expressApp.use(bodyParser.json());
+  expressApp.use(cors());
+  // Configure GraphQL
+  expressApp.use('/graphql', graphQLHTTP({
+    schema: graphqlSchema,
+    formatError: (error) => {
+      return error.originalError ? error.originalError.toObject() : error.toObject();
+    },
+  }));
+
+  addFrontendProdMiddlewares(expressApp);
+
+  expressApp.use(errorMiddleware.log.bind(errorMiddleware));
+  expressApp.use(errorMiddleware.response.bind(errorMiddleware));
+
+  expressApp.listen(GRAPHQL_PORT, () => {
+    logger.graphqlStarted(GRAPHQL_PORT, host);
+  });
 }

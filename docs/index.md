@@ -5,7 +5,7 @@
 - Architecture Concepts
   - [IoC](/docs/architecutre/ioc.md)
 - Workflow
-  - [Architecture](/docs/'workflow/architecture'.md)
+  - [Architecture](/docs/workflow/architecture.md)
   - [Watchers](/docs/workflow/watchers.md)
   - [Servers](/docs/workflow/servers.md)
 - Authentication
