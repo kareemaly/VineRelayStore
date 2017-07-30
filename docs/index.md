@@ -31,7 +31,8 @@
 - Database
   - [MongoDB](/docs/database/mongodb.md)
   - [Migrations](/docs/database/migrations.md)
-- Deployment **SOON**
+- Deployment
+  - [Herok](/docs/deployment/heroku)
 - Tutorials
   - [GraphQL Object Type](/docs/tutorials/graphql-object-type.md)
   - [GraphQL Connections](/docs/tutorials/graphql-connections.md)
