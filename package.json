@@ -12,14 +12,15 @@
     "watcher:app": "nodemon --watch app/components/**/*.js --exec \"npm run update-relay\"",
     "serve:graphql": "nodemon --watch server --exec \"babel-node server graphql\"",
     "serve:app": "babel-node server app",
-    "heroku-postbuild": "npm run build:prod",
     "build:prod": "cross-env NODE_ENV=production npm run clean && npm run update-graphql-schema && npm run update-relay && npm run build:app && npm run build:server",
     "clean": "rimraf build && rimraf build-server",
     "update-graphql-schema": "babel-node internals/updateSchema.js",
     "update-relay": "relay-compiler --src ./app --schema server/graphql/__generated__/schema.graphql",
     "build:app": "webpack --config internals/webpack/webpack.prod.config.js --color -p --progress",
     "build:server": "./node_modules/.bin/babel ./server --out-dir ./build-server",
-    "start:prod": "cross-env NODE_ENV=production node build-server"
+    "start:prod": "cross-env NODE_ENV=production node build-server",
+    "heroku-prebuild": "brew install watchman",
+    "heroku-postbuild": "npm run build:prod"
   },
   "engines": {
     "node": "~6.9.0",
