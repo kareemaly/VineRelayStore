@@ -3,7 +3,7 @@
   - [Configuration](/docs/start/configuration.md)
 - [Directory Structure](/docs/structure/index.md)
 - Architecture Concepts
-  - [IoC](/docs/architecutre/ioc.md)
+  - [IoC](/docs/architecture/ioc.md)
 - Workflow
   - [Architecture](/docs/workflow/architecture.md)
   - [Watchers](/docs/workflow/watchers.md)

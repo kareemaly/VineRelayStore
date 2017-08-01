@@ -10,42 +10,13 @@ Is VineRelay for you?
 - If you are looking for best practices on how to build Relay apps.
 - If you are starting to build a shop with React, Relay and GraphQL.
 
-Documentation
----------------------
-- Getting Started
-  - [Installation](/docs/start/installation.md)
-  - [Configuration](/docs/start/configuration.md)
-- [Directory Structure](/docs/structure/index.md)
-- Architecture Concepts
-  - [IoC](/docs/architecutre/ioc.md)
-- Workflow
-  - [Architecture](/docs/'workflow/architecture'.md)
-  - [Watchers](/docs/workflow/watchers.md)
-  - [Servers](/docs/workflow/servers.md)
-- Authentication
-  - [Models](/docs/auth/models.md)
-  - [User Types](/docs/auth/user-types.md)
-  - [Super User](/docs/auth/super-user.md)
-  - [Guest User](/docs/auth/guest-user.md)
-  - [JWT](/docs/auth/jwt.md)
-  - [GraphQL Types](/docs/authentication/grahpql-types.md)
-  - [GraphQL Mutations](/docs/authentication/grahpql-mutations.md)
-- Store Basics
-  - [Basic Models](/docs/store/models.md)
-  - [GraphQL Types](/docs/store/grahpql-types.md)
-  - [GraphQL Mutations](/docs/store/grahpql-mutations.md)
-- Store Cart
-  - [Client vs Server](/docs/cart/client-server.md)
-  - [Flux](/docs/cart/client-server.md)
-- Store Checkout
-  - [Order Model](/docs/checkout/order-model.md)
-  - [Basic checkout](/docs/checkout/basic-checkout.md)
-  - [GraphQL Types](/docs/checkout/grahpql-types.md)
-  - [GraphQL Mutations](/docs/checkout/grahpql-mutations.md)
-- Database
-  - [MongoDB](/docs/database/mongodb.md)
-  - [Migrations](/docs/database/migrations.md)
-- Deployment **SOON**
-- Tutorials
-  - [GraphQL Object Type](/docs/tutorials/graphql-object-type.md)
-  - [GraphQL Connections](/docs/tutorials/graphql-connections.md)
+[Documentation](/docs/index.md)
+-------------------
+
+How to Contribute
+-------------------
+Anyone and everyone is welcome to contribute to this project.
+
+License
+----------
+This project is licensed under the MIT license, Copyright (c) 2017 Maximilian Stoiber. For more information see `LICENSE.md`.
