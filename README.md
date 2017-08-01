@@ -1,5 +1,3 @@
-[![Stories in Ready](https://badge.waffle.io/bitriddler/gql_playground.png?label=ready&title=Ready)](https://waffle.io/bitriddler/gql_playground?utm_source=badge)
-
 VineRelay
 ---------------
 VineRelay is Content Management Boilerplate which enables you to quickly scaffold a shop with the basic features using React, Relay and GraphQL.
