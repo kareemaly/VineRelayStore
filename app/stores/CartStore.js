@@ -80,7 +80,6 @@ export default class CartStore extends Store {
    * @return {void}
    */
   __updateItemQuantity(product, quantity) {
-    console.log('product', product);
     const index = this.getItemIndex(product);
     const items = this.getItems();
 
@@ -191,7 +190,8 @@ export default class CartStore extends Store {
    * @return {number}
    */
   __calculateTotalPrice() {
-    return this.getItems().reduce((sum, item) => sum + item.price, 0);
+    const totalPrice = this.getItems().reduce((sum, item) => sum + item.price, 0);
+    return totalPrice.toFixed(2);
   }
 
   /**
