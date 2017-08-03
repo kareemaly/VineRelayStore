@@ -16,7 +16,7 @@ const LeftWrapper = styled.div`
   align-items: center;
 `;
 
-const Logo = styled.img`
+const Logo = styled.h2`
   width: auto;
   height: 60%;
 `;
@@ -48,9 +48,9 @@ const MenuItemNotifier = styled.h6`
 const Header = ({ onHomeClick, onAboutClick, onCategoriesClick, onBrandsClick, onCartClick, cartItemsNumber }) => (
   <Wrapper paddings={['left', 'right']}>
     <LeftWrapper>
-      <Logo
-        src={'http://www.logodesignlove.com/images/wordmarks/aquastat-logo.jpg'}
-      />
+      <Logo>
+        VineRelay
+      </Logo>
     </LeftWrapper>
     <RightWrapper>
       <Menu>
