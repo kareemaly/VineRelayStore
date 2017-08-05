@@ -2,7 +2,7 @@ import IoC from 'AppIoC';
 import { Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
-export const brandModel = (mongoose) => {
+export const brandModel = (mongoose, slugify) => {
   /**
    * Brand schema definition
    * @type {Schema}
@@ -46,4 +46,4 @@ export const brandModel = (mongoose) => {
   return mongoose.model('Brand', brandSchema);
 }
 
-IoC.callable('brandModel', ['connection'], brandModel);
+IoC.callable('brandModel', ['connection', 'slugify'], brandModel);

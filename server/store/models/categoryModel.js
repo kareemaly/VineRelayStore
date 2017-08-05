@@ -2,7 +2,7 @@ import IoC from 'AppIoC';
 import { Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
-export const categoryModel = (mongoose) => {
+export const categoryModel = (mongoose, slugify) => {
   /**
    * Category schema definition
    * @type {Schema}
@@ -46,4 +46,4 @@ export const categoryModel = (mongoose) => {
   return mongoose.model('Category', categorySchema);
 }
 
-IoC.callable('categoryModel', ['connection'], categoryModel);
+IoC.callable('categoryModel', ['connection', 'slugify'], categoryModel);
