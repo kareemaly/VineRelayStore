@@ -13,6 +13,10 @@ import {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 360px;
+`;
+
+const Description = styled.p`
 `;
 
 const InputWrapper = styled.div`
@@ -46,6 +50,9 @@ class Login extends React.Component {
 
     return (
       <Wrapper>
+        <Description>
+          You can login with<br /><b>admin@vinerelay.com</b> and <b>vinerelay123</b>
+        </Description>
         <InputWrapper>
           <TextField
             fullWidth

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Paper from 'app/components/Store/Main/Paper';
+import LoginIcon from 'app/components/Store/Icons/LoginIcon';
 import logoImage from 'app/assets/main/logo.png';
 
 const Wrapper = styled(Paper)`
@@ -45,7 +46,19 @@ const MenuItemNotifier = styled.h6`
   color: #F00;
 `;
 
-const Header = ({ onHomeClick, onAboutClick, onCategoriesClick, onBrandsClick, onCartClick, cartItemsNumber }) => (
+const IconWrapper = styled.div`
+  margin-right: 10px;
+`;
+
+const Header = ({
+  onHomeClick,
+  onAboutClick,
+  onCategoriesClick,
+  onBrandsClick,
+  onCartClick,
+  cartItemsNumber,
+  onAdminClick,
+}) => (
   <Wrapper paddings={['left', 'right']}>
     <LeftWrapper>
       <Logo>
@@ -62,6 +75,12 @@ const Header = ({ onHomeClick, onAboutClick, onCategoriesClick, onBrandsClick, o
           Cart
           {!!cartItemsNumber && <MenuItemNotifier>({cartItemsNumber})</MenuItemNotifier>}
         </MenuItem>
+        <MenuItem onClick={onAdminClick}>
+          <IconWrapper>
+            <LoginIcon />
+          </IconWrapper>
+          Admin
+        </MenuItem>
       </Menu>
     </RightWrapper>
   </Wrapper>
@@ -73,6 +92,7 @@ Header.propTypes = {
   onAboutClick: PropTypes.func.isRequired,
   onBrandsClick: PropTypes.func.isRequired,
   onCartClick: PropTypes.func.isRequired,
+  onAdminClick: PropTypes.func.isRequired,
   cartItemsNumber: PropTypes.number.isRequired,
 };
 
