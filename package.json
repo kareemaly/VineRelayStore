@@ -19,6 +19,7 @@
     "build:app": "webpack --config internals/webpack/webpack.prod.config.js --color -p --progress",
     "build:server": "./node_modules/.bin/babel ./server --out-dir ./build-server",
     "start:prod": "cross-env NODE_ENV=production node build-server",
+    "heroku-prebuild": "alias watchman=./fake-watchman.sh",
     "heroku-postbuild": "npm run build:prod"
   },
   "engines": {
@@ -52,7 +53,7 @@
     "react-transform-catch-errors": "^1.0.2",
     "react-transform-hmr": "^1.0.4",
     "redbox-react": "^1.4.2",
-    "relay-compiler": "^1.1.0",
+    "relay-compiler": "1.1.0",
     "rimraf": "^2.6.1",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
