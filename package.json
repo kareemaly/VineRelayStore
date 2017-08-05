@@ -73,6 +73,7 @@
     "flux": "^3.1.2",
     "graphql": "^0.10.3",
     "graphql-relay": "^0.5.2",
+    "ip": "^1.1.5",
     "jsonwebtoken": "^7.4.1",
     "lodash": "^4.17.4",
     "material-ui": "^0.18.3",
