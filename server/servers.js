@@ -102,7 +102,7 @@ export async function runProductionServer() {
   expressApp.use(errorMiddleware.log.bind(errorMiddleware));
   expressApp.use(errorMiddleware.response.bind(errorMiddleware));
 
-  expressApp.listen(GRAPHQL_PORT, () => {
-    logger.graphqlStarted(GRAPHQL_PORT, host);
+  expressApp.listen(process.env.PORT, () => {
+    logger.graphqlStarted(process.env.PORT, host);
   });
 }
