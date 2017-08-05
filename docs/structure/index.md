@@ -13,6 +13,3 @@ All files concerning this application are contained in `/app` directory.
 
 ## Internals
 Webpack and other scripts are contained in `/internals` directory.
-
-## Migrations
-Generated database migrations can be found in `/migrations` directory.

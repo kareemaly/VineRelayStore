@@ -30,7 +30,6 @@
   - [GraphQL Mutations](/docs/checkout/grahpql-mutations.md)
 - Database
   - [MongoDB](/docs/database/mongodb.md)
-  - [Migrations](/docs/database/migrations.md)
 - Deployment
   - [Herok](/docs/deployment/heroku)
 - Tutorials

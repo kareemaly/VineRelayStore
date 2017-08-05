@@ -2,10 +2,6 @@
   "name": "vinerelay",
   "version": "0.0.1",
   "scripts": {
-    "migrations": "babel-node internals/migrations/runMigrations",
-    "migrations:create": "babel-node internals/migrations/createMigration",
-    "migrations:rollback": "babel-node internals/migrations/rollbackMigration",
-    "migrations:run": "babel-node internals/migrations/runMigrations",
     "start:graphql": "concurrently \"npm run watcher:graphql\" \"npm run serve:graphql\"",
     "start:app": "concurrently \"npm run watcher:app\" \"npm run serve:app\"",
     "watcher:graphql": "nodemon --watch server/graphql/**/*.js --exec \"npm run update-graphql-schema\"",
@@ -19,7 +15,7 @@
     "build:app": "webpack --config internals/webpack/webpack.prod.config.js --color -p --progress",
     "build:server": "./node_modules/.bin/babel ./server --out-dir ./build-server",
     "start:prod": "cross-env NODE_ENV=production node build-server",
-    "heroku-postbuild": "npm run migrations:run && npm run build:prod"
+    "heroku-postbuild": "npm run build:prod"
   },
   "engines": {
     "node": "~6.9.0",
@@ -78,7 +74,6 @@
     "lodash": "^4.17.4",
     "material-ui": "^0.18.3",
     "moment": "^2.18.1",
-    "mongodb-migrations": "^0.8.5",
     "mongoose": "^4.10.7",
     "mongoose-unique-validator": "^1.0.5",
     "mongoose-validator": "^1.3.2",
