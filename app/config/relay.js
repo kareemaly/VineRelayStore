@@ -9,6 +9,14 @@ import { getToken } from 'app/utils/token';
 const GRAPHQL_PORT = process.env.GRAPHQL_PORT;
 const GRAPHQL_HOST = process.env.GRAPHQL_HOST;
 
+const makeURL = () => {
+  if(! GRAPHQL_PORT || ! GRAPHQL_HOST) {
+    return `/graphql`;
+  }
+
+  return `http://${GRAPHQL_HOST}:${GRAPHQL_PORT}/graphql`;
+}
+
 // Define a function that fetches the results of an operation (query/mutation/etc)
 // and returns its results as a Promise:
 function fetchQuery(
@@ -17,7 +25,7 @@ function fetchQuery(
   cacheConfig,
   uploadables,
 ) {
-  return fetch(`http://${GRAPHQL_HOST}:${GRAPHQL_PORT}/graphql`, {
+  return fetch(makeURL(), {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
