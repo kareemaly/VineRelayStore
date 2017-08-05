@@ -17,7 +17,7 @@ export default class OrderItemRepository {
    */
   async query(viewer, inputs) {
     if(!viewer.isAdmin()) {
-      throw new ForbiddenError("You are not authorized to make this action.");
+      return Promise.resolve([]);
     }
 
     const query = this.orderItemModel.find();

@@ -2,22 +2,10 @@ import IoC from 'AppIoC';
 import ValidationError from  'server/errors/ValidationError';
 import ForbiddenError from  'server/errors/ForbiddenError';
 import UnauthorizedError from  'server/errors/UnauthorizedError';
-import { SUPER_USER } from 'server/auth/constants/userTypes';
 
 export default class UserRepository {
-  constructor(userModel, envConfig) {
+  constructor(userModel) {
     this.userModel = userModel;
-    this.envConfig = envConfig;
-  }
-
-  /**
-   * Get super user
-   * @return {Promise<User>}
-   */
-  async getSuperUser() {
-    return this.userModel.findOne({
-      email: this.envConfig.get('SUPER_USER_EMAIL'),
-    }).exec();
   }
 
   /**
@@ -104,13 +92,6 @@ export default class UserRepository {
     if(! viewer.isAdmin()) {
       throw new ForbiddenError(`You dont have access to query users`);
     }
-    // Even admins cant create super users
-    // Assuming that super users have every control over the database, it's
-    // safe to disable the creation of super users using our APIs.
-    if(attributes.userType === SUPER_USER) {
-      throw new ForbiddenError("Super users can only be created manually.");
-    }
-
     // Create the user
     return this.userModel.create(attributes);
   }
@@ -135,5 +116,4 @@ export default class UserRepository {
 
 IoC.singleton('userRepository', [
   'userModel',
-  'envConfig',
 ], UserRepository);

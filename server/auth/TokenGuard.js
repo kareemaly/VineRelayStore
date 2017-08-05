@@ -2,10 +2,9 @@ import IoC from 'AppIoC';
 
 export default class TokenGuard {
 
-  constructor(userRepository, jwtEncoderDecoder, superUser) {
-    this.userRepository = userRepository;
+  constructor(userModel, jwtEncoderDecoder) {
+    this.userModel = userModel;
     this.jwtEncoderDecoder = jwtEncoderDecoder;
-    this.superUser = superUser;
   }
 
   /**
@@ -16,7 +15,7 @@ export default class TokenGuard {
   async getViewer(token) {
     const viewerId = await this.getViewerId(token);
     if(viewerId) {
-      return this.userRepository.findById(this.superUser, viewerId);
+      return this.userModel.findById(viewerId).exec();
     }
   }
 
@@ -54,7 +53,6 @@ export default class TokenGuard {
 }
 
 IoC.singleton('tokenGuard', [
-  'userRepository',
+  'userModel',
   'jwtEncoderDecoder',
-  'superUser',
 ], TokenGuard);

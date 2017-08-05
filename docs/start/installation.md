@@ -26,14 +26,6 @@ To run this application on your machine you will need to have the following
     - `GRAPHQL_PORT`: **REQUIRED** Graphql server port
     - `APP_PORT`: **REQUIRED** Frontend server app
     - `MONGODB_URI`: **REQUIRED** Mongodb URI including auth username and password if exists.
-    - `SUPER_USER_EMAIL`: **REQUIRED** the email of the super user. ***A user will be created that will have access to all apis, More about that later***.
-    - `SUPER_USER_PASSWORD`: **REQUIRED** the password of the super user 
-
-- Run database migrations, [More about database migrations](../database/migrations.md)
-
-  ```shell
-  npm run migrations
-  ```
 
 - Now run both the frontend and graphql servers in two terminals, [More about development workflow](../workflow/architecture.md)
 

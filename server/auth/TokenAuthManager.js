@@ -19,10 +19,6 @@ export class TokenAuthManager {
    * @return {string} token
    */
   async login(currentViewer, email, password) {
-    // Check if user already logged in
-    if(!currentViewer.isGuest()) {
-      throw new ForbiddenError("You are already logged in");
-    }
     // Get viewer by email
     const viewer = await this.userRepository.getViewer(email, password);
     if(viewer.isGuest()) {

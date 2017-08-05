@@ -8,14 +8,12 @@ import { checkEqualIds } from 'server/utils/mongo';
 import {
   GUEST_USER,
   ADMIN_USER,
-  SUPER_USER,
 } from 'server/auth/constants/userTypes';
 
 export const userModel = (mongoose, userValidator) => {
   const supportedUserTypes = [
     GUEST_USER,
     ADMIN_USER,
-    SUPER_USER,
   ];
 
   /**
@@ -55,17 +53,7 @@ export const userModel = (mongoose, userValidator) => {
    * @return {boolean}
    */
   userSchema.method('isAdmin', function() {
-    return this.checkUserType(ADMIN_USER) || this.isSuper();
-  });
-
-  /**
-   * Check if user is super.
-   * Super users have full access to our APIs.
-   * Beside having access to CMS actions, he has access to some database operations like seeding.
-   * @return {boolean}
-   */
-  userSchema.method('isSuper', function() {
-    return this.checkUserType(SUPER_USER);
+    return this.checkUserType(ADMIN_USER);
   });
 
   /**

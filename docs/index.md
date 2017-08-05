@@ -11,8 +11,6 @@
 - Authentication
   - [Models](/docs/auth/models.md)
   - [User Types](/docs/auth/user-types.md)
-  - [Super User](/docs/auth/super-user.md)
-  - [Guest User](/docs/auth/guest-user.md)
   - [JWT](/docs/auth/jwt.md)
   - [GraphQL Types](/docs/authentication/grahpql-types.md)
   - [GraphQL Mutations](/docs/authentication/grahpql-mutations.md)
