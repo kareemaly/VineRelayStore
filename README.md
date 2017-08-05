@@ -15,7 +15,7 @@ Is VineRelay for you?
 Documentation
 -------------------
 - [Getting started](/docs/start/installation.md)
-- [Deploy to Heroku](/docs/start/installation.md)
+- [Deploy to Heroku](/docs/deployment/heroku.md)
 - [Documentation](/docs/index.md)
 
 How to Contribute
