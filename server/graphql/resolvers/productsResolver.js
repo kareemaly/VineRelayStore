@@ -7,12 +7,13 @@ import {
   connectionArgs,
   connectionFromPromisedArray,
   fromGlobalId,
+  connectionDefinitions,
 } from 'graphql-relay';
 
 /**
  * Resolve products.
  */
-export const productResolver = (productRepository, productsConnectionType) => {
+export const productsResolver = (productRepository, productType) => {
 
   const searchProducts = (viewer, { slug, brandId, categoryId }) => {
     return productRepository.query(
@@ -26,7 +27,7 @@ export const productResolver = (productRepository, productsConnectionType) => {
   }
 
   return {
-    type: productsConnectionType,
+    type: connectionDefinitions({ nodeType: productType }).connectionType,
     args: {
       // Relay search args
       ...connectionArgs,
@@ -42,7 +43,7 @@ export const productResolver = (productRepository, productsConnectionType) => {
 
 
 
-IoC.callable('productResolver', [
+IoC.callable('productsResolver', [
   'productRepository',
-  'productsConnectionType',
-], productResolver);
+  'productType',
+], productsResolver);

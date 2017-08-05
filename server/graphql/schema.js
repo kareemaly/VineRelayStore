@@ -18,25 +18,25 @@ export const graphqlSchema = (
   createBrandMutation,
   updateBrandMutation,
   removeBrandMutation,
-  brandResolver,
+  brandsResolver,
 
   // Category
   createCategoryMutation,
   updateCategoryMutation,
   removeCategoryMutation,
-  categoryResolver,
+  categoriesResolver,
 
   // Product
   createProductMutation,
   updateProductMutation,
   removeProductMutation,
-  productResolver,
+  productsResolver,
 
   // Order
   basicCheckoutMutation,
   updateOrderStatusMutation,
   removeOrderMutation,
-  orderResolver
+  ordersResolver
 
 ) => {
   /**
@@ -56,10 +56,10 @@ export const graphqlSchema = (
           // @see auth/middlewares/AuthMiddleware
           resolve: (parent, args, req) => req.viewer,
         },
-        brands: brandResolver,
-        categories: categoryResolver,
-        products: productResolver,
-        orders: orderResolver,
+        brands: brandsResolver,
+        categories: categoriesResolver,
+        products: productsResolver,
+        orders: ordersResolver,
       }),
     }),
     mutation: new GraphQLObjectType({
@@ -98,23 +98,23 @@ IoC.callable('graphqlSchema', [
   'createBrandMutation',
   'updateBrandMutation',
   'removeBrandMutation',
-  'brandResolver',
+  'brandsResolver',
 
   // Category
   'createCategoryMutation',
   'updateCategoryMutation',
   'removeCategoryMutation',
-  'categoryResolver',
+  'categoriesResolver',
 
   // Product
   'createProductMutation',
   'updateProductMutation',
   'removeProductMutation',
-  'productResolver',
+  'productsResolver',
 
   // Order
   'basicCheckoutMutation',
   'updateOrderStatusMutation',
   'removeOrderMutation',
-  'orderResolver',
+  'ordersResolver',
 ], graphqlSchema);

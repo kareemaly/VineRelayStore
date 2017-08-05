@@ -6,14 +6,14 @@ import {
 import {
   connectionArgs,
   connectionFromPromisedArray,
-  fromGlobalId,
+  connectionDefinitions,
 } from 'graphql-relay';
 
 /**
  * Resolve orders.
  */
-export const orderResolver = (orderRepository, ordersConnectionType) => ({
-  type: ordersConnectionType,
+export const ordersResolver = (orderRepository, orderType) => ({
+  type: connectionDefinitions({ nodeType: orderType }).connectionType,
   args: {
     // Relay search args
     ...connectionArgs,
@@ -25,7 +25,7 @@ export const orderResolver = (orderRepository, ordersConnectionType) => ({
 
 
 
-IoC.callable('orderResolver', [
+IoC.callable('ordersResolver', [
   'orderRepository',
-  'ordersConnectionType',
-], orderResolver);
+  'orderType',
+], ordersResolver);

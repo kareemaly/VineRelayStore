@@ -5,13 +5,14 @@ import {
 import {
   connectionArgs,
   connectionFromPromisedArray,
+  connectionDefinitions,
 } from 'graphql-relay';
 
 /**
- * Resolve brands.
+ * Resolve categories.
  */
-export const brandResolver = (brandRepository, brandsConnectionType) => ({
-  type: brandsConnectionType,
+export const categoriesResolver = (categoryRepository, categoryType) => ({
+  type: connectionDefinitions({ nodeType: categoryType }).connectionType,
   args: {
     // Relay search args
     ...connectionArgs,
@@ -19,12 +20,12 @@ export const brandResolver = (brandRepository, brandsConnectionType) => ({
     slug: { type: GraphQLString },
   },
   resolve: (_, { slug, ...args }, { viewer }) => connectionFromPromisedArray(
-    brandRepository.query(viewer, { slug }),
+    categoryRepository.query(viewer, { slug }),
     args
   ),
 });
 
-IoC.callable('brandResolver', [
-  'brandRepository',
-  'brandsConnectionType',
-], brandResolver);
+IoC.callable('categoriesResolver', [
+  'categoryRepository',
+  'categoryType',
+], categoriesResolver);
