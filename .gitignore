@@ -48,4 +48,4 @@ build-server/
 server/graphql/__generated__/schema.json
 server/graphql/__generated__/schema.graphql
 
-app/components/**/__generated__
+# app/components/**/__generated__
