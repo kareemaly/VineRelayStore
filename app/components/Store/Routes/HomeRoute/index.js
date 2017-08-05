@@ -45,10 +45,11 @@ class HomeRoute extends React.Component {
       brands,
       categories,
       history,
+      notifier,
     } = this.props;
 
     return (
-      <StoreLayout>
+      <StoreLayout notifier={notifier}>
         <Hero
           src={coverImage}
         />
@@ -81,6 +82,9 @@ export default (props) => (
         }
         categories {
           ...CategoriesGrid_categories
+        }
+        notifier {
+          ...StoreLayout_notifier
         }
       }
     `}

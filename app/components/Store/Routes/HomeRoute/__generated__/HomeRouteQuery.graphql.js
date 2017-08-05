@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 93e5b1d251e4de48c2d178d3b483a79f
+ * @relayHash 9271b6d2884adc515e50d2bd4409b0b9
  */
 
 /* eslint-disable */
@@ -12,6 +12,7 @@ import type {ConcreteBatch} from 'relay-runtime';
 export type HomeRouteQueryResponse = {|
   +brands: ?{| |};
   +categories: ?{| |};
+  +notifier: ?{| |};
 |};
 */
 
@@ -23,6 +24,9 @@ query HomeRouteQuery {
   }
   categories {
     ...CategoriesGrid_categories
+  }
+  notifier {
+    ...StoreLayout_notifier
   }
 }
 
@@ -44,6 +48,15 @@ fragment CategoriesGrid_categories on CategoryConnection {
       coverImage
     }
   }
+}
+
+fragment StoreLayout_notifier on Notifier {
+  message
+  ...Notifier_notifier
+}
+
+fragment Notifier_notifier on Notifier {
+  message
 }
 */
 
@@ -81,6 +94,22 @@ const batch /*: ConcreteBatch*/ = {
           {
             "kind": "FragmentSpread",
             "name": "CategoriesGrid_categories",
+            "args": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "Notifier",
+        "name": "notifier",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "FragmentSpread",
+            "name": "StoreLayout_notifier",
             "args": null
           }
         ],
@@ -206,10 +235,28 @@ const batch /*: ConcreteBatch*/ = {
           }
         ],
         "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "Notifier",
+        "name": "notifier",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "message",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
       }
     ]
   },
-  "text": "query HomeRouteQuery {\n  brands {\n    ...BrandsGrid_brands\n  }\n  categories {\n    ...CategoriesGrid_categories\n  }\n}\n\nfragment BrandsGrid_brands on BrandConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n\nfragment CategoriesGrid_categories on CategoryConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n"
+  "text": "query HomeRouteQuery {\n  brands {\n    ...BrandsGrid_brands\n  }\n  categories {\n    ...CategoriesGrid_categories\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n}\n\nfragment BrandsGrid_brands on BrandConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n\nfragment CategoriesGrid_categories on CategoryConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
 };
 
 module.exports = batch;

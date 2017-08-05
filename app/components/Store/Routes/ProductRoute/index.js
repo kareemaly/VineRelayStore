@@ -53,6 +53,7 @@ class ProductRoute extends React.Component {
       viewer,
       node: product,
       history,
+      notifier,
     } = this.props;
 
     const {
@@ -60,7 +61,7 @@ class ProductRoute extends React.Component {
     } = this.state;
 
     return (
-      <StoreLayout>
+      <StoreLayout notifier={notifier}>
         <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
           <ProductDetails
             isProductInCart={this.isProductInCart}
@@ -104,6 +105,9 @@ export default (props) => {
           node(id: $productId) {
             id
             ...ProductDetails_product
+          }
+          notifier {
+            ...StoreLayout_notifier
           }
         }
       `}

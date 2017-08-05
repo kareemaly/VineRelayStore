@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { QueryRenderer, graphql } from 'react-relay';
+import relayEnvironment from 'app/config/relay';
+import PageError from 'app/components/Common/PageError';
+import PageLoader from 'app/components/Common/PageLoader';
 import StoreLayout from 'app/components/Store/Main/StoreLayout';
 import Paper from 'app/components/Store/Main/Paper';
 import Cart from 'app/components/Store/Cart';
@@ -98,12 +102,38 @@ class CartRoute extends React.Component {
   }
 
   render() {
+    const {
+      notifier,
+    } = this.props;
     return (
-      <StoreLayout>
+      <StoreLayout notifier={notifier}>
         {cartStore.isEmpty() ? this.renderEmptyCart() : this.renderCart()}
       </StoreLayout>
     );
   }
 }
 
-export default CartRoute;
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query CartRouteQuery {
+        notifier {
+          ...StoreLayout_notifier
+        }
+      }
+    `}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
+
+      if (relayProps) {
+        return <CartRoute {...props} {...relayProps} />;
+      }
+
+      return <PageLoader />;
+    }}
+  />
+);
+

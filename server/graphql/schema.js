@@ -36,8 +36,9 @@ export const graphqlSchema = (
   basicCheckoutMutation,
   updateOrderStatusMutation,
   removeOrderMutation,
-  ordersResolver
+  ordersResolver,
 
+  notifierResolver
 ) => {
   /**
    * Construct schema (query and mutation)
@@ -60,6 +61,7 @@ export const graphqlSchema = (
         categories: categoriesResolver,
         products: productsResolver,
         orders: ordersResolver,
+        notifier: notifierResolver,
       }),
     }),
     mutation: new GraphQLObjectType({
@@ -117,4 +119,6 @@ IoC.callable('graphqlSchema', [
   'updateOrderStatusMutation',
   'removeOrderMutation',
   'ordersResolver',
+
+  'notifierResolver'
 ], graphqlSchema);

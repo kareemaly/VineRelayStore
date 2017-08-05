@@ -64,6 +64,7 @@ class BrandRoute extends React.Component {
       viewer,
       products,
       history,
+      notifier,
     } = this.props;
 
     const {
@@ -71,7 +72,7 @@ class BrandRoute extends React.Component {
     } = this.state;
 
     return (
-      <StoreLayout>
+      <StoreLayout notifier={notifier}>
         <BrandHero
           brand={brand}
         />
@@ -130,6 +131,10 @@ export default (props) => {
 
           products(brandId: $brandId) {
             ...ProductsGrid_products
+          }
+
+          notifier {
+            ...StoreLayout_notifier
           }
         }
       `}

@@ -1,12 +1,19 @@
 import React from 'react';
+import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import relayEnvironment from 'app/config/relay';
 import styled from 'styled-components';
+import PageError from 'app/components/Common/PageError';
+import PageLoader from 'app/components/Common/PageLoader';
 import StoreLayout from 'app/components/Store/Main/StoreLayout';
 import Paper from 'app/components/Store/Main/Paper';
 
 class AboutRoute extends React.Component {
   render() {
+    const {
+      notifier,
+    } = this.props;
     return (
-      <StoreLayout>
+      <StoreLayout notifier={notifier}>
         <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tristique odio finibus nisl maximus efficitur vel ut tellus. Curabitur non neque id arcu aliquet volutpat nec a nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fermentum ullamcorper accumsan. Donec turpis urna, posuere et ultrices vitae, gravida quis tellus. Integer vitae gravida mi, quis egestas purus. Nunc rutrum, lectus nec sodales sollicitudin, neque ante condimentum eros, imperdiet mattis arcu tellus commodo dui. Suspendisse euismod posuere velit vel tristique. Quisque non lacus a erat accumsan posuere non sit amet neque. Duis aliquam vehicula bibendum. Maecenas gravida sodales felis, quis auctor orci pharetra ut. Aliquam sed commodo felis.</p>
 
@@ -23,4 +30,28 @@ class AboutRoute extends React.Component {
   }
 }
 
-export default AboutRoute;
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query AboutRouteQuery {
+        notifier {
+          ...StoreLayout_notifier
+        }
+      }
+    `}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
+
+      if (relayProps) {
+        return (
+          <AboutRoute {...props} {...relayProps} />
+        );
+      }
+
+      return <PageLoader />;
+    }}
+  />
+);

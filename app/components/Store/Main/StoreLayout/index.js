@@ -5,6 +5,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Header from 'app/components/Store/Main/Header';
 import Footer from 'app/components/Store/Main/Footer';
 import Paper from 'app/components/Store/Main/Paper';
+import Notifier from 'app/components/Store/Main/Notifier';
 import { cartStore } from 'app/stores';
 
 const PageWrapper = styled.div`
@@ -27,16 +28,24 @@ class StoreLayout extends React.Component {
     const {
       children,
       history,
+      notifier,
     } = this.props;
 
     return (
       <PageWrapper>
+        {
+          notifier.message &&
+          <Notifier
+            notifier={notifier}
+          />
+        }
         <Header
           onHomeClick={() => history.push(`/`)}
           onAboutClick={() => history.push(`/about`)}
           onCategoriesClick={() => history.push(`/categories`)}
           onBrandsClick={() => history.push(`/brands`)}
           onCartClick={() => history.push(`/cart`)}
+          onAdminClick={() => history.push(`/admin`)}
           cartItemsNumber={cartStore.getItems().length}
         />
         <Divider />
@@ -61,4 +70,12 @@ class StoreLayout extends React.Component {
   }
 }
 
-export default withRouter(StoreLayout);
+export default createFragmentContainer(
+  withRouter(StoreLayout),
+  graphql`
+    fragment StoreLayout_notifier on Notifier {
+      message
+      ...Notifier_notifier
+    }
+  `
+);

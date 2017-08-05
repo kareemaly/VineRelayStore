@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 99a2eb756fb53e2e0386e6261a790820
+ * @relayHash 73d3eb7dd683b073ca6e675af2bd212a
  */
 
 /* eslint-disable */
@@ -16,6 +16,7 @@ export type ProductRouteQueryResponse = {|
   +node: ?{|
     +id: string;
   |};
+  +notifier: ?{| |};
 |};
 */
 
@@ -33,6 +34,9 @@ query ProductRouteQuery(
     __typename
     id
     ...ProductDetails_product
+  }
+  notifier {
+    ...StoreLayout_notifier
   }
 }
 
@@ -54,6 +58,15 @@ fragment ProductDetails_product on Product {
     id
     name
   }
+}
+
+fragment StoreLayout_notifier on Notifier {
+  message
+  ...Notifier_notifier
+}
+
+fragment Notifier_notifier on Notifier {
+  message
 }
 */
 
@@ -119,6 +132,22 @@ const batch /*: ConcreteBatch*/ = {
           {
             "kind": "FragmentSpread",
             "name": "ProductDetails_product",
+            "args": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "Notifier",
+        "name": "notifier",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "FragmentSpread",
+            "name": "StoreLayout_notifier",
             "args": null
           }
         ],
@@ -284,10 +313,28 @@ const batch /*: ConcreteBatch*/ = {
           }
         ],
         "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "Notifier",
+        "name": "notifier",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "message",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
       }
     ]
   },
-  "text": "query ProductRouteQuery(\n  $productId: ID!\n) {\n  viewer {\n    isAdmin\n    ...AdminFooter_viewer\n    id\n  }\n  node(id: $productId) {\n    __typename\n    id\n    ...ProductDetails_product\n  }\n}\n\nfragment AdminFooter_viewer on User {\n  isAdmin\n}\n\nfragment ProductDetails_product on Product {\n  id\n  name\n  price\n  description\n  mainImage\n  category {\n    id\n    name\n  }\n  brand {\n    id\n    name\n  }\n}\n"
+  "text": "query ProductRouteQuery(\n  $productId: ID!\n) {\n  viewer {\n    isAdmin\n    ...AdminFooter_viewer\n    id\n  }\n  node(id: $productId) {\n    __typename\n    id\n    ...ProductDetails_product\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n}\n\nfragment AdminFooter_viewer on User {\n  isAdmin\n}\n\nfragment ProductDetails_product on Product {\n  id\n  name\n  price\n  description\n  mainImage\n  category {\n    id\n    name\n  }\n  brand {\n    id\n    name\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
 };
 
 module.exports = batch;

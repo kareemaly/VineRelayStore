@@ -64,6 +64,7 @@ class CategoryRoute extends React.Component {
       viewer,
       products,
       history,
+      notifier,
     } = this.props;
 
     const {
@@ -71,7 +72,7 @@ class CategoryRoute extends React.Component {
     } = this.state;
 
     return (
-      <StoreLayout>
+      <StoreLayout notifier={notifier}>
         <CategoryHero
           category={category}
         />
@@ -134,6 +135,10 @@ export default (props) => {
 
           products(categoryId: $categoryId) {
             ...ProductsGrid_products
+          }
+
+          notifier {
+            ...StoreLayout_notifier
           }
         }
       `}

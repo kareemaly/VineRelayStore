@@ -3,6 +3,8 @@ import { withRouter } from 'react-router';
 import styled from 'styled-components';
 import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
+import PageError from 'app/components/Common/PageError';
+import PageLoader from 'app/components/Common/PageLoader';
 import StoreLayout from 'app/components/Store/Main/StoreLayout';
 import Paper from 'app/components/Store/Main/Paper';
 import CheckoutForm from 'app/components/Store/Order/CheckoutForm';
@@ -110,6 +112,7 @@ class CheckoutRoute extends React.Component {
   render() {
     const {
       history,
+      notifier,
     } = this.props;
 
     const {
@@ -120,7 +123,7 @@ class CheckoutRoute extends React.Component {
     } = this.state;
 
     return (
-      <StoreLayout>
+      <StoreLayout notifier={notifier}>
         <StyledPaper paddings={['top', 'bottom', 'left', 'right']}>
           <SummaryWrapper>
             <OrderSummary
@@ -142,4 +145,27 @@ class CheckoutRoute extends React.Component {
   }
 }
 
-export default CheckoutRoute;
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query CheckoutRouteQuery {
+        notifier {
+          ...StoreLayout_notifier
+        }
+      }
+    `}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
+
+      if (relayProps) {
+        return <CheckoutRoute {...props} {...relayProps} />;
+      }
+
+      return <PageLoader />;
+    }}
+  />
+);
+

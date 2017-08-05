@@ -14,10 +14,11 @@ class CategoriesRoute extends React.Component {
     const {
       categories,
       history,
+      notifier,
     } = this.props;
 
     return (
-      <StoreLayout>
+      <StoreLayout notifier={notifier}>
         <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
           <h1>Shop By Categories</h1>
           <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
@@ -40,6 +41,10 @@ export default (props) => (
       query CategoriesRouteQuery {
         categories {
           ...CategoriesGrid_categories
+        }
+
+        notifier {
+          ...StoreLayout_notifier
         }
       }
     `}
