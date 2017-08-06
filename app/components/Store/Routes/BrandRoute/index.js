@@ -95,50 +95,47 @@ class BrandRoute extends React.Component {
   }
 }
 
-export default (props) => {
-  const brandId = props.match.params.brandId;
-  return (
-    <QueryRenderer
-      environment={relayEnvironment}
-      query={graphql`
-        query BrandRouteQuery($brandId: ID!) {
-          node(id: $brandId) {
-            id
-            ... on Brand {
-              description
-            }
-            ...BrandHero_brand
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query BrandRouteQuery($brandId: ID!) {
+        node(id: $brandId) {
+          id
+          ... on Brand {
+            description
           }
-
-          products(brandId: $brandId) {
-            ...ProductsGrid_products
-          }
-
-          viewer {
-            ...StoreLayout_viewer
-          }
-
-          notifier {
-            ...StoreLayout_notifier
-          }
-        }
-      `}
-      variables={{
-        brandId,
-      }}
-      render={({ error, props: relayProps }) => {
-        if (error) {
-          return <PageError error={error} />;
+          ...BrandHero_brand
         }
 
-        if (relayProps) {
-          return (
-            <BrandRoute {...props} {...relayProps} />
-          );
+        products(brandId: $brandId) {
+          ...ProductsGrid_products
         }
 
-        return <PageLoader />;
-      }}
-    />
-  );
-}
+        viewer {
+          ...StoreLayout_viewer
+        }
+
+        notifier {
+          ...StoreLayout_notifier
+        }
+      }
+    `}
+    variables={{
+      brandId: props.match.params.brandId,
+    }}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
+
+      if (relayProps) {
+        return (
+          <BrandRoute {...props} {...relayProps} />
+        );
+      }
+
+      return <PageLoader />;
+    }}
+  />
+);

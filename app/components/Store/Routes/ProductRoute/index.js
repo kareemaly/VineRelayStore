@@ -77,41 +77,38 @@ class ProductRoute extends React.Component {
   }
 }
 
-export default (props) => {
-  const productId = props.match.params.productId;
-  return (
-    <QueryRenderer
-      environment={relayEnvironment}
-      query={graphql`
-        query ProductRouteQuery($productId: ID!) {
-          node(id: $productId) {
-            id
-            ...ProductDetails_product
-          }
-          notifier {
-            ...StoreLayout_notifier
-          }
-          viewer {
-            ...StoreLayout_viewer
-          }
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query ProductRouteQuery($productId: ID!) {
+        node(id: $productId) {
+          id
+          ...ProductDetails_product
         }
-      `}
-      variables={{
-        productId,
-      }}
-      render={({ error, props: relayProps }) => {
-        if (error) {
-          return <PageError error={error} />;
+        notifier {
+          ...StoreLayout_notifier
         }
+        viewer {
+          ...StoreLayout_viewer
+        }
+      }
+    `}
+    variables={{
+      productId: props.match.params.productId,
+    }}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
 
-        if (relayProps) {
-          return (
-            <ProductRoute {...props} {...relayProps} />
-          );
-        }
+      if (relayProps) {
+        return (
+          <ProductRoute {...props} {...relayProps} />
+        );
+      }
 
-        return <PageLoader />;
-      }}
-    />
-  );
-}
+      return <PageLoader />;
+    }}
+  />
+);

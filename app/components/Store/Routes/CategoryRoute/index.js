@@ -99,51 +99,48 @@ class CategoryRoute extends React.Component {
   }
 }
 
-export default (props) => {
-  const categoryId = props.match.params.categoryId;
-  return (
-    <QueryRenderer
-      environment={relayEnvironment}
-      query={graphql`
-        query CategoryRouteQuery($categoryId: ID!) {
-          node(id: $categoryId) {
-            id
-            ... on Category {
-              description
-            }
-            ...CategoryHero_category
-            ...CategoryHeader_category
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query CategoryRouteQuery($categoryId: ID!) {
+        node(id: $categoryId) {
+          id
+          ... on Category {
+            description
           }
-
-          products(categoryId: $categoryId) {
-            ...ProductsGrid_products
-          }
-
-          notifier {
-            ...StoreLayout_notifier
-          }
-
-          viewer {
-            ...StoreLayout_viewer
-          }
-        }
-      `}
-      variables={{
-        categoryId,
-      }}
-      render={({ error, props: relayProps }) => {
-        if (error) {
-          return <PageError error={error} />;
+          ...CategoryHero_category
+          ...CategoryHeader_category
         }
 
-        if (relayProps) {
-          return (
-            <CategoryRoute {...props} {...relayProps} />
-          );
+        products(categoryId: $categoryId) {
+          ...ProductsGrid_products
         }
 
-        return <PageLoader />;
-      }}
-    />
-  );
-}
+        notifier {
+          ...StoreLayout_notifier
+        }
+
+        viewer {
+          ...StoreLayout_viewer
+        }
+      }
+    `}
+    variables={{
+      categoryId: props.match.params.categoryId,
+    }}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
+
+      if (relayProps) {
+        return (
+          <CategoryRoute {...props} {...relayProps} />
+        );
+      }
+
+      return <PageLoader />;
+    }}
+  />
+);
