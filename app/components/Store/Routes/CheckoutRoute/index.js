@@ -113,6 +113,7 @@ class CheckoutRoute extends React.Component {
     const {
       history,
       notifier,
+      viewer,
     } = this.props;
 
     const {
@@ -123,7 +124,10 @@ class CheckoutRoute extends React.Component {
     } = this.state;
 
     return (
-      <StoreLayout notifier={notifier}>
+      <StoreLayout
+        notifier={notifier}
+        viewer={viewer}
+      >
         <StyledPaper paddings={['top', 'bottom', 'left', 'right']}>
           <SummaryWrapper>
             <OrderSummary
@@ -152,6 +156,9 @@ export default (props) => (
       query CheckoutRouteQuery {
         notifier {
           ...StoreLayout_notifier
+        }
+        viewer {
+          ...StoreLayout_viewer
         }
       }
     `}

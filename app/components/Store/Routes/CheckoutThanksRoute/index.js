@@ -20,10 +20,14 @@ class CheckoutThanksRoute extends React.Component {
         },
       },
       notifier,
+      viewer,
     } = this.props;
 
     return (
-      <StoreLayout notifier={notifier}>
+      <StoreLayout
+        notifier={notifier}
+        viewer={viewer}
+      >
         <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
           <h2>Your order number is {orderNumber}.</h2>
           <h3>Thank you for shopping at the Relay store!</h3>
@@ -41,6 +45,9 @@ export default (props) => (
       query CheckoutThanksRouteQuery {
         notifier {
           ...StoreLayout_notifier
+        }
+        viewer {
+          ...StoreLayout_viewer
         }
       }
     `}

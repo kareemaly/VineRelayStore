@@ -18,10 +18,6 @@ class ProductRoute extends React.Component {
     this.cartListener = cartStore.addListener(() => {
       this.forceUpdate();
     });
-
-    this.setState({
-      adminFooterOpened: true,
-    });
   }
 
   componentWillUnmount() {
@@ -56,12 +52,16 @@ class ProductRoute extends React.Component {
       notifier,
     } = this.props;
 
-    const {
-      adminFooterOpened,
-    } = this.state;
-
     return (
-      <StoreLayout notifier={notifier}>
+      <StoreLayout
+        notifier={notifier}
+        viewer={viewer}
+        adminFooterContent={
+          <Button primary onClick={() => history.push(`/admin/product/${product.id}`)}>
+            Edit product
+          </Button>
+        }
+      >
         <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
           <ProductDetails
             isProductInCart={this.isProductInCart}
@@ -72,19 +72,6 @@ class ProductRoute extends React.Component {
             product={product}
           />
         </Paper>
-        {
-          viewer.isAdmin &&
-          <AdminFooter
-            opened={adminFooterOpened}
-            onOpen={() => this.setState({ adminFooterOpened: true })}
-            onClose={() => this.setState({ adminFooterOpened: false })}
-            viewer={viewer}
-          >
-            <Button primary onClick={() => history.push(`/admin/product/${product.id}`)}>
-              Edit product
-            </Button>
-          </AdminFooter>
-        }
       </StoreLayout>
     );
   }
@@ -97,17 +84,15 @@ export default (props) => {
       environment={relayEnvironment}
       query={graphql`
         query ProductRouteQuery($productId: ID!) {
-          viewer {
-            isAdmin
-            ...AdminFooter_viewer
-          }
-
           node(id: $productId) {
             id
             ...ProductDetails_product
           }
           notifier {
             ...StoreLayout_notifier
+          }
+          viewer {
+            ...StoreLayout_viewer
           }
         }
       `}

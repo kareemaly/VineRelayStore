@@ -29,10 +29,6 @@ class CategoryRoute extends React.Component {
     this.cartListener = cartStore.addListener(() => {
       this.forceUpdate();
     });
-
-    this.setState({
-      adminFooterOpened: true,
-    });
   }
 
   componentWillUnmount() {
@@ -67,12 +63,19 @@ class CategoryRoute extends React.Component {
       notifier,
     } = this.props;
 
-    const {
-      adminFooterOpened,
-    } = this.state;
-
     return (
-      <StoreLayout notifier={notifier}>
+      <StoreLayout
+        notifier={notifier}
+        viewer={viewer}
+        adminFooterContent={
+          <Button
+            primary
+            onClick={() => history.push(`/admin/category/${category.id}`)}
+          >
+            Edit category
+          </Button>
+        }
+      >
         <CategoryHero
           category={category}
         />
@@ -91,22 +94,6 @@ class CategoryRoute extends React.Component {
             isProductInCart={this.isProductInCart}
           />
         </Paper>
-        {
-          viewer.isAdmin &&
-          <AdminFooter
-            opened={adminFooterOpened}
-            onOpen={() => this.setState({ adminFooterOpened: true })}
-            onClose={() => this.setState({ adminFooterOpened: false })}
-            viewer={viewer}
-          >
-            <Button
-              primary
-              onClick={() => history.push(`/admin/category/${category.id}`)}
-            >
-              Edit category
-            </Button>
-          </AdminFooter>
-        }
       </StoreLayout>
     );
   }
@@ -119,11 +106,6 @@ export default (props) => {
       environment={relayEnvironment}
       query={graphql`
         query CategoryRouteQuery($categoryId: ID!) {
-          viewer {
-            isAdmin
-            ...AdminFooter_viewer
-          }
-
           node(id: $categoryId) {
             id
             ... on Category {
@@ -139,6 +121,10 @@ export default (props) => {
 
           notifier {
             ...StoreLayout_notifier
+          }
+
+          viewer {
+            ...StoreLayout_viewer
           }
         }
       `}

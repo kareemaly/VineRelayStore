@@ -8,7 +8,6 @@ import PageLoader from 'app/components/Common/PageLoader';
 import StoreLayout from 'app/components/Store/Main/StoreLayout';
 import BrandHero from 'app/components/Store/Brand/BrandHero';
 import ProductsGrid from 'app/components/Store/Product/ProductsGrid';
-import AdminFooter from 'app/components/Store/Main/AdminFooter';
 import Button from 'app/components/Store/Main/Button';
 import Paper from 'app/components/Store/Main/Paper';
 import { cartActions } from 'app/actions';
@@ -27,10 +26,6 @@ class BrandRoute extends React.Component {
   componentWillMount() {
     this.cartListener = cartStore.addListener(() => {
       this.forceUpdate();
-    });
-
-    this.setState({
-      adminFooterOpened: true,
     });
   }
 
@@ -67,12 +62,16 @@ class BrandRoute extends React.Component {
       notifier,
     } = this.props;
 
-    const {
-      adminFooterOpened,
-    } = this.state;
-
     return (
-      <StoreLayout notifier={notifier}>
+      <StoreLayout
+        notifier={notifier}
+        viewer={viewer}
+        adminFooterContent={
+          <Button primary onClick={() => history.push(`/admin/brand/${brand.id}`)}>
+            Edit brand
+          </Button>
+        }
+      >
         <BrandHero
           brand={brand}
         />
@@ -91,19 +90,6 @@ class BrandRoute extends React.Component {
             isProductInCart={this.isProductInCart}
           />
         </Paper>
-        {
-          viewer.isAdmin &&
-          <AdminFooter
-            opened={adminFooterOpened}
-            onOpen={() => this.setState({ adminFooterOpened: true })}
-            onClose={() => this.setState({ adminFooterOpened: false })}
-            viewer={viewer}
-          >
-            <Button primary onClick={() => history.push(`/admin/brand/${brand.id}`)}>
-              Edit brand
-            </Button>
-          </AdminFooter>
-        }
       </StoreLayout>
     );
   }
@@ -116,11 +102,6 @@ export default (props) => {
       environment={relayEnvironment}
       query={graphql`
         query BrandRouteQuery($brandId: ID!) {
-          viewer {
-            isAdmin
-            ...AdminFooter_viewer
-          }
-
           node(id: $brandId) {
             id
             ... on Brand {
@@ -131,6 +112,10 @@ export default (props) => {
 
           products(brandId: $brandId) {
             ...ProductsGrid_products
+          }
+
+          viewer {
+            ...StoreLayout_viewer
           }
 
           notifier {

@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 9271b6d2884adc515e50d2bd4409b0b9
+ * @relayHash df886d23ca4a3981573e2cd22147e269
  */
 
 /* eslint-disable */
@@ -13,6 +13,7 @@ export type HomeRouteQueryResponse = {|
   +brands: ?{| |};
   +categories: ?{| |};
   +notifier: ?{| |};
+  +viewer: {| |};
 |};
 */
 
@@ -27,6 +28,10 @@ query HomeRouteQuery {
   }
   notifier {
     ...StoreLayout_notifier
+  }
+  viewer {
+    ...StoreLayout_viewer
+    id
   }
 }
 
@@ -53,6 +58,15 @@ fragment CategoriesGrid_categories on CategoryConnection {
 fragment StoreLayout_notifier on Notifier {
   message
   ...Notifier_notifier
+}
+
+fragment StoreLayout_viewer on User {
+  isAdmin
+  ...AdminFooter_viewer
+}
+
+fragment AdminFooter_viewer on User {
+  isAdmin
 }
 
 fragment Notifier_notifier on Notifier {
@@ -110,6 +124,22 @@ const batch /*: ConcreteBatch*/ = {
           {
             "kind": "FragmentSpread",
             "name": "StoreLayout_notifier",
+            "args": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "User",
+        "name": "viewer",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "FragmentSpread",
+            "name": "StoreLayout_viewer",
             "args": null
           }
         ],
@@ -253,10 +283,41 @@ const batch /*: ConcreteBatch*/ = {
           }
         ],
         "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "User",
+        "name": "viewer",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "type": "User",
+            "selections": [
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "isAdmin",
+                "storageKey": null
+              }
+            ]
+          }
+        ],
+        "storageKey": null
       }
     ]
   },
-  "text": "query HomeRouteQuery {\n  brands {\n    ...BrandsGrid_brands\n  }\n  categories {\n    ...CategoriesGrid_categories\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n}\n\nfragment BrandsGrid_brands on BrandConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n\nfragment CategoriesGrid_categories on CategoryConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
+  "text": "query HomeRouteQuery {\n  brands {\n    ...BrandsGrid_brands\n  }\n  categories {\n    ...CategoriesGrid_categories\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n  viewer {\n    ...StoreLayout_viewer\n    id\n  }\n}\n\nfragment BrandsGrid_brands on BrandConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n\nfragment CategoriesGrid_categories on CategoryConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment StoreLayout_viewer on User {\n  isAdmin\n  ...AdminFooter_viewer\n}\n\nfragment AdminFooter_viewer on User {\n  isAdmin\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
 };
 
 module.exports = batch;

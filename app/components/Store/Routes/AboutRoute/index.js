@@ -11,9 +11,14 @@ class AboutRoute extends React.Component {
   render() {
     const {
       notifier,
+      viewer,
     } = this.props;
+
     return (
-      <StoreLayout notifier={notifier}>
+      <StoreLayout
+        notifier={notifier}
+        viewer={viewer}
+      >
         <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tristique odio finibus nisl maximus efficitur vel ut tellus. Curabitur non neque id arcu aliquet volutpat nec a nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fermentum ullamcorper accumsan. Donec turpis urna, posuere et ultrices vitae, gravida quis tellus. Integer vitae gravida mi, quis egestas purus. Nunc rutrum, lectus nec sodales sollicitudin, neque ante condimentum eros, imperdiet mattis arcu tellus commodo dui. Suspendisse euismod posuere velit vel tristique. Quisque non lacus a erat accumsan posuere non sit amet neque. Duis aliquam vehicula bibendum. Maecenas gravida sodales felis, quis auctor orci pharetra ut. Aliquam sed commodo felis.</p>
 
@@ -37,6 +42,9 @@ export default (props) => (
       query AboutRouteQuery {
         notifier {
           ...StoreLayout_notifier
+        }
+        viewer {
+          ...StoreLayout_viewer
         }
       }
     `}

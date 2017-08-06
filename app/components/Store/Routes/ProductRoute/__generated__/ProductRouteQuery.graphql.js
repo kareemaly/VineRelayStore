@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 73d3eb7dd683b073ca6e675af2bd212a
+ * @relayHash 778396a5e7b98333fe1e9465457e9756
  */
 
 /* eslint-disable */
@@ -10,13 +10,11 @@
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
 export type ProductRouteQueryResponse = {|
-  +viewer: {|
-    +isAdmin: ?boolean;
-  |};
   +node: ?{|
     +id: string;
   |};
   +notifier: ?{| |};
+  +viewer: {| |};
 |};
 */
 
@@ -25,11 +23,6 @@ export type ProductRouteQueryResponse = {|
 query ProductRouteQuery(
   $productId: ID!
 ) {
-  viewer {
-    isAdmin
-    ...AdminFooter_viewer
-    id
-  }
   node(id: $productId) {
     __typename
     id
@@ -38,10 +31,10 @@ query ProductRouteQuery(
   notifier {
     ...StoreLayout_notifier
   }
-}
-
-fragment AdminFooter_viewer on User {
-  isAdmin
+  viewer {
+    ...StoreLayout_viewer
+    id
+  }
 }
 
 fragment ProductDetails_product on Product {
@@ -65,6 +58,15 @@ fragment StoreLayout_notifier on Notifier {
   ...Notifier_notifier
 }
 
+fragment StoreLayout_viewer on User {
+  isAdmin
+  ...AdminFooter_viewer
+}
+
+fragment AdminFooter_viewer on User {
+  isAdmin
+}
+
 fragment Notifier_notifier on Notifier {
   message
 }
@@ -84,29 +86,6 @@ const batch /*: ConcreteBatch*/ = {
     "metadata": null,
     "name": "ProductRouteQuery",
     "selections": [
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": null,
-        "concreteType": "User",
-        "name": "viewer",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "isAdmin",
-            "storageKey": null
-          },
-          {
-            "kind": "FragmentSpread",
-            "name": "AdminFooter_viewer",
-            "args": null
-          }
-        ],
-        "storageKey": null
-      },
       {
         "kind": "LinkedField",
         "alias": null,
@@ -152,6 +131,22 @@ const batch /*: ConcreteBatch*/ = {
           }
         ],
         "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "User",
+        "name": "viewer",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "FragmentSpread",
+            "name": "StoreLayout_viewer",
+            "args": null
+          }
+        ],
+        "storageKey": null
       }
     ],
     "type": "Query"
@@ -173,31 +168,6 @@ const batch /*: ConcreteBatch*/ = {
     "name": "ProductRouteQuery",
     "operation": "query",
     "selections": [
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": null,
-        "concreteType": "User",
-        "name": "viewer",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "isAdmin",
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "id",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
       {
         "kind": "LinkedField",
         "alias": null,
@@ -331,10 +301,41 @@ const batch /*: ConcreteBatch*/ = {
           }
         ],
         "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "User",
+        "name": "viewer",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "type": "User",
+            "selections": [
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "isAdmin",
+                "storageKey": null
+              }
+            ]
+          }
+        ],
+        "storageKey": null
       }
     ]
   },
-  "text": "query ProductRouteQuery(\n  $productId: ID!\n) {\n  viewer {\n    isAdmin\n    ...AdminFooter_viewer\n    id\n  }\n  node(id: $productId) {\n    __typename\n    id\n    ...ProductDetails_product\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n}\n\nfragment AdminFooter_viewer on User {\n  isAdmin\n}\n\nfragment ProductDetails_product on Product {\n  id\n  name\n  price\n  description\n  mainImage\n  category {\n    id\n    name\n  }\n  brand {\n    id\n    name\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
+  "text": "query ProductRouteQuery(\n  $productId: ID!\n) {\n  node(id: $productId) {\n    __typename\n    id\n    ...ProductDetails_product\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n  viewer {\n    ...StoreLayout_viewer\n    id\n  }\n}\n\nfragment ProductDetails_product on Product {\n  id\n  name\n  price\n  description\n  mainImage\n  category {\n    id\n    name\n  }\n  brand {\n    id\n    name\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment StoreLayout_viewer on User {\n  isAdmin\n  ...AdminFooter_viewer\n}\n\nfragment AdminFooter_viewer on User {\n  isAdmin\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
 };
 
 module.exports = batch;

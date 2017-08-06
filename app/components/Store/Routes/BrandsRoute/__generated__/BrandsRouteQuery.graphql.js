@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 3b3eeaa65c1b4b98584f1ad9bece5596
+ * @relayHash 770c510045ebc160b60102e4237cc328
  */
 
 /* eslint-disable */
@@ -12,6 +12,7 @@ import type {ConcreteBatch} from 'relay-runtime';
 export type BrandsRouteQueryResponse = {|
   +brands: ?{| |};
   +notifier: ?{| |};
+  +viewer: {| |};
 |};
 */
 
@@ -23,6 +24,10 @@ query BrandsRouteQuery {
   }
   notifier {
     ...StoreLayout_notifier
+  }
+  viewer {
+    ...StoreLayout_viewer
+    id
   }
 }
 
@@ -39,6 +44,15 @@ fragment BrandsGrid_brands on BrandConnection {
 fragment StoreLayout_notifier on Notifier {
   message
   ...Notifier_notifier
+}
+
+fragment StoreLayout_viewer on User {
+  isAdmin
+  ...AdminFooter_viewer
+}
+
+fragment AdminFooter_viewer on User {
+  isAdmin
 }
 
 fragment Notifier_notifier on Notifier {
@@ -80,6 +94,22 @@ const batch /*: ConcreteBatch*/ = {
           {
             "kind": "FragmentSpread",
             "name": "StoreLayout_notifier",
+            "args": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "User",
+        "name": "viewer",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "FragmentSpread",
+            "name": "StoreLayout_viewer",
             "args": null
           }
         ],
@@ -169,10 +199,41 @@ const batch /*: ConcreteBatch*/ = {
           }
         ],
         "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "User",
+        "name": "viewer",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "type": "User",
+            "selections": [
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "isAdmin",
+                "storageKey": null
+              }
+            ]
+          }
+        ],
+        "storageKey": null
       }
     ]
   },
-  "text": "query BrandsRouteQuery {\n  brands {\n    ...BrandsGrid_brands\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n}\n\nfragment BrandsGrid_brands on BrandConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
+  "text": "query BrandsRouteQuery {\n  brands {\n    ...BrandsGrid_brands\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n  viewer {\n    ...StoreLayout_viewer\n    id\n  }\n}\n\nfragment BrandsGrid_brands on BrandConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment StoreLayout_viewer on User {\n  isAdmin\n  ...AdminFooter_viewer\n}\n\nfragment AdminFooter_viewer on User {\n  isAdmin\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
 };
 
 module.exports = batch;

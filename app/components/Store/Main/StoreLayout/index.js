@@ -5,6 +5,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Header from 'app/components/Store/Main/Header';
 import Footer from 'app/components/Store/Main/Footer';
 import Paper from 'app/components/Store/Main/Paper';
+import AdminFooter from 'app/components/Store/Main/AdminFooter';
 import Notifier from 'app/components/Store/Main/Notifier';
 import { cartStore } from 'app/stores';
 
@@ -24,12 +25,24 @@ const Divider = styled.div`
 `;
 
 class StoreLayout extends React.Component {
+  componentWillMount() {
+    this.setState({
+      adminFooterOpened: true,
+    });
+  }
+
   render() {
     const {
       children,
       history,
       notifier,
+      viewer,
+      adminFooterContent,
     } = this.props;
+
+    const {
+      adminFooterOpened,
+    } = this.state;
 
     return (
       <PageWrapper>
@@ -65,6 +78,17 @@ class StoreLayout extends React.Component {
             onEmailClick={() => console.log('onEmailClick')}
           />
         </Paper>
+        {
+          viewer.isAdmin && adminFooterContent &&
+          <AdminFooter
+            opened={adminFooterOpened}
+            onOpen={() => this.setState({ adminFooterOpened: true })}
+            onClose={() => this.setState({ adminFooterOpened: false })}
+            viewer={viewer}
+          >
+            {adminFooterContent}
+          </AdminFooter>
+        }
       </PageWrapper>
     );
   }
@@ -76,6 +100,11 @@ export default createFragmentContainer(
     fragment StoreLayout_notifier on Notifier {
       message
       ...Notifier_notifier
+    }
+
+    fragment StoreLayout_viewer on User {
+      isAdmin
+      ...AdminFooter_viewer
     }
   `
 );

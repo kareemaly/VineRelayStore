@@ -104,9 +104,14 @@ class CartRoute extends React.Component {
   render() {
     const {
       notifier,
+      viewer,
     } = this.props;
+
     return (
-      <StoreLayout notifier={notifier}>
+      <StoreLayout
+        notifier={notifier}
+        viewer={viewer}
+      >
         {cartStore.isEmpty() ? this.renderEmptyCart() : this.renderCart()}
       </StoreLayout>
     );
@@ -120,6 +125,9 @@ export default (props) => (
       query CartRouteQuery {
         notifier {
           ...StoreLayout_notifier
+        }
+        viewer {
+          ...StoreLayout_viewer
         }
       }
     `}
