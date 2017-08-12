@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 345222350e421cb9265898f1f29e064f
+ * @relayHash a56a7926ee021a5bda5108b616ecc29d
  */
 
 /* eslint-disable */
@@ -10,7 +10,9 @@
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
 export type ListBrandsRouteQueryResponse = {|
-  +viewer: {| |};
+  +viewer: {|
+    +isAdmin: ?boolean;
+  |};
   +brands: ?{| |};
 |};
 */
@@ -19,22 +21,20 @@ export type ListBrandsRouteQueryResponse = {|
 /*
 query ListBrandsRouteQuery {
   viewer {
-    ...ListBrandsRoute_viewer
+    isAdmin
+    ...DashboardLayout_viewer
     id
   }
   brands {
-    ...ListBrandsRoute_brands
+    ...ListBrands_brands
   }
 }
 
-fragment ListBrandsRoute_viewer on User {
+fragment DashboardLayout_viewer on User {
+  displayName
   firstName
-  isAdmin
-  ...DashboardLayout_viewer
-}
-
-fragment ListBrandsRoute_brands on BrandConnection {
-  ...ListBrands_brands
+  lastName
+  email
 }
 
 fragment ListBrands_brands on BrandConnection {
@@ -44,13 +44,6 @@ fragment ListBrands_brands on BrandConnection {
       name
     }
   }
-}
-
-fragment DashboardLayout_viewer on User {
-  displayName
-  firstName
-  lastName
-  email
 }
 */
 
@@ -70,8 +63,15 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
             "kind": "FragmentSpread",
-            "name": "ListBrandsRoute_viewer",
+            "name": "DashboardLayout_viewer",
             "args": null
           }
         ],
@@ -87,7 +87,7 @@ const batch /*: ConcreteBatch*/ = {
         "selections": [
           {
             "kind": "FragmentSpread",
-            "name": "ListBrandsRoute_brands",
+            "name": "ListBrands_brands",
             "args": null
           }
         ],
@@ -118,6 +118,13 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "ScalarField",
             "alias": null,
             "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
             "name": "id",
             "storageKey": null
           },
@@ -129,21 +136,14 @@ const batch /*: ConcreteBatch*/ = {
                 "kind": "ScalarField",
                 "alias": null,
                 "args": null,
-                "name": "firstName",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "isAdmin",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
                 "name": "displayName",
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "firstName",
                 "storageKey": null
               },
               {
@@ -214,7 +214,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query ListBrandsRouteQuery {\n  viewer {\n    ...ListBrandsRoute_viewer\n    id\n  }\n  brands {\n    ...ListBrandsRoute_brands\n  }\n}\n\nfragment ListBrandsRoute_viewer on User {\n  firstName\n  isAdmin\n  ...DashboardLayout_viewer\n}\n\nfragment ListBrandsRoute_brands on BrandConnection {\n  ...ListBrands_brands\n}\n\nfragment ListBrands_brands on BrandConnection {\n  edges {\n    node {\n      id\n      name\n    }\n  }\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n"
+  "text": "query ListBrandsRouteQuery {\n  viewer {\n    isAdmin\n    ...DashboardLayout_viewer\n    id\n  }\n  brands {\n    ...ListBrands_brands\n  }\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n\nfragment ListBrands_brands on BrandConnection {\n  edges {\n    node {\n      id\n      name\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

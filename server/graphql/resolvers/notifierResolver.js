@@ -19,5 +19,5 @@ const notifierResolver = (notifierType) => ({
 });
 
 IoC.callable('notifierResolver', [
-  'notifierType'
+  'notifierType',
 ], notifierResolver);

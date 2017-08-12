@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql } from 'react-relay';
 import styled from 'styled-components';
 import AppBar from 'material-ui/AppBar';
@@ -6,7 +7,6 @@ import Avatar from 'material-ui/Avatar';
 import Drawer from 'material-ui/Drawer';
 import Link from 'app/components/Admin/Main/Link';
 import MenuItem from 'material-ui/MenuItem';
-import logoImage from 'app/assets/main/logo.png';
 
 const PageWrapper = styled.div`
 `;
@@ -60,22 +60,21 @@ const ContentWrapper = styled.div`
 `;
 
 class DashboardLayout extends React.Component {
-
   componentWillMount() {
     this.setState({
       drawerOpened: false,
     });
   }
 
-  openDrawer = () => {
-    this.setState({
-      drawerOpened: true,
-    });
-  }
-
   onRequestChange = (opened) => {
     this.setState({
       drawerOpened: opened,
+    });
+  }
+
+  openDrawer = () => {
+    this.setState({
+      drawerOpened: true,
     });
   }
 
@@ -105,11 +104,11 @@ class DashboardLayout extends React.Component {
             </DrawerHeaderDetails>
           </DrawerHeader>
           <Divider />
-          <Link to='/admin/'><MenuItem>Dashboard</MenuItem></Link>
-          <Link to='/admin/products'><MenuItem>Products</MenuItem></Link>
-          <Link to='/admin/categories'><MenuItem>Categories</MenuItem></Link>
-          <Link to='/admin/brands'><MenuItem>Brands</MenuItem></Link>
-          <Link to='/admin/orders'><MenuItem>Orders</MenuItem></Link>
+          <Link to="/admin/"><MenuItem>Dashboard</MenuItem></Link>
+          <Link to="/admin/products"><MenuItem>Products</MenuItem></Link>
+          <Link to="/admin/categories"><MenuItem>Categories</MenuItem></Link>
+          <Link to="/admin/brands"><MenuItem>Brands</MenuItem></Link>
+          <Link to="/admin/orders"><MenuItem>Orders</MenuItem></Link>
         </Drawer>
         <AppBar
           onLeftIconButtonTouchTap={this.openDrawer}
@@ -133,6 +132,11 @@ class DashboardLayout extends React.Component {
     );
   }
 }
+
+DashboardLayout.propTypes = {
+  viewer: PropTypes.object.isRequired,
+  children: PropTypes.any.isRequired,
+};
 
 export default createFragmentContainer(
   DashboardLayout,

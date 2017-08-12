@@ -143,9 +143,9 @@ const ViewOrder = ({ order, onStatusChange, supportedStatuses, ...props }) => (
         desktop: 6,
       }}
     >
-      {order.items.map((item, index) => (
+      {order.items.map((item) => (
         <ItemWrapper
-          key={index}
+          key={item.id}
         >
           <ItemImageWrapper>
             <ItemImage
@@ -174,8 +174,12 @@ const ViewOrder = ({ order, onStatusChange, supportedStatuses, ...props }) => (
         style={{ width: 200 }}
         autoWidth={false}
       >
-        {supportedStatuses.map((supportedStatus, index) => (
-          <MenuItem key={index} value={supportedStatus.value} primaryText={supportedStatus.text} />
+        {supportedStatuses.map((supportedStatus) => (
+          <MenuItem
+            key={supportedStatus.value}
+            value={supportedStatus.value}
+            primaryText={supportedStatus.text}
+          />
         ))}
       </DropDownMenu>
     </ToolsWrapper>

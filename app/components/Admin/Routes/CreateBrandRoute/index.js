@@ -1,6 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -17,10 +17,15 @@ import createBrandMutation from './createBrandMutation';
 
 
 class CreateBrandRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     // Not an admin so change to login
-    if(! this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin/login`);
+    if (!this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin/login');
     }
 
     this.setState({
@@ -35,7 +40,7 @@ class CreateBrandRoute extends React.Component {
 
   onCreateError = (error) => {
     // Handle validation error
-    if(isValidationError(error)) {
+    if (isValidationError(error)) {
       this.setState({
         validationErrors: getErrorValidationObject(error),
         isLoading: false,
@@ -50,7 +55,7 @@ class CreateBrandRoute extends React.Component {
   }
 
   onCreateComplete = ({ createBrand }, errors) => {
-    if(errors) {
+    if (errors) {
       this.onCreateError(errors[0]);
     } else {
       this.onCreateSuccess(createBrand.brand.id);
@@ -78,7 +83,7 @@ class CreateBrandRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <CreateBrand
             errors={validationErrors}
             disableSubmit={isLoading}
@@ -96,42 +101,27 @@ class CreateBrandRoute extends React.Component {
   }
 }
 
-const CreateBrandRouteContainer = createFragmentContainer(
-  withRouter(CreateBrandRoute),
-  graphql`
-    fragment CreateBrandRoute_viewer on User {
-      isAdmin
-      ...DashboardLayout_viewer
-    }
-  `
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query CreateBrandRouteQuery {
+        viewer {
+          isAdmin
+          ...DashboardLayout_viewer
+        }
+      }
+    `}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
+
+      if (relayProps) {
+        return <CreateBrandRoute {...relayProps} {...props} />;
+      }
+
+      return <PageLoader />;
+    }}
+  />
 );
-
-export default () => {
-  return (
-    <QueryRenderer
-      environment={relayEnvironment}
-      query={graphql`
-        query CreateBrandRouteQuery {
-          viewer {
-            ...CreateBrandRoute_viewer
-          }
-        }
-      `}
-      render={({ error, props }) => {
-        if (error) {
-          return <PageError error={error} />;
-        }
-
-        if (props) {
-          return (
-            <CreateBrandRouteContainer
-              viewer={props.viewer}
-            />
-          );
-        }
-
-        return <PageLoader />;
-      }}
-    />
-  );
-}

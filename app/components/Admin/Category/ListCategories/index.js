@@ -20,8 +20,8 @@ const ListCategories = ({ categories, onRemoveCategory, onEditCategory }) => (
       </TableRow>
     </TableHeader>
     <TableBody>
-      {categories.edges.map((edge, index) => (
-        <TableRow key={index}>
+      {categories.edges.map((edge) => (
+        <TableRow key={edge.node.id}>
           <TableRowColumn>{edge.node.name}</TableRowColumn>
           <TableRowColumn>
             <RaisedButton
@@ -56,7 +56,7 @@ ListCategories.propTypes = {
   }).isRequired,
   onEditCategory: PropTypes.func.isRequired,
   onRemoveCategory: PropTypes.func.isRequired,
-}
+};
 
 export default createFragmentContainer(
   ListCategories,

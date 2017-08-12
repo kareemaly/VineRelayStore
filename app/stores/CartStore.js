@@ -9,14 +9,13 @@ import {
 } from 'app/constants/cartActions';
 
 export default class CartStore extends Store {
-
   /**
    * Listen on action dispatched
    * @param  {object} action
    * @return {void}
    */
   __onDispatch(action) {
-    switch(action.type) {
+    switch (action.type) {
       case ADD_ITEM:
         this.__addItem(
           action.product,
@@ -38,6 +37,8 @@ export default class CartStore extends Store {
       case DESTROY:
         this.__destroy();
         break;
+      default:
+        break;
     }
   }
 
@@ -56,7 +57,7 @@ export default class CartStore extends Store {
 
     const item = { product, quantity, price, name, image };
 
-    if(index > -1) {
+    if (index > -1) {
       this.__setItems([
         ...items.slice(0, index),
         item,
@@ -84,7 +85,7 @@ export default class CartStore extends Store {
     const items = this.getItems();
 
     // You cant update quantity because item doesnt exist
-    if(index < 0) {
+    if (index < 0) {
       throw new Error('Item doesn\'t exist, cant\'t update quantity');
     }
 
@@ -179,9 +180,11 @@ export default class CartStore extends Store {
    * @return {void}
    */
   __save(cart) {
-    // Re-calculate total price everytime you save the cart
-    cart.totalPrice = this.__calculateTotalPrice();
-    localStorage.setItem('rs_cart', JSON.stringify(cart));
+    localStorage.setItem('rs_cart', JSON.stringify({
+      ...cart,
+      // Re-calculate total price everytime you save the cart
+      totalPrice: this.__calculateTotalPrice(),
+    }));
     this.__emitChange();
   }
 
@@ -201,5 +204,4 @@ export default class CartStore extends Store {
   __destroy() {
     localStorage.removeItem('rs_cart');
   }
-
 }

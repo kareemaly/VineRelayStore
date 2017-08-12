@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import breakpoints from 'app/utils/breakpoints';
 
 const Image = styled.div`
   background: url('${(props) => props.src}');
@@ -17,7 +16,7 @@ const Hero = ({ src }) => (
 );
 
 Hero.propTypes = {
-  src: PropTypes.string,
+  src: PropTypes.string.isRequired,
 };
 
 export default Hero;

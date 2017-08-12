@@ -10,34 +10,30 @@ const GRAPHQL_PORT = process.env.GRAPHQL_PORT;
 const GRAPHQL_HOST = process.env.GRAPHQL_HOST;
 
 const makeURL = () => {
-  if(! GRAPHQL_PORT || ! GRAPHQL_HOST) {
-    return `/graphql`;
+  if (!GRAPHQL_PORT || !GRAPHQL_HOST) {
+    return '/graphql';
   }
 
   return `http://${GRAPHQL_HOST}:${GRAPHQL_PORT}/graphql`;
-}
+};
 
 // Define a function that fetches the results of an operation (query/mutation/etc)
 // and returns its results as a Promise:
 function fetchQuery(
   operation,
   variables,
-  cacheConfig,
-  uploadables,
 ) {
   return fetch(makeURL(), {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'Authorization': `JWT ${getToken()}`,
+      Authorization: `JWT ${getToken()}`,
     },
     body: JSON.stringify({
       query: operation.text,
       variables,
     }),
-  }).then(response => {
-    return response.json();
-  });
+  }).then((response) => response.json());
 }
 
 const source = new RecordSource();

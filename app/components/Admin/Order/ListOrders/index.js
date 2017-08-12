@@ -12,6 +12,7 @@ import {
 import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
 import {
+  white,
   grey100,
   orange100,
   lightBlue100,
@@ -20,7 +21,7 @@ import {
 } from 'material-ui/styles/colors';
 
 const getColorFromStatus = (statusText) => {
-  switch(statusText) {
+  switch (statusText) {
     case 'Unconfirmed':
       return grey100;
     case 'Confirmed':
@@ -31,8 +32,10 @@ const getColorFromStatus = (statusText) => {
       return lightGreen100;
     case 'Failed':
       return red100;
+    default:
+      return white;
   }
-}
+};
 
 const ListOrders = ({ orders, onRemoveOrder, onViewOrder }) => (
   <Table>
@@ -45,8 +48,8 @@ const ListOrders = ({ orders, onRemoveOrder, onViewOrder }) => (
       </TableRow>
     </TableHeader>
     <TableBody>
-      {orders.edges.map((edge, index) => (
-        <TableRow key={index}>
+      {orders.edges.map((edge) => (
+        <TableRow key={edge.node.id}>
           <TableRowColumn>{edge.node.orderNumber}</TableRowColumn>
           <TableRowColumn>{edge.node.email}</TableRowColumn>
           <TableRowColumn>
@@ -91,7 +94,7 @@ ListOrders.propTypes = {
   }).isRequired,
   onViewOrder: PropTypes.func.isRequired,
   onRemoveOrder: PropTypes.func.isRequired,
-}
+};
 
 export default createFragmentContainer(
   ListOrders,

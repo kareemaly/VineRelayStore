@@ -1,6 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -17,10 +17,16 @@ import updateBrandMutation from './updateBrandMutation';
 
 
 class EditBrandRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    node: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     // Not an admin so change to login
-    if(! this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin/login`);
+    if (!this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin/login');
     }
 
     this.setState({
@@ -31,13 +37,13 @@ class EditBrandRoute extends React.Component {
 
   onUpdateSuccess = () => {
     this.setState({
-      snackbarMessage: `Brand has been updated`,
+      snackbarMessage: 'Brand has been updated',
     });
   }
 
   onUpdateError = (error) => {
     // Handle validation error
-    if(isValidationError(error)) {
+    if (isValidationError(error)) {
       this.setState({
         validationErrors: getErrorValidationObject(error),
         isLoading: false,
@@ -52,7 +58,7 @@ class EditBrandRoute extends React.Component {
   }
 
   onUpdateComplete = (mutation, errors) => {
-    if(errors) {
+    if (errors) {
       this.onUpdateError(errors[0]);
     } else {
       this.onUpdateSuccess();
@@ -70,7 +76,7 @@ class EditBrandRoute extends React.Component {
   render() {
     const {
       viewer,
-      brand,
+      node: brand,
     } = this.props;
 
     const {
@@ -81,7 +87,7 @@ class EditBrandRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <EditBrand
             brand={brand}
             errors={validationErrors}
@@ -100,54 +106,33 @@ class EditBrandRoute extends React.Component {
   }
 }
 
-const EditBrandRouteContainer = createFragmentContainer(
-  withRouter(EditBrandRoute),
-  graphql`
-    fragment EditBrandRoute_viewer on User {
-      isAdmin
-      ...DashboardLayout_viewer
-    }
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query EditBrandRouteQuery($brandId: ID!) {
+        viewer {
+          isAdmin
+          ...DashboardLayout_viewer
+        }
+        node(id: $brandId) {
+          ...EditBrand_brand
+        }
+      }
+    `}
+    variables={{
+      brandId: props.match.params.brandId, // eslint-disable-line react/prop-types
+    }}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
 
-    fragment EditBrandRoute_brand on Brand {
-      ...EditBrand_brand
-    }
-  `
+      if (relayProps) {
+        return <EditBrandRoute {...relayProps} {...props} />;
+      }
+
+      return <PageLoader />;
+    }}
+  />
 );
-
-export default ({ match }) => {
-  const brandId = match.params.brandId;
-  return (
-    <QueryRenderer
-      environment={relayEnvironment}
-      query={graphql`
-        query EditBrandRouteQuery($brandId: ID!) {
-          viewer {
-            ...EditBrandRoute_viewer
-          }
-          node(id: $brandId) {
-            ...EditBrandRoute_brand
-          }
-        }
-      `}
-      variables={{
-        brandId,
-      }}
-      render={({ error, props }) => {
-        if (error) {
-          return <PageError error={error} />;
-        }
-
-        if (props) {
-          return (
-            <EditBrandRouteContainer
-              brand={props.node}
-              viewer={props.viewer}
-            />
-          );
-        }
-
-        return <PageLoader />;
-      }}
-    />
-  );
-}

@@ -18,7 +18,6 @@ const ButtonWrapper = styled.div`
 `;
 
 class EditBrand extends React.Component {
-
   componentWillMount() {
     this.setState({
       brand: this.props.brand,
@@ -26,7 +25,7 @@ class EditBrand extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.brand !== nextProps.brand) {
+    if (this.props.brand !== nextProps.brand) {
       this.setState({
         brand: nextProps.brand,
       });

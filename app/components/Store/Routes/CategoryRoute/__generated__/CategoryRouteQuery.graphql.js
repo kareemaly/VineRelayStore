@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash ef42db411d03f93f7d43895e3b6f7d13
+ * @relayHash f6e74f83b2fbd2d1e4179df463154765
  */
 
 /* eslint-disable */
@@ -32,7 +32,6 @@ query CategoryRouteQuery(
       description
     }
     ...CategoryHero_category
-    ...CategoryHeader_category
   }
   products(categoryId: $categoryId) {
     ...ProductsGrid_products
@@ -49,11 +48,6 @@ query CategoryRouteQuery(
 fragment CategoryHero_category on Category {
   name
   coverImage
-}
-
-fragment CategoryHeader_category on Category {
-  name
-  ...CategoryLogo_category
 }
 
 fragment ProductsGrid_products on ProductConnection {
@@ -78,15 +72,11 @@ fragment StoreLayout_viewer on User {
 }
 
 fragment AdminFooter_viewer on User {
-  isAdmin
+  displayName
 }
 
 fragment Notifier_notifier on Notifier {
   message
-}
-
-fragment CategoryLogo_category on Category {
-  logoImage
 }
 */
 
@@ -129,11 +119,6 @@ const batch /*: ConcreteBatch*/ = {
           {
             "kind": "FragmentSpread",
             "name": "CategoryHero_category",
-            "args": null
-          },
-          {
-            "kind": "FragmentSpread",
-            "name": "CategoryHeader_category",
             "args": null
           },
           {
@@ -280,13 +265,6 @@ const batch /*: ConcreteBatch*/ = {
                 "args": null,
                 "name": "coverImage",
                 "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "logoImage",
-                "storageKey": null
               }
             ]
           }
@@ -404,6 +382,13 @@ const batch /*: ConcreteBatch*/ = {
                 "args": null,
                 "name": "isAdmin",
                 "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "displayName",
+                "storageKey": null
               }
             ]
           }
@@ -412,7 +397,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query CategoryRouteQuery(\n  $categoryId: ID!\n) {\n  node(id: $categoryId) {\n    __typename\n    id\n    ... on Category {\n      description\n    }\n    ...CategoryHero_category\n    ...CategoryHeader_category\n  }\n  products(categoryId: $categoryId) {\n    ...ProductsGrid_products\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n  viewer {\n    ...StoreLayout_viewer\n    id\n  }\n}\n\nfragment CategoryHero_category on Category {\n  name\n  coverImage\n}\n\nfragment CategoryHeader_category on Category {\n  name\n  ...CategoryLogo_category\n}\n\nfragment ProductsGrid_products on ProductConnection {\n  edges {\n    node {\n      id\n      name\n      mainImage\n      price\n    }\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment StoreLayout_viewer on User {\n  isAdmin\n  ...AdminFooter_viewer\n}\n\nfragment AdminFooter_viewer on User {\n  isAdmin\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n\nfragment CategoryLogo_category on Category {\n  logoImage\n}\n"
+  "text": "query CategoryRouteQuery(\n  $categoryId: ID!\n) {\n  node(id: $categoryId) {\n    __typename\n    id\n    ... on Category {\n      description\n    }\n    ...CategoryHero_category\n  }\n  products(categoryId: $categoryId) {\n    ...ProductsGrid_products\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n  viewer {\n    ...StoreLayout_viewer\n    id\n  }\n}\n\nfragment CategoryHero_category on Category {\n  name\n  coverImage\n}\n\nfragment ProductsGrid_products on ProductConnection {\n  edges {\n    node {\n      id\n      name\n      mainImage\n      price\n    }\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment StoreLayout_viewer on User {\n  isAdmin\n  ...AdminFooter_viewer\n}\n\nfragment AdminFooter_viewer on User {\n  displayName\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
 };
 
 module.exports = batch;

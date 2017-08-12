@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
@@ -23,6 +24,11 @@ const ButtonWrapper = styled.div`
 `;
 
 class CartRoute extends React.Component {
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    viewer: PropTypes.object.isRequired,
+    notifier: PropTypes.object.isRequired,
+  };
 
   componentWillMount() {
     this.setState({
@@ -33,31 +39,31 @@ class CartRoute extends React.Component {
       this.setState({
         cart: cartStore.get(),
       });
-    })
+    });
   }
 
   componentWillUnmount() {
     this.cartListener.remove();
   }
 
-  removeItem = (product) => {
-    if(confirm(`Are you sure you want to remove this item from cart?`)) {
-      cartActions.removeItem(product);
+  onQuantityChange = (product, qty) => {
+    const quantity = parseInt(qty, 10);
+    if (quantity === 0) {
+      this.removeItem(product);
+    } else if (Number.isInteger(quantity)) {
+      cartActions.updateItemQuantity(product, quantity);
     }
   }
 
-  onQuantityChange = (product, quantity) => {
-    quantity = parseInt(quantity);
-    if(quantity === 0) {
-      this.removeItem(product);
-    } else if(Number.isInteger(quantity)) {
-      cartActions.updateItemQuantity(product, quantity);
+  removeItem = (product) => {
+    if (confirm('Are you sure you want to remove this item from cart?')) { // eslint-disable-line no-alert
+      cartActions.removeItem(product);
     }
   }
 
   renderEmptyCart() {
     return (
-      <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+      <Paper paddings={['top', 'bottom', 'left', 'right']}>
         <h2>You dont have items in your cart</h2>
       </Paper>
     );
@@ -74,11 +80,11 @@ class CartRoute extends React.Component {
 
     return (
       <div>
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <h1>Cart</h1>
           <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
         </Paper>
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <Cart
             onProductClick={(id) => history.push(`/product/${id}`)}
             cart={cart}
@@ -88,7 +94,7 @@ class CartRoute extends React.Component {
           <ButtonWrapper>
             <Button
               primary
-              onClick={() => history.push(`/checkout`)}
+              onClick={() => history.push('/checkout')}
             >
               Checkout
               <ChevronWrapper>

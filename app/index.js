@@ -1,5 +1,4 @@
 import React from 'react';
-import Relay from 'react-relay';
 import ReactDOM from 'react-dom';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import AdminRouter from 'app/routes/AdminRouter';
@@ -17,8 +16,8 @@ document.body.appendChild(rootNode);
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path='/admin' component={AdminRouter}/>
-      <Route path='/' component={StoreRouter}/>
+      <Route path="/admin" component={AdminRouter} />
+      <Route path="/" component={StoreRouter} />
     </Switch>
   </BrowserRouter>,
   rootNode

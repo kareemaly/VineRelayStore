@@ -3,12 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import Snackbar from 'material-ui/Snackbar';
-import {
-  isValidationError,
-  getErrorValidationMessage,
-  getErrorMessage,
-} from 'app/utils/error';
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,7 +21,6 @@ const ButtonWrapper = styled.div`
 `;
 
 class Login extends React.Component {
-
   componentWillMount() {
     this.setState({
       email: '',
@@ -85,7 +78,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  buttonDisabled: PropTypes.bool,
+  submitDisabled: PropTypes.bool.isRequired,
   emailError: PropTypes.string,
   passwordError: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,

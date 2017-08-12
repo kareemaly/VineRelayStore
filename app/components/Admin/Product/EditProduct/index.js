@@ -21,15 +21,23 @@ const ButtonWrapper = styled.div`
 `;
 
 class EditProduct extends React.Component {
-
   componentWillMount() {
     this.setProductFromProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.product !== nextProps.product) {
+    if (this.props.product !== nextProps.product) {
       this.setProductFromProps(nextProps);
     }
+  }
+
+  onChange = (data) => {
+    this.setState({
+      product: {
+        ...this.state.product,
+        ...data,
+      },
+    });
   }
 
   setProductFromProps(props) {
@@ -42,15 +50,6 @@ class EditProduct extends React.Component {
         price: props.product.price,
         categoryId: props.product.category.id,
         brandId: props.product.brand.id,
-      },
-    });
-  }
-
-  onChange = (data) => {
-    this.setState({
-      product: {
-        ...this.state.product,
-        ...data,
       },
     });
   }
@@ -146,6 +145,7 @@ EditProduct.propTypes = {
     }),
   }).isRequired,
   brands: PropTypes.object.isRequired,
+  categories: PropTypes.object.isRequired,
   errors: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,

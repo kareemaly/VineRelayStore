@@ -64,8 +64,8 @@ const BreadcrumbDivider = () =>
   <RightChevronWrapper><RightChevronIcon width={15} height={15} /></RightChevronWrapper>;
 
 const BreadcrumbItem = styled.h5`
-  ${(props) => props.onClick && `opacity: 0.8;`}
-  ${(props) => props.onClick && `cursor: pointer;`}
+  ${(props) => props.onClick && 'opacity: 0.8;'}
+  ${(props) => props.onClick && 'cursor: pointer;'}
 `;
 
 const ProductDetails = ({ onHomeClick, onCategoryClick, onBrandClick, isProductInCart, onAddToCartClick, product }) => (
@@ -97,7 +97,7 @@ const ProductDetails = ({ onHomeClick, onCategoryClick, onBrandClick, isProductI
           secondary={isProductInCart(product)}
           onClick={() => onAddToCartClick(product)}
         >
-          {isProductInCart(product) ? `Remove from cart` : 'Add to cart'}
+          {isProductInCart(product) ? 'Remove from cart' : 'Add to cart'}
         </AddToCartButton>
       </RightWrapper>
     </ContentWrapper>
@@ -120,7 +120,7 @@ ProductDetails.propTypes = {
   onHomeClick: PropTypes.func.isRequired,
   onCategoryClick: PropTypes.func.isRequired,
   onBrandClick: PropTypes.func.isRequired,
-}
+};
 
 export default createFragmentContainer(
   ProductDetails,

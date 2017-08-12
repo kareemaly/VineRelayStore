@@ -1,5 +1,4 @@
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TextField from 'material-ui/TextField';
@@ -18,7 +17,6 @@ const ButtonWrapper = styled.div`
 `;
 
 class CreateBrand extends React.Component {
-
   componentWillMount() {
     this.setState({
       brand: {},
@@ -78,10 +76,6 @@ class CreateBrand extends React.Component {
 }
 
 CreateBrand.propTypes = {
-  brand: PropTypes.shape({
-    name: PropTypes.string,
-    slug: PropTypes.string,
-  }).isRequired,
   errors: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
@@ -90,13 +84,4 @@ CreateBrand.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default createFragmentContainer(
-  CreateBrand,
-  graphql`
-    fragment CreateBrand_brand on Brand {
-      id
-      name
-      slug
-    }
-  `
-);
+export default CreateBrand;

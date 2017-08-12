@@ -1,6 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -17,10 +17,16 @@ import updateCategoryMutation from './updateCategoryMutation';
 
 
 class EditCategoryRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    node: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     // Not an admin so change to login
-    if(! this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin/login`);
+    if (!this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin/login');
     }
 
     this.setState({
@@ -31,13 +37,13 @@ class EditCategoryRoute extends React.Component {
 
   onUpdateSuccess = () => {
     this.setState({
-      snackbarMessage: `Category has been updated`,
+      snackbarMessage: 'Category has been updated',
     });
   }
 
   onUpdateError = (error) => {
     // Handle validation error
-    if(isValidationError(error)) {
+    if (isValidationError(error)) {
       this.setState({
         validationErrors: getErrorValidationObject(error),
         isLoading: false,
@@ -52,7 +58,7 @@ class EditCategoryRoute extends React.Component {
   }
 
   onUpdateComplete = (mutation, errors) => {
-    if(errors) {
+    if (errors) {
       this.onUpdateError(errors[0]);
     } else {
       this.onUpdateSuccess();
@@ -70,7 +76,7 @@ class EditCategoryRoute extends React.Component {
   render() {
     const {
       viewer,
-      category,
+      node: category,
     } = this.props;
 
     const {
@@ -81,7 +87,7 @@ class EditCategoryRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <EditCategory
             category={category}
             errors={validationErrors}
@@ -100,54 +106,33 @@ class EditCategoryRoute extends React.Component {
   }
 }
 
-const EditCategoryRouteContainer = createFragmentContainer(
-  withRouter(EditCategoryRoute),
-  graphql`
-    fragment EditCategoryRoute_viewer on User {
-      isAdmin
-      ...DashboardLayout_viewer
-    }
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query EditCategoryRouteQuery($categoryId: ID!) {
+        viewer {
+          isAdmin
+          ...DashboardLayout_viewer
+        }
+        node(id: $categoryId) {
+          ...EditCategory_category
+        }
+      }
+    `}
+    variables={{
+      categoryId: props.match.params.categoryId, // eslint-disable-line react/prop-types
+    }}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
 
-    fragment EditCategoryRoute_category on Category {
-      ...EditCategory_category
-    }
-  `
+      if (relayProps) {
+        return <EditCategoryRoute {...relayProps} {...props} />;
+      }
+
+      return <PageLoader />;
+    }}
+  />
 );
-
-export default ({ match }) => {
-  const categoryId = match.params.categoryId;
-  return (
-    <QueryRenderer
-      environment={relayEnvironment}
-      query={graphql`
-        query EditCategoryRouteQuery($categoryId: ID!) {
-          viewer {
-            ...EditCategoryRoute_viewer
-          }
-          node(id: $categoryId) {
-            ...EditCategoryRoute_category
-          }
-        }
-      `}
-      variables={{
-        categoryId,
-      }}
-      render={({ error, props }) => {
-        if (error) {
-          return <PageError error={error} />;
-        }
-
-        if (props) {
-          return (
-            <EditCategoryRouteContainer
-              category={props.node}
-              viewer={props.viewer}
-            />
-          );
-        }
-
-        return <PageLoader />;
-      }}
-    />
-  );
-}

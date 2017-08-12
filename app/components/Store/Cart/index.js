@@ -37,7 +37,7 @@ const TR = styled.tr`
 const TD = styled.td`
   padding: 5px 0;
   vertical-align: center;
-  ${(props) => props.alignRight && `text-align: right;`}
+  ${(props) => props.alignRight && 'text-align: right;'}
 `;
 
 const CartItemImage = styled.img`
@@ -111,8 +111,8 @@ const Cart = ({ cart, removeItem, onQuantityChange, onProductClick }) => (
         </TR>
       </THEAD>
       <TBODY>
-        {cart.items.map((item, index) => (
-          <TR key={index}>
+        {cart.items.map((item) => (
+          <TR key={item.product}>
             <TD>
               <CartItemImage
                 src={item.image}

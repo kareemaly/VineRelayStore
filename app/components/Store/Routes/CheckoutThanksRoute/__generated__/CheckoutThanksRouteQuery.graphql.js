@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash ccb1f873e8f47ad60fa06e676d3c1c9b
+ * @relayHash 9a1eb3f07682bc3789b54bdeacbb7027
  */
 
 /* eslint-disable */
@@ -38,7 +38,7 @@ fragment StoreLayout_viewer on User {
 }
 
 fragment AdminFooter_viewer on User {
-  isAdmin
+  displayName
 }
 
 fragment Notifier_notifier on Notifier {
@@ -141,6 +141,13 @@ const batch /*: ConcreteBatch*/ = {
                 "args": null,
                 "name": "isAdmin",
                 "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "displayName",
+                "storageKey": null
               }
             ]
           }
@@ -149,7 +156,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query CheckoutThanksRouteQuery {\n  notifier {\n    ...StoreLayout_notifier\n  }\n  viewer {\n    ...StoreLayout_viewer\n    id\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment StoreLayout_viewer on User {\n  isAdmin\n  ...AdminFooter_viewer\n}\n\nfragment AdminFooter_viewer on User {\n  isAdmin\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
+  "text": "query CheckoutThanksRouteQuery {\n  notifier {\n    ...StoreLayout_notifier\n  }\n  viewer {\n    ...StoreLayout_viewer\n    id\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment StoreLayout_viewer on User {\n  isAdmin\n  ...AdminFooter_viewer\n}\n\nfragment AdminFooter_viewer on User {\n  displayName\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
 };
 
 module.exports = batch;

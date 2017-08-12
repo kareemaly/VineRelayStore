@@ -62,7 +62,7 @@ const Grid = ({ children, itemsPerRow, ...props }) => (
         tabletItems={getTabletItems(itemsPerRow)}
         mobileItems={getMobileItems(itemsPerRow)}
         smallMobileItems={getSmallMobileItems(itemsPerRow)}
-        key={index}
+        key={index} /* eslint-disable-line react/no-array-index-key */
       >
         {child}
       </ItemWrapper>

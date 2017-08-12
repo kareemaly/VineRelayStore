@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 9195c97f3cfcf698398066577c9d4c20
+ * @relayHash bc046379aec10cd7232b0607067affbf
  */
 
 /* eslint-disable */
@@ -10,7 +10,9 @@
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
 export type EditCategoryRouteQueryResponse = {|
-  +viewer: {| |};
+  +viewer: {|
+    +isAdmin: ?boolean;
+  |};
   +node: ?{| |};
 |};
 */
@@ -21,23 +23,22 @@ query EditCategoryRouteQuery(
   $categoryId: ID!
 ) {
   viewer {
-    ...EditCategoryRoute_viewer
+    isAdmin
+    ...DashboardLayout_viewer
     id
   }
   node(id: $categoryId) {
     __typename
-    ...EditCategoryRoute_category
+    ...EditCategory_category
     id
   }
 }
 
-fragment EditCategoryRoute_viewer on User {
-  isAdmin
-  ...DashboardLayout_viewer
-}
-
-fragment EditCategoryRoute_category on Category {
-  ...EditCategory_category
+fragment DashboardLayout_viewer on User {
+  displayName
+  firstName
+  lastName
+  email
 }
 
 fragment EditCategory_category on Category {
@@ -47,13 +48,6 @@ fragment EditCategory_category on Category {
   description
   coverImage
   logoImage
-}
-
-fragment DashboardLayout_viewer on User {
-  displayName
-  firstName
-  lastName
-  email
 }
 */
 
@@ -80,8 +74,15 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
             "kind": "FragmentSpread",
-            "name": "EditCategoryRoute_viewer",
+            "name": "DashboardLayout_viewer",
             "args": null
           }
         ],
@@ -104,7 +105,7 @@ const batch /*: ConcreteBatch*/ = {
         "selections": [
           {
             "kind": "FragmentSpread",
-            "name": "EditCategoryRoute_category",
+            "name": "EditCategory_category",
             "args": null
           }
         ],
@@ -142,6 +143,13 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "ScalarField",
             "alias": null,
             "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
             "name": "id",
             "storageKey": null
           },
@@ -149,13 +157,6 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "InlineFragment",
             "type": "User",
             "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "isAdmin",
-                "storageKey": null
-              },
               {
                 "kind": "ScalarField",
                 "alias": null,
@@ -264,7 +265,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query EditCategoryRouteQuery(\n  $categoryId: ID!\n) {\n  viewer {\n    ...EditCategoryRoute_viewer\n    id\n  }\n  node(id: $categoryId) {\n    __typename\n    ...EditCategoryRoute_category\n    id\n  }\n}\n\nfragment EditCategoryRoute_viewer on User {\n  isAdmin\n  ...DashboardLayout_viewer\n}\n\nfragment EditCategoryRoute_category on Category {\n  ...EditCategory_category\n}\n\nfragment EditCategory_category on Category {\n  id\n  name\n  slug\n  description\n  coverImage\n  logoImage\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n"
+  "text": "query EditCategoryRouteQuery(\n  $categoryId: ID!\n) {\n  viewer {\n    isAdmin\n    ...DashboardLayout_viewer\n    id\n  }\n  node(id: $categoryId) {\n    __typename\n    ...EditCategory_category\n    id\n  }\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n\nfragment EditCategory_category on Category {\n  id\n  name\n  slug\n  description\n  coverImage\n  logoImage\n}\n"
 };
 
 module.exports = batch;

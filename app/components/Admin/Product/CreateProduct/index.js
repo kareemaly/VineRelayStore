@@ -20,7 +20,6 @@ const ButtonWrapper = styled.div`
 `;
 
 class CreateProduct extends React.Component {
-
   componentWillMount() {
     this.setState({
       product: {},
@@ -105,13 +104,6 @@ class CreateProduct extends React.Component {
 }
 
 CreateProduct.propTypes = {
-  product: PropTypes.shape({
-    name: PropTypes.string,
-    slug: PropTypes.string,
-    price: PropTypes.number,
-    brandId: PropTypes.string,
-    categoryId: PropTypes.string,
-  }).isRequired,
   brands: PropTypes.shape.isRequired,
   categories: PropTypes.shape.isRequired,
   errors: PropTypes.shape({

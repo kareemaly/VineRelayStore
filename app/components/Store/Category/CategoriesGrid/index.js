@@ -29,8 +29,11 @@ const CategoriesGrid = ({ categories, onCategoryClick }) => (
       desktop: 3,
     }}
   >
-    {categories.edges.map((edge, index) => (
-      <CategoryItem onClick={() => onCategoryClick(edge.node.id)} key={index}>
+    {categories.edges.map((edge) => (
+      <CategoryItem
+        onClick={() => onCategoryClick(edge.node.id)}
+        key={edge.node.id}
+      >
         <CategoryImage
           src={edge.node.coverImage}
         />
@@ -51,7 +54,7 @@ CategoriesGrid.propTypes = {
     })).isRequired,
   }).isRequired,
   onCategoryClick: PropTypes.func.isRequired,
-}
+};
 
 export default createFragmentContainer(
   CategoriesGrid,

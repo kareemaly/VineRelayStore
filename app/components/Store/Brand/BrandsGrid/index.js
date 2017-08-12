@@ -29,8 +29,11 @@ const BrandsGrid = ({ brands, onBrandClick }) => (
       desktop: 3,
     }}
   >
-    {brands.edges.map((edge, index) => (
-      <BrandItem onClick={() => onBrandClick(edge.node.id)} key={index}>
+    {brands.edges.map((edge) => (
+      <BrandItem
+        onClick={() => onBrandClick(edge.node.id)}
+        key={edge.node.id}
+      >
         <BrandImage
           src={edge.node.coverImage}
         />
@@ -51,7 +54,7 @@ BrandsGrid.propTypes = {
     })).isRequired,
   }).isRequired,
   onBrandClick: PropTypes.func.isRequired,
-}
+};
 
 export default createFragmentContainer(
   BrandsGrid,

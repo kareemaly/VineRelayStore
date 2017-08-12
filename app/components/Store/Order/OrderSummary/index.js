@@ -1,11 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Button from 'app/components/Store/Main/Button';
-import breakpoints from 'app/utils/breakpoints';
-import UpChevronIcon from 'app/components/Store/Icons/UpChevronIcon';
-import DownChevronIcon from 'app/components/Store/Icons/DownChevronIcon';
-import CloseIcon from 'app/components/Store/Icons/CloseIcon';
 
 const Wrapper = styled.div`
 `;
@@ -67,8 +62,8 @@ const OrderSummary = ({ cart }) => (
   <Wrapper>
     <Title>Order Summary</Title>
     <Divider />
-    {cart.items.map((item, index) => (
-      <CartItem key={index}>
+    {cart.items.map((item) => (
+      <CartItem key={item.product}>
         <CartItemImageWrapper>
           <CartItemImage
             src={item.image}

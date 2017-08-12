@@ -25,7 +25,7 @@ const updater = (id, recordSelector) => {
 
   // Update products record with the new edges after the deletion
   productsRecord.setLinkedRecords(newEdges, 'edges');
-}
+};
 
 export default (id, onCompleted, onError) => {
   const variables = {
@@ -42,4 +42,4 @@ export default (id, onCompleted, onError) => {
       updater: (relaySource) => updater(id, relaySource),
     },
   );
-}
+};

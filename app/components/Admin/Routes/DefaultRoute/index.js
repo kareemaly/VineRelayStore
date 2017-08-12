@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
-import { withRouter } from 'react-router';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -36,10 +36,15 @@ const BoxTitle = styled.h2`
 `;
 
 class DefaultRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     // Not an admin so we need to change route
-    if(! this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin/login`);
+    if (!this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin/login');
     }
   }
 
@@ -52,7 +57,7 @@ class DefaultRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper paddings={[ 'left', 'right' ]} zDepth={0}>
+        <Paper paddings={['left', 'right']} zDepth={0}>
           <Grid
             itemsPerRow={{
               largeDesktop: 4,
@@ -61,7 +66,7 @@ class DefaultRoute extends React.Component {
               mobile: 1,
             }}
           >
-            <Box to='/admin/products'>
+            <Box to="/admin/products">
               <BoxIconWrapper>
                 <CubesIcon width={iconSize} height={iconSize} />
               </BoxIconWrapper>
@@ -69,7 +74,7 @@ class DefaultRoute extends React.Component {
                 Products
               </BoxTitle>
             </Box>
-            <Box to='/admin/categories'>
+            <Box to="/admin/categories">
               <BoxIconWrapper>
                 <ListIcon width={iconSize} height={iconSize} />
               </BoxIconWrapper>
@@ -77,7 +82,7 @@ class DefaultRoute extends React.Component {
                 Categories
               </BoxTitle>
             </Box>
-            <Box to='/admin/brands'>
+            <Box to="/admin/brands">
               <BoxIconWrapper>
                 <TagIcon width={iconSize} height={iconSize} />
               </BoxIconWrapper>
@@ -85,7 +90,7 @@ class DefaultRoute extends React.Component {
                 Brands
               </BoxTitle>
             </Box>
-            <Box to='/admin/orders'>
+            <Box to="/admin/orders">
               <BoxIconWrapper>
                 <ShipIcon width={iconSize} height={iconSize} />
               </BoxIconWrapper>
@@ -100,34 +105,25 @@ class DefaultRoute extends React.Component {
   }
 }
 
-const DefaultRouteContainer = createFragmentContainer(
-  withRouter(DefaultRoute),
-  graphql`
-    fragment DefaultRoute_viewer on User {
-      firstName
-      isAdmin
-      ...DashboardLayout_viewer
-    }
-  `
-);
-
-export default () => (
+export default (props) => (
   <QueryRenderer
     environment={relayEnvironment}
     query={graphql`
       query DefaultRouteQuery {
         viewer {
-          ...DefaultRoute_viewer
+          firstName
+          isAdmin
+          ...DashboardLayout_viewer
         }
       }
     `}
-    render={({ error, props }) => {
+    render={({ error, props: relayProps }) => {
       if (error) {
         return <PageError error={error} />;
       }
 
-      if (props) {
-        return <DefaultRouteContainer {...props} />;
+      if (relayProps) {
+        return <DefaultRoute {...relayProps} {...props} />;
       }
 
       return <PageLoader />;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -10,6 +10,7 @@ import Paper from 'app/components/Admin/Main/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import { getErrorMessage } from 'app/utils/error';
 import updateOrderStatusMutation from './updateOrderStatusMutation';
+
 const UNCONFIRMED = 'store/orderStatus/UNCONFIRMED';
 const CONFIRMED = 'store/orderStatus/CONFIRMED';
 const OUT_FOR_DELIVERY = 'store/orderStatus/OUT_FOR_DELIVERY';
@@ -17,10 +18,16 @@ const DELIVERED = 'store/orderStatus/DELIVERED';
 const FAILED = 'store/orderStatus/FAILED';
 
 class ViewOrderRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    node: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     // Not an admin so change to login
-    if(! this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin/login`);
+    if (!this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin/login');
     }
 
     this.setState({
@@ -30,7 +37,7 @@ class ViewOrderRoute extends React.Component {
 
   onUpdateSuccess = () => {
     this.setState({
-      snackbarMessage: `Order status has been updated`,
+      snackbarMessage: 'Order status has been updated',
     });
   }
 
@@ -41,7 +48,7 @@ class ViewOrderRoute extends React.Component {
   }
 
   onUpdateComplete = (mutation, errors) => {
-    if(errors) {
+    if (errors) {
       this.onUpdateError(errors[0]);
     } else {
       this.onUpdateSuccess();
@@ -68,7 +75,7 @@ class ViewOrderRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <ViewOrder
             order={order}
             onStatusChange={this.onStatusChange}
@@ -92,42 +99,39 @@ class ViewOrderRoute extends React.Component {
   }
 }
 
-export default (props) => {
-  const orderId = props.match.params.orderId;
-  return (
-    <QueryRenderer
-      environment={relayEnvironment}
-      query={graphql`
-        query ViewOrderRouteQuery($orderId: ID!) {
-          viewer {
-            isAdmin
-            ...DashboardLayout_viewer
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query ViewOrderRouteQuery($orderId: ID!) {
+        viewer {
+          isAdmin
+          ...DashboardLayout_viewer
+        }
+
+        node(id: $orderId) {
+          ... on Order {
+            id
           }
-
-          node(id: $orderId) {
-            ... on Order {
-              id
-            }
-            ...ViewOrder_order
-          }
+          ...ViewOrder_order
         }
-      `}
-      variables={{
-        orderId,
-      }}
-      render={({ error, props: relayProps }) => {
-        if (error) {
-          return <PageError error={error} />;
-        }
+      }
+    `}
+    variables={{
+      orderId: props.match.params.orderId, // eslint-disable-line react/prop-types
+    }}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
 
-        if (relayProps) {
-          return (
-            <ViewOrderRoute {...props} {...relayProps} />
-          );
-        }
+      if (relayProps) {
+        return (
+          <ViewOrderRoute {...props} {...relayProps} />
+        );
+      }
 
-        return <PageLoader />;
-      }}
-    />
-  );
-}
+      return <PageLoader />;
+    }}
+  />
+);

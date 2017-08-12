@@ -3,7 +3,6 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import styled from 'styled-components';
 
 const CategorySelector = ({ categories, selectedCategoryId, onChange }) => (
   <SelectField
@@ -11,8 +10,12 @@ const CategorySelector = ({ categories, selectedCategoryId, onChange }) => (
     value={selectedCategoryId}
     onChange={(e, i, value) => onChange(value)}
   >
-    {categories.edges.map((edge, index) => (
-      <MenuItem key={index} value={edge.node.id} primaryText={edge.node.name} />
+    {categories.edges.map((edge) => (
+      <MenuItem
+        key={edge.node.id}
+        value={edge.node.id}
+        primaryText={edge.node.name}
+      />
     ))}
   </SelectField>
 );

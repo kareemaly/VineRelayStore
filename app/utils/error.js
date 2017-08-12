@@ -8,11 +8,11 @@ export function isRelayError(error) {
 }
 
 export function getErrorMessage(error) {
-  if(! error) {
+  if (!error) {
     return 'Unknown Error';
   }
 
-  if(isRelayError(error)) {
+  if (isRelayError(error)) {
     return error.getError().source.errors[0].message;
   }
 
@@ -20,11 +20,11 @@ export function getErrorMessage(error) {
 }
 
 export function getErrorName(error) {
-  if(! error) {
+  if (!error) {
     return 'UnknownError';
   }
 
-  if(isRelayError(error)) {
+  if (isRelayError(error)) {
     return error.getError().source.errors[0].name;
   }
 
@@ -57,31 +57,31 @@ export function isUnknownError(error) {
  * { key: string, value: string }
  */
 export function getErrorValidationMessages(error) {
-  if(! error) {
+  if (!error) {
     return [];
   }
-  if(isRelayError(error)) {
+  if (isRelayError(error)) {
     return error.getError().source.errors[0].validationMessages || [];
   }
-  return error.validationMessages || []
+  return error.validationMessages || [];
 }
 
 export function checkErrorValidationKey(error, key) {
   return getErrorValidationMessages(error)
-    .some(validationMessage => validationMessage.key === key);
+    .some((validationMessage) => validationMessage.key === key);
 }
 
 export function getErrorValidationMessage(error, key) {
   const validationMessage = getErrorValidationMessages(error)
-    .find(validationMessage => validationMessage.key === key);
+    .find((message) => message.key === key);
   return validationMessage ? validationMessage.value : '';
 }
 
 export function getErrorValidationObject(error) {
   const validationMessages = getErrorValidationMessages(error);
   const object = {};
-  for(let validationMessage of validationMessages) {
-    object[ validationMessage.key ] = validationMessage.value;
-  }
+  Object.values(validationMessages).forEach((validationMessage) => {
+    object[validationMessage.key] = validationMessage.value;
+  });
   return object;
 }

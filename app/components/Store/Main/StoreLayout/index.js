@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { withRouter } from 'react-router';
 import { createFragmentContainer, graphql } from 'react-relay';
@@ -53,12 +54,12 @@ class StoreLayout extends React.Component {
           />
         }
         <Header
-          onHomeClick={() => history.push(`/`)}
-          onAboutClick={() => history.push(`/about`)}
-          onCategoriesClick={() => history.push(`/categories`)}
-          onBrandsClick={() => history.push(`/brands`)}
-          onCartClick={() => history.push(`/cart`)}
-          onAdminClick={() => history.push(`/admin`)}
+          onHomeClick={() => history.push('/')}
+          onAboutClick={() => history.push('/about')}
+          onCategoriesClick={() => history.push('/categories')}
+          onBrandsClick={() => history.push('/brands')}
+          onCartClick={() => history.push('/cart')}
+          onAdminClick={() => history.push('/admin')}
           cartItemsNumber={cartStore.getItems().length}
         />
         <Divider />
@@ -66,16 +67,13 @@ class StoreLayout extends React.Component {
           {children}
         </ContentWrapper>
         <Divider />
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <Footer
-            onHomeClick={() => history.push(`/`)}
-            onAboutClick={() => history.push(`/about`)}
-            onCategoriesClick={() => history.push(`/categories`)}
-            onBrandsClick={() => history.push(`/brands`)}
-            onCartClick={() => history.push(`/cart`)}
-            onGithubClick={() => console.log('onGithubClick')}
-            onWebsiteClick={() => console.log('onWebsiteClick')}
-            onEmailClick={() => console.log('onEmailClick')}
+            onHomeClick={() => history.push('/')}
+            onAboutClick={() => history.push('/about')}
+            onCategoriesClick={() => history.push('/categories')}
+            onBrandsClick={() => history.push('/brands')}
+            onCartClick={() => history.push('/cart')}
           />
         </Paper>
         {
@@ -93,6 +91,14 @@ class StoreLayout extends React.Component {
     );
   }
 }
+
+StoreLayout.propTypes = {
+  history: PropTypes.object.isRequired,
+  notifier: PropTypes.object.isRequired,
+  viewer: PropTypes.object.isRequired,
+  children: PropTypes.any.isRequired,
+  adminFooterContent: PropTypes.any,
+};
 
 export default createFragmentContainer(
   withRouter(StoreLayout),

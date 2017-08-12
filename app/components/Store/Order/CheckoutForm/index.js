@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TextField from 'material-ui/TextField';
 import LeftChevronIcon from 'app/components/Store/Icons/LeftChevronIcon';
@@ -46,7 +47,6 @@ const CheckoutButtonIcon = styled(RightChevronIcon)`
 `;
 
 class CheckoutForm extends React.Component {
-
   componentWillMount() {
     this.setState({
       order: {
@@ -59,7 +59,7 @@ class CheckoutForm extends React.Component {
         state: '',
         zipCode: '',
         phoneNumber: '',
-      }
+      },
     });
   }
 
@@ -196,5 +196,12 @@ class CheckoutForm extends React.Component {
     );
   }
 }
+
+CheckoutForm.propTypes = {
+  errors: PropTypes.object,
+  submitDisabled: PropTypes.bool,
+  onSubmit: PropTypes.func.isRequired,
+  onBackToCartClick: PropTypes.func.isRequired,
+};
 
 export default CheckoutForm;

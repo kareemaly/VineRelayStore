@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 0bc545690044611a162afda8c17eb50a
+ * @relayHash 3ca6c8bc5cb732654a26ed7214a24242
  */
 
 /* eslint-disable */
@@ -10,7 +10,9 @@
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
 export type CreateCategoryRouteQueryResponse = {|
-  +viewer: {| |};
+  +viewer: {|
+    +isAdmin: ?boolean;
+  |};
 |};
 */
 
@@ -18,14 +20,10 @@ export type CreateCategoryRouteQueryResponse = {|
 /*
 query CreateCategoryRouteQuery {
   viewer {
-    ...CreateCategoryRoute_viewer
+    isAdmin
+    ...DashboardLayout_viewer
     id
   }
-}
-
-fragment CreateCategoryRoute_viewer on User {
-  isAdmin
-  ...DashboardLayout_viewer
 }
 
 fragment DashboardLayout_viewer on User {
@@ -52,8 +50,15 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
             "kind": "FragmentSpread",
-            "name": "CreateCategoryRoute_viewer",
+            "name": "DashboardLayout_viewer",
             "args": null
           }
         ],
@@ -84,6 +89,13 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "ScalarField",
             "alias": null,
             "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
             "name": "id",
             "storageKey": null
           },
@@ -91,13 +103,6 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "InlineFragment",
             "type": "User",
             "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "isAdmin",
-                "storageKey": null
-              },
               {
                 "kind": "ScalarField",
                 "alias": null,
@@ -133,7 +138,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query CreateCategoryRouteQuery {\n  viewer {\n    ...CreateCategoryRoute_viewer\n    id\n  }\n}\n\nfragment CreateCategoryRoute_viewer on User {\n  isAdmin\n  ...DashboardLayout_viewer\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n"
+  "text": "query CreateCategoryRouteQuery {\n  viewer {\n    isAdmin\n    ...DashboardLayout_viewer\n    id\n  }\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n"
 };
 
 module.exports = batch;

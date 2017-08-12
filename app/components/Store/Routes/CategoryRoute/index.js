@@ -1,15 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
 import StoreLayout from 'app/components/Store/Main/StoreLayout';
-import CategoryHeader from 'app/components/Store/Category/CategoryHeader';
 import CategoryHero from 'app/components/Store/Category/CategoryHero';
 import ProductsGrid from 'app/components/Store/Product/ProductsGrid';
-import AdminFooter from 'app/components/Store/Main/AdminFooter';
 import Button from 'app/components/Store/Main/Button';
 import Paper from 'app/components/Store/Main/Paper';
 import { cartActions } from 'app/actions';
@@ -24,6 +22,13 @@ const SmallDivider = styled.div`
 `;
 
 class CategoryRoute extends React.Component {
+  static propTypes = {
+    node: PropTypes.object.isRequired,
+    viewer: PropTypes.object.isRequired,
+    notifier: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    products: PropTypes.object.isRequired,
+  };
 
   componentWillMount() {
     this.cartListener = cartStore.addListener(() => {
@@ -35,12 +40,8 @@ class CategoryRoute extends React.Component {
     this.cartListener.remove();
   }
 
-  isProductInCart = (product) => {
-    return cartStore.hasItem(product.id);
-  }
-
   onAddToCartClick = (product) => {
-    if(cartStore.hasItem(product.id)) {
+    if (cartStore.hasItem(product.id)) {
       cartActions.removeItem(product.id);
     } else {
       // Add product to cart
@@ -53,6 +54,8 @@ class CategoryRoute extends React.Component {
       );
     }
   }
+
+  isProductInCart = (product) => cartStore.hasItem(product.id)
 
   render() {
     const {
@@ -81,12 +84,12 @@ class CategoryRoute extends React.Component {
         />
         {
           category.description &&
-          <Paper paddings={[ 'top', 'left', 'right' ]}>
+          <Paper paddings={['top', 'left', 'right']}>
             <p>{category.description}</p>
             <SmallDivider />
           </Paper>
         }
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <ProductsGrid
             products={products}
             onProductClick={(id) => history.push(`/product/${id}`)}
@@ -110,7 +113,6 @@ export default (props) => (
             description
           }
           ...CategoryHero_category
-          ...CategoryHeader_category
         }
 
         products(categoryId: $categoryId) {
@@ -127,7 +129,7 @@ export default (props) => (
       }
     `}
     variables={{
-      categoryId: props.match.params.categoryId,
+      categoryId: props.match.params.categoryId, // eslint-disable-line react/prop-types
     }}
     render={({ error, props: relayProps }) => {
       if (error) {

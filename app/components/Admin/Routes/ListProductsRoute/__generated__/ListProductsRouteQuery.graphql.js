@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash ddbd379bfb0031816d044e2ca9bf2be5
+ * @relayHash 5b017c7a7ed84135205b6d4b53fd1389
  */
 
 /* eslint-disable */
@@ -10,7 +10,9 @@
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
 export type ListProductsRouteQueryResponse = {|
-  +viewer: {| |};
+  +viewer: {|
+    +isAdmin: ?boolean;
+  |};
   +products: ?{| |};
 |};
 */
@@ -19,22 +21,20 @@ export type ListProductsRouteQueryResponse = {|
 /*
 query ListProductsRouteQuery {
   viewer {
-    ...ListProductsRoute_viewer
+    isAdmin
+    ...DashboardLayout_viewer
     id
   }
   products {
-    ...ListProductsRoute_products
+    ...ListProducts_products
   }
 }
 
-fragment ListProductsRoute_viewer on User {
+fragment DashboardLayout_viewer on User {
+  displayName
   firstName
-  isAdmin
-  ...DashboardLayout_viewer
-}
-
-fragment ListProductsRoute_products on ProductConnection {
-  ...ListProducts_products
+  lastName
+  email
 }
 
 fragment ListProducts_products on ProductConnection {
@@ -44,13 +44,6 @@ fragment ListProducts_products on ProductConnection {
       name
     }
   }
-}
-
-fragment DashboardLayout_viewer on User {
-  displayName
-  firstName
-  lastName
-  email
 }
 */
 
@@ -70,8 +63,15 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
             "kind": "FragmentSpread",
-            "name": "ListProductsRoute_viewer",
+            "name": "DashboardLayout_viewer",
             "args": null
           }
         ],
@@ -87,7 +87,7 @@ const batch /*: ConcreteBatch*/ = {
         "selections": [
           {
             "kind": "FragmentSpread",
-            "name": "ListProductsRoute_products",
+            "name": "ListProducts_products",
             "args": null
           }
         ],
@@ -118,6 +118,13 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "ScalarField",
             "alias": null,
             "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
             "name": "id",
             "storageKey": null
           },
@@ -129,21 +136,14 @@ const batch /*: ConcreteBatch*/ = {
                 "kind": "ScalarField",
                 "alias": null,
                 "args": null,
-                "name": "firstName",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "isAdmin",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
                 "name": "displayName",
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "firstName",
                 "storageKey": null
               },
               {
@@ -214,7 +214,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query ListProductsRouteQuery {\n  viewer {\n    ...ListProductsRoute_viewer\n    id\n  }\n  products {\n    ...ListProductsRoute_products\n  }\n}\n\nfragment ListProductsRoute_viewer on User {\n  firstName\n  isAdmin\n  ...DashboardLayout_viewer\n}\n\nfragment ListProductsRoute_products on ProductConnection {\n  ...ListProducts_products\n}\n\nfragment ListProducts_products on ProductConnection {\n  edges {\n    node {\n      id\n      name\n    }\n  }\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n"
+  "text": "query ListProductsRouteQuery {\n  viewer {\n    isAdmin\n    ...DashboardLayout_viewer\n    id\n  }\n  products {\n    ...ListProducts_products\n  }\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n\nfragment ListProducts_products on ProductConnection {\n  edges {\n    node {\n      id\n      name\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

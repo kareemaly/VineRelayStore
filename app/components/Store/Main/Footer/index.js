@@ -25,6 +25,10 @@ const ColumnTitle = ({ children }) => (
   </ColumnTitleWrapper>
 );
 
+ColumnTitle.propTypes = {
+  children: PropTypes.any.isRequired,
+};
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -100,7 +104,7 @@ const Footer = ({
         About us
       </ColumnTitle>
       <ColumnDescription>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        {'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'}
       </ColumnDescription>
     </Column>
     <Column>
@@ -120,14 +124,14 @@ const Footer = ({
 );
 
 Footer.propTypes = {
-  onHomeClick: PropTypes.func.isRequired,
-  onAboutClick: PropTypes.func.isRequired,
-  onCategoriesClick: PropTypes.func.isRequired,
-  onBrandsClick: PropTypes.func.isRequired,
-  onCartClick: PropTypes.func.isRequired,
-  onGithubClick: PropTypes.func.isRequired,
-  onWebsiteClick: PropTypes.func.isRequired,
-  onEmailClick: PropTypes.func.isRequired,
+  onHomeClick: PropTypes.func,
+  onAboutClick: PropTypes.func,
+  onCategoriesClick: PropTypes.func,
+  onBrandsClick: PropTypes.func,
+  onCartClick: PropTypes.func,
+  onGithubClick: PropTypes.func,
+  onWebsiteClick: PropTypes.func,
+  onEmailClick: PropTypes.func,
 };
 
 export default Footer;

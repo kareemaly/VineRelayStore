@@ -20,8 +20,8 @@ const ListBrands = ({ brands, onRemoveBrand, onEditBrand }) => (
       </TableRow>
     </TableHeader>
     <TableBody>
-      {brands.edges.map((edge, index) => (
-        <TableRow key={index}>
+      {brands.edges.map((edge) => (
+        <TableRow key={edge.node.id}>
           <TableRowColumn>{edge.node.name}</TableRowColumn>
           <TableRowColumn>
             <RaisedButton
@@ -56,7 +56,7 @@ ListBrands.propTypes = {
   }).isRequired,
   onEditBrand: PropTypes.func.isRequired,
   onRemoveBrand: PropTypes.func.isRequired,
-}
+};
 
 export default createFragmentContainer(
   ListBrands,

@@ -1,6 +1,6 @@
 import React from 'react';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
-import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import styled from 'styled-components';
 import relayEnvironment from 'app/config/relay';
 import Paper from 'material-ui/Paper';
@@ -30,10 +30,14 @@ const LoginWrapper = styled(Paper)`
 `;
 
 class LoginRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
 
   componentWillMount() {
-    if(this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin`);
+    if (this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin');
     }
 
     this.setState({
@@ -46,7 +50,7 @@ class LoginRoute extends React.Component {
 
   onLoginError = (error) => {
     // Handle validation error
-    if(isValidationError(error)) {
+    if (isValidationError(error)) {
       this.setState({
         emailError: getErrorValidationMessage(error, 'email'),
         passwordError: getErrorValidationMessage(error, 'password'),
@@ -67,11 +71,11 @@ class LoginRoute extends React.Component {
     });
     // Set token and change location to admin
     setToken(token);
-    this.props.history.replace(`/admin`);
+    this.props.history.replace('/admin');
   }
 
   onComplete = ({ loginUser }, errors) => {
-    if(errors) {
+    if (errors) {
       this.onLoginError(errors[0]);
     } else {
       this.onLoginSuccess(loginUser.token);
@@ -84,7 +88,7 @@ class LoginRoute extends React.Component {
       passwordError: '',
       errorMessage: '',
       isLoading: true,
-    })
+    });
 
     loginUserToAdminMutation({ email, password }, this.onComplete);
   }
@@ -119,32 +123,23 @@ class LoginRoute extends React.Component {
   }
 }
 
-const LoginRouteContainer = createFragmentContainer(
-  withRouter(LoginRoute),
-  graphql`
-    fragment LoginRoute_viewer on User {
-      isAdmin
-    }
-  `
-);
-
-export default ({ render }) => (
+export default (props) => (
   <QueryRenderer
     environment={relayEnvironment}
     query={graphql`
       query LoginRouteQuery {
         viewer {
-          ...LoginRoute_viewer
+          isAdmin
         }
       }
     `}
-    render={({ error, props }) => {
+    render={({ error, props: relayProps }) => {
       if (error) {
         return <PageError error={error} />;
       }
 
-      if (props) {
-        return <LoginRouteContainer {...props} />;
+      if (relayProps) {
+        return <LoginRoute {...relayProps} {...props} />;
       }
 
       return <PageLoader />;

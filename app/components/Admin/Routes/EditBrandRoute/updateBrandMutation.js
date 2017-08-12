@@ -10,7 +10,7 @@ const mutation = graphql`
   ) {
     updateBrand(input: $input) {
       brand {
-        ...EditBrandRoute_brand
+        ...EditBrand_brand
       }
     }
   }
@@ -30,4 +30,4 @@ export default (input, onCompleted, onError) => {
       onError,
     },
   );
-}
+};

@@ -21,6 +21,12 @@ const Notifier = ({ notifier }) => (
   </Wrapper>
 );
 
+Notifier.propTypes = {
+  notifier: PropTypes.shape({
+    message: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 export default createFragmentContainer(
   Notifier,
   graphql`

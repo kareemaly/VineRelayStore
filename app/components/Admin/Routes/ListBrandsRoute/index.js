@@ -1,6 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -14,10 +14,16 @@ import removeBrandMutation from './removeBrandMutation';
 
 
 class ListBrandsRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    brands: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     // Not an admin so change to login
-    if(! this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin/login`);
+    if (!this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin/login');
     }
 
     this.setState({
@@ -27,7 +33,7 @@ class ListBrandsRoute extends React.Component {
 
   onRemoveSuccess = () => {
     this.setState({
-      snackbarMessage: `Brand has been deleted`,
+      snackbarMessage: 'Brand has been deleted',
     });
   }
 
@@ -38,7 +44,7 @@ class ListBrandsRoute extends React.Component {
   }
 
   onRemoveComplete = (mutation, errors) => {
-    if(errors) {
+    if (errors) {
       this.onRemoveError(errors[0]);
     } else {
       this.onRemoveSuccess();
@@ -74,48 +80,34 @@ class ListBrandsRoute extends React.Component {
           onRequestClose={() => this.setState({ snackbarMessage: '' })}
         />
         <FloatingCreateButton
-          onClick={() => history.push(`/admin/brand/create`)}
+          onClick={() => history.push('/admin/brand/create')}
         />
       </DashboardLayout>
     );
   }
 }
 
-const ListBrandsRouteContainer = createFragmentContainer(
-  withRouter(ListBrandsRoute),
-  graphql`
-    fragment ListBrandsRoute_viewer on User {
-      firstName
-      isAdmin
-      ...DashboardLayout_viewer
-    }
-
-    fragment ListBrandsRoute_brands on BrandConnection {
-      ...ListBrands_brands
-    }
-  `
-);
-
-export default () => (
+export default (props) => (
   <QueryRenderer
     environment={relayEnvironment}
     query={graphql`
       query ListBrandsRouteQuery {
         viewer {
-          ...ListBrandsRoute_viewer
+          isAdmin
+          ...DashboardLayout_viewer
         }
         brands {
-          ...ListBrandsRoute_brands
+          ...ListBrands_brands
         }
       }
     `}
-    render={({ error, props }) => {
+    render={({ error, props: relayProps }) => {
       if (error) {
         return <PageError error={error} />;
       }
 
-      if (props) {
-        return <ListBrandsRouteContainer {...props} />;
+      if (relayProps) {
+        return <ListBrandsRoute {...relayProps} {...props} />;
       }
 
       return <PageLoader />;

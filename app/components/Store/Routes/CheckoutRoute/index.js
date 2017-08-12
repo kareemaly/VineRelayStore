@@ -1,7 +1,7 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -41,9 +41,15 @@ const FormWrapper = styled.div`
 `;
 
 class CheckoutRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    notifier: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
-    if(cartStore.isEmpty()) {
-      this.props.history.replace(`/cart`);
+    if (cartStore.isEmpty()) {
+      this.props.history.replace('/cart');
     }
 
     this.setState({
@@ -56,7 +62,7 @@ class CheckoutRoute extends React.Component {
       this.setState({
         cart: cartStore.get(),
       });
-    })
+    });
   }
 
   componentWillUnmount() {
@@ -71,7 +77,7 @@ class CheckoutRoute extends React.Component {
 
   onCheckoutError = (error) => {
     // Handle validation error
-    if(isValidationError(error)) {
+    if (isValidationError(error)) {
       this.setState({
         validationErrors: getErrorValidationObject(error),
         isLoading: false,
@@ -86,7 +92,7 @@ class CheckoutRoute extends React.Component {
   }
 
   onCheckoutComplete = (mutation, errors) => {
-    if(errors) {
+    if (errors) {
       this.onCheckoutError(errors[0]);
     } else {
       this.onCheckoutSuccess(mutation.basicCheckout);
@@ -136,7 +142,7 @@ class CheckoutRoute extends React.Component {
           </SummaryWrapper>
           <FormWrapper>
             <CheckoutForm
-              onBackToCartClick={() => history.push(`/cart`)}
+              onBackToCartClick={() => history.push('/cart')}
               errors={validationErrors}
               submitDisabled={isLoading}
               onSubmit={this.onSubmit}

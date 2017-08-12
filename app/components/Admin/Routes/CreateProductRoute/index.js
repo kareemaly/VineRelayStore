@@ -1,6 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -17,10 +17,17 @@ import createProductMutation from './createProductMutation';
 
 
 class CreateProductRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    categories: PropTypes.object.isRequired,
+    brands: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     // Not an admin so change to login
-    if(! this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin/login`);
+    if (!this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin/login');
     }
 
     this.setState({
@@ -30,12 +37,12 @@ class CreateProductRoute extends React.Component {
   }
 
   onCreateSuccess = (id) => {
-    // this.props.history.replace(`/admin/product/${id}`);
+    this.props.history.replace(`/admin/product/${id}`);
   }
 
   onCreateError = (error) => {
     // Handle validation error
-    if(isValidationError(error)) {
+    if (isValidationError(error)) {
       this.setState({
         validationErrors: getErrorValidationObject(error),
         isLoading: false,
@@ -50,7 +57,7 @@ class CreateProductRoute extends React.Component {
   }
 
   onCreateComplete = ({ createProduct }, errors) => {
-    if(errors) {
+    if (errors) {
       this.onCreateError(errors[0]);
     } else {
       this.onCreateSuccess(createProduct.product.id);
@@ -80,7 +87,7 @@ class CreateProductRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <CreateProduct
             brands={brands}
             categories={categories}
@@ -100,37 +107,33 @@ class CreateProductRoute extends React.Component {
   }
 }
 
-export default (props) => {
-  return (
-    <QueryRenderer
-      environment={relayEnvironment}
-      query={graphql`
-        query CreateProductRouteQuery {
-          viewer {
-            isAdmin
-            ...DashboardLayout_viewer
-          }
-          brands {
-            ...CreateProduct_brands
-          }
-          categories {
-            ...CreateProduct_categories
-          }
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query CreateProductRouteQuery {
+        viewer {
+          isAdmin
+          ...DashboardLayout_viewer
         }
-      `}
-      render={({ error, props: relayProps }) => {
-        if (error) {
-          return <PageError error={error} />;
+        brands {
+          ...CreateProduct_brands
         }
+        categories {
+          ...CreateProduct_categories
+        }
+      }
+    `}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
 
-        if (relayProps) {
-          return (
-            <CreateProductRoute {...props} {...relayProps} />
-          );
-        }
+      if (relayProps) {
+        return <CreateProductRoute {...relayProps} {...props} />;
+      }
 
-        return <PageLoader />;
-      }}
-    />
-  );
-}
+      return <PageLoader />;
+    }}
+  />
+);

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Paper from 'app/components/Store/Main/Paper';
 import LoginIcon from 'app/components/Store/Icons/LoginIcon';
-import logoImage from 'app/assets/main/logo.png';
 
 const Wrapper = styled(Paper)`
   display: flex;

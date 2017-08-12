@@ -1,6 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -13,10 +13,16 @@ import FloatingCreateButton from 'app/components/Admin/Main/FloatingCreateButton
 import removeProductMutation from './removeProductMutation';
 
 class ListProductsRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    products: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     // Not an admin so change to login
-    if(! this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin/login`);
+    if (!this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin/login');
     }
 
     this.setState({
@@ -26,7 +32,7 @@ class ListProductsRoute extends React.Component {
 
   onRemoveSuccess = () => {
     this.setState({
-      snackbarMessage: `Product has been deleted`,
+      snackbarMessage: 'Product has been deleted',
     });
   }
 
@@ -37,7 +43,7 @@ class ListProductsRoute extends React.Component {
   }
 
   onRemoveComplete = (mutation, errors) => {
-    if(errors) {
+    if (errors) {
       this.onRemoveError(errors[0]);
     } else {
       this.onRemoveSuccess();
@@ -73,48 +79,34 @@ class ListProductsRoute extends React.Component {
           onRequestClose={() => this.setState({ snackbarMessage: '' })}
         />
         <FloatingCreateButton
-          onClick={() => history.push(`/admin/product/create`)}
+          onClick={() => history.push('/admin/product/create')}
         />
       </DashboardLayout>
     );
   }
 }
 
-const ListProductsRouteContainer = createFragmentContainer(
-  withRouter(ListProductsRoute),
-  graphql`
-    fragment ListProductsRoute_viewer on User {
-      firstName
-      isAdmin
-      ...DashboardLayout_viewer
-    }
-
-    fragment ListProductsRoute_products on ProductConnection {
-      ...ListProducts_products
-    }
-  `
-);
-
-export default () => (
+export default (props) => (
   <QueryRenderer
     environment={relayEnvironment}
     query={graphql`
       query ListProductsRouteQuery {
         viewer {
-          ...ListProductsRoute_viewer
+          isAdmin
+          ...DashboardLayout_viewer
         }
         products {
-          ...ListProductsRoute_products
+          ...ListProducts_products
         }
       }
     `}
-    render={({ error, props }) => {
+    render={({ error, props: relayProps }) => {
       if (error) {
         return <PageError error={error} />;
       }
 
-      if (props) {
-        return <ListProductsRouteContainer {...props} />;
+      if (relayProps) {
+        return <ListProductsRoute {...relayProps} {...props} />;
       }
 
       return <PageLoader />;

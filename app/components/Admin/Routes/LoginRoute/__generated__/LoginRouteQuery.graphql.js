@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash bac7d10950b28ca794d56cfaa4b29bc8
+ * @relayHash 497aab56a1a4bbf55e62f0b3f13d856b
  */
 
 /* eslint-disable */
@@ -10,7 +10,9 @@
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
 export type LoginRouteQueryResponse = {|
-  +viewer: {| |};
+  +viewer: {|
+    +isAdmin: ?boolean;
+  |};
 |};
 */
 
@@ -18,13 +20,9 @@ export type LoginRouteQueryResponse = {|
 /*
 query LoginRouteQuery {
   viewer {
-    ...LoginRoute_viewer
+    isAdmin
     id
   }
-}
-
-fragment LoginRoute_viewer on User {
-  isAdmin
 }
 */
 
@@ -44,9 +42,11 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
-            "kind": "FragmentSpread",
-            "name": "LoginRoute_viewer",
-            "args": null
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "isAdmin",
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -76,28 +76,22 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "ScalarField",
             "alias": null,
             "args": null,
-            "name": "id",
+            "name": "isAdmin",
             "storageKey": null
           },
           {
-            "kind": "InlineFragment",
-            "type": "User",
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "isAdmin",
-                "storageKey": null
-              }
-            ]
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "id",
+            "storageKey": null
           }
         ],
         "storageKey": null
       }
     ]
   },
-  "text": "query LoginRouteQuery {\n  viewer {\n    ...LoginRoute_viewer\n    id\n  }\n}\n\nfragment LoginRoute_viewer on User {\n  isAdmin\n}\n"
+  "text": "query LoginRouteQuery {\n  viewer {\n    isAdmin\n    id\n  }\n}\n"
 };
 
 module.exports = batch;

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { createFragmentContainer, graphql } from 'react-relay';
 import PropTypes from 'prop-types';
-import breakpoints from 'app/utils/breakpoints';
 import CategoryLogo from '../CategoryLogo';
 
 const Wrapper = styled.div`
@@ -33,7 +32,7 @@ CategoryHeader.propTypes = {
   category: PropTypes.shape({
     name: PropTypes.string,
   }).isRequired,
-}
+};
 
 export default createFragmentContainer(
   CategoryHeader,

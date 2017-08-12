@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -22,6 +22,13 @@ const SmallDivider = styled.div`
 `;
 
 class BrandRoute extends React.Component {
+  static propTypes = {
+    node: PropTypes.object.isRequired,
+    viewer: PropTypes.object.isRequired,
+    products: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    notifier: PropTypes.object.isRequired,
+  };
 
   componentWillMount() {
     this.cartListener = cartStore.addListener(() => {
@@ -33,12 +40,8 @@ class BrandRoute extends React.Component {
     this.cartListener.remove();
   }
 
-  isProductInCart = (product) => {
-    return cartStore.hasItem(product.id);
-  }
-
   onAddToCartClick = (product) => {
-    if(cartStore.hasItem(product.id)) {
+    if (cartStore.hasItem(product.id)) {
       // Remove product from cart
       cartActions.removeItem(product.id);
     } else {
@@ -52,6 +55,8 @@ class BrandRoute extends React.Component {
       );
     }
   }
+
+  isProductInCart = (product) => cartStore.hasItem(product.id)
 
   render() {
     const {
@@ -77,12 +82,12 @@ class BrandRoute extends React.Component {
         />
         {
           brand.description &&
-          <Paper paddings={[ 'top', 'left', 'right' ]}>
+          <Paper paddings={['top', 'left', 'right']}>
             <p>{brand.description}</p>
             <SmallDivider />
           </Paper>
         }
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <ProductsGrid
             products={products}
             onProductClick={(id) => history.push(`/product/${id}`)}
@@ -122,7 +127,7 @@ export default (props) => (
       }
     `}
     variables={{
-      brandId: props.match.params.brandId,
+      brandId: props.match.params.brandId, // eslint-disable-line react/prop-types
     }}
     render={({ error, props: relayProps }) => {
       if (error) {

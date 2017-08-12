@@ -30,80 +30,80 @@ export default () => (
       <Switch>
         {/* Login Route */}
         <Route
-          path='/admin/login'
+          path="/admin/login"
           component={LoginRoute}
         />
 
         {/* Default Route */}
         <Route
           exact
-          path='/admin'
+          path="/admin"
           component={DefaultRoute}
         />
 
         {/* List products Route */}
         <Route
-          path='/admin/products'
+          path="/admin/products"
           component={ListProductsRoute}
         />
         {/* Create product Route */}
         <Route
           exact
-          path='/admin/product/create'
+          path="/admin/product/create"
           component={CreateProductRoute}
         />
         {/* Edit product Route */}
         <Route
           exact
-          path='/admin/product/:productId'
+          path="/admin/product/:productId"
           component={EditProductRoute}
         />
 
         {/* List categories Route */}
         <Route
-          path='/admin/categories'
+          path="/admin/categories"
           component={ListCategoriesRoute}
         />
         {/* Create product Route */}
         <Route
           exact
-          path='/admin/category/create'
+          path="/admin/category/create"
           component={CreateCategoryRoute}
         />
         {/* Edit category Route */}
         <Route
           exact
-          path='/admin/category/:categoryId'
+          path="/admin/category/:categoryId"
           component={EditCategoryRoute}
         />
 
         {/* List brands Route */}
         <Route
-          path='/admin/brands'
+          path="/admin/brands"
           component={ListBrandsRoute}
         />
         {/* Create brand Route */}
         <Route
           exact
-          path='/admin/brand/create'
+          path="/admin/brand/create"
           component={CreateBrandRoute}
         />
         {/* Edit brand Route */}
         <Route
           exact
-          path='/admin/brand/:brandId'
+          path="/admin/brand/:brandId"
           component={EditBrandRoute}
         />
 
         {/* List orders Route */}
         <Route
-          path='/admin/orders'
+          path="/admin/orders"
           component={ListOrdersRoute}
         />
         {/* View order Route */}
         <Route
           exact
-          path='/admin/order/:orderId'
+          path="/admin/order/:orderId"
           component={ViewOrderRoute}
         />
 

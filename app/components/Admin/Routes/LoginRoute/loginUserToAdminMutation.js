@@ -28,4 +28,4 @@ export default ({ email, password }, onCompleted, onError) => {
       onError,
     },
   );
-}
+};

@@ -53,7 +53,7 @@ const OpenedPanel = ({ viewer, children, onClose }) => (
     <LeftPanel>
       <LoginIcon />
       <ViewerName>
-        Admin Panel
+        {viewer.displayName}
       </ViewerName>
     </LeftPanel>
     <RightPanel>
@@ -66,6 +66,12 @@ const OpenedPanel = ({ viewer, children, onClose }) => (
     </ClosePanel>
   </OpenedWrapper>
 );
+
+OpenedPanel.propTypes = {
+  viewer: PropTypes.object.isRequired,
+  children: PropTypes.any.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 const ClosedWrapper = styled.div`
   position: fixed;
@@ -88,6 +94,10 @@ const ClosedPanel = ({ onOpen }) => (
   </ClosedWrapper>
 );
 
+ClosedPanel.propTypes = {
+  onOpen: PropTypes.func.isRequired,
+};
+
 const AdminFooter = ({ opened, ...props }) =>
   opened ? <OpenedPanel {...props} /> : <ClosedPanel {...props} />;
 
@@ -104,7 +114,7 @@ export default createFragmentContainer(
   AdminFooter,
   graphql`
     fragment AdminFooter_viewer on User {
-      isAdmin
+      displayName
     }
   `
 );

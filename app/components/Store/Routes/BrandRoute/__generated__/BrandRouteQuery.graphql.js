@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 8d9a7eacfbeedbee22cdc5f4bcc43b07
+ * @relayHash e10ce5572e351e462dda87e2bea014a4
  */
 
 /* eslint-disable */
@@ -76,7 +76,7 @@ fragment Notifier_notifier on Notifier {
 }
 
 fragment AdminFooter_viewer on User {
-  isAdmin
+  displayName
 }
 */
 
@@ -364,6 +364,13 @@ const batch /*: ConcreteBatch*/ = {
                 "args": null,
                 "name": "isAdmin",
                 "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "displayName",
+                "storageKey": null
               }
             ]
           }
@@ -390,7 +397,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query BrandRouteQuery(\n  $brandId: ID!\n) {\n  node(id: $brandId) {\n    __typename\n    id\n    ... on Brand {\n      description\n    }\n    ...BrandHero_brand\n  }\n  products(brandId: $brandId) {\n    ...ProductsGrid_products\n  }\n  viewer {\n    ...StoreLayout_viewer\n    id\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n}\n\nfragment BrandHero_brand on Brand {\n  name\n  coverImage\n}\n\nfragment ProductsGrid_products on ProductConnection {\n  edges {\n    node {\n      id\n      name\n      mainImage\n      price\n    }\n  }\n}\n\nfragment StoreLayout_viewer on User {\n  isAdmin\n  ...AdminFooter_viewer\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n\nfragment AdminFooter_viewer on User {\n  isAdmin\n}\n"
+  "text": "query BrandRouteQuery(\n  $brandId: ID!\n) {\n  node(id: $brandId) {\n    __typename\n    id\n    ... on Brand {\n      description\n    }\n    ...BrandHero_brand\n  }\n  products(brandId: $brandId) {\n    ...ProductsGrid_products\n  }\n  viewer {\n    ...StoreLayout_viewer\n    id\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n}\n\nfragment BrandHero_brand on Brand {\n  name\n  coverImage\n}\n\nfragment ProductsGrid_products on ProductConnection {\n  edges {\n    node {\n      id\n      name\n      mainImage\n      price\n    }\n  }\n}\n\nfragment StoreLayout_viewer on User {\n  isAdmin\n  ...AdminFooter_viewer\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n\nfragment AdminFooter_viewer on User {\n  displayName\n}\n"
 };
 
 module.exports = batch;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -13,10 +13,16 @@ import removeOrderMutation from './removeOrderMutation';
 
 
 class ListOrdersRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    orders: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     // Not an admin so change to login
-    if(! this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin/login`);
+    if (!this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin/login');
     }
 
     this.setState({
@@ -26,7 +32,7 @@ class ListOrdersRoute extends React.Component {
 
   onRemoveSuccess = () => {
     this.setState({
-      snackbarMessage: `Order has been deleted`,
+      snackbarMessage: 'Order has been deleted',
     });
   }
 
@@ -37,7 +43,7 @@ class ListOrdersRoute extends React.Component {
   }
 
   onRemoveComplete = (mutation, errors) => {
-    if(errors) {
+    if (errors) {
       this.onRemoveError(errors[0]);
     } else {
       this.onRemoveSuccess();
@@ -45,8 +51,8 @@ class ListOrdersRoute extends React.Component {
   }
 
   removeOrder = (orderId) => {
-    if(confirm("Are you sure you want to delete this order?")) {
-      removeOrderMutation(orderId, this.onRemoveComplete)
+    if (confirm('Are you sure you want to delete this order?')) { // eslint-disable-line no-alert
+      removeOrderMutation(orderId, this.onRemoveComplete);
     }
   }
 
@@ -56,7 +62,6 @@ class ListOrdersRoute extends React.Component {
     const {
       viewer,
       orders,
-      history,
     } = this.props;
 
     const {

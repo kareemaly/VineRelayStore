@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash d0ea33b3ffe0c84e0cc5c14309fdce35
+ * @relayHash 600ff0743e5abadbf2a38859f1d6b01f
  */
 
 /* eslint-disable */
@@ -35,14 +35,10 @@ mutation updateBrandMutation(
 ) {
   updateBrand(input: $input) {
     brand {
-      ...EditBrandRoute_brand
+      ...EditBrand_brand
       id
     }
   }
-}
-
-fragment EditBrandRoute_brand on Brand {
-  ...EditBrand_brand
 }
 
 fragment EditBrand_brand on Brand {
@@ -94,7 +90,7 @@ const batch /*: ConcreteBatch*/ = {
             "selections": [
               {
                 "kind": "FragmentSpread",
-                "name": "EditBrandRoute_brand",
+                "name": "EditBrand_brand",
                 "args": null
               }
             ],
@@ -196,7 +192,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "mutation updateBrandMutation(\n  $input: UpdateBrandInput!\n) {\n  updateBrand(input: $input) {\n    brand {\n      ...EditBrandRoute_brand\n      id\n    }\n  }\n}\n\nfragment EditBrandRoute_brand on Brand {\n  ...EditBrand_brand\n}\n\nfragment EditBrand_brand on Brand {\n  id\n  name\n  slug\n  description\n  coverImage\n  logoImage\n}\n"
+  "text": "mutation updateBrandMutation(\n  $input: UpdateBrandInput!\n) {\n  updateBrand(input: $input) {\n    brand {\n      ...EditBrand_brand\n      id\n    }\n  }\n}\n\nfragment EditBrand_brand on Brand {\n  id\n  name\n  slug\n  description\n  coverImage\n  logoImage\n}\n"
 };
 
 module.exports = batch;

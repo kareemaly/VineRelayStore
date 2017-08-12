@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { createFragmentContainer, graphql } from 'react-relay';
 import PropTypes from 'prop-types';
-import breakpoints from 'app/utils/breakpoints';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -23,6 +22,10 @@ const Title = ({ children }) => (
     <SmallDivider />
   </TitleWrapper>
 );
+
+Title.propTypes = {
+  children: PropTypes.any.isRequired,
+};
 
 const Wrapper = styled.div`
   position: relative;
@@ -71,7 +74,7 @@ CategoryHero.propTypes = {
   category: PropTypes.shape({
     coverImage: PropTypes.string,
   }).isRequired,
-}
+};
 
 export default createFragmentContainer(
   CategoryHero,

@@ -18,7 +18,6 @@ const ButtonWrapper = styled.div`
 `;
 
 class EditCategory extends React.Component {
-
   componentWillMount() {
     this.setState({
       category: this.props.category,
@@ -26,7 +25,7 @@ class EditCategory extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.category !== nextProps.category) {
+    if (this.props.category !== nextProps.category) {
       this.setState({
         category: nextProps.category,
       });

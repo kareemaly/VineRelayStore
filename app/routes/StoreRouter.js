@@ -23,71 +23,71 @@ export default () => (
         {/* Home Route */}
         <Route
           exact
-          path='/'
+          path="/"
           component={HomeRoute}
         />
         {/* List brands Route */}
         <Route
-          path='/brands'
+          path="/brands"
           component={BrandsRoute}
         />
         {/* Show brand Route */}
         <Route
           exact
-          path='/brand/:brandId'
+          path="/brand/:brandId"
           component={BrandRoute}
         />
 
         {/* List categories Route */}
         <Route
-          path='/categories'
+          path="/categories"
           component={CategoriesRoute}
         />
         {/* Show category Route */}
         <Route
           exact
-          path='/category/:categoryId'
+          path="/category/:categoryId"
           component={CategoryRoute}
         />
 
         {/* Show product Route */}
         <Route
           exact
-          path='/product/:productId'
+          path="/product/:productId"
           component={ProductRoute}
         />
 
         {/* Show cart Route */}
         <Route
           exact
-          path='/cart'
+          path="/cart"
           component={CartRoute}
         />
 
         {/* Show checkout Route */}
         <Route
           exact
-          path='/checkout'
+          path="/checkout"
           component={CheckoutRoute}
         />
 
         {/* Show checkout thanks Route */}
         <Route
           exact
-          path='/checkout/thanks/:orderNumber'
+          path="/checkout/thanks/:orderNumber"
           component={CheckoutThanksRoute}
         />
 
         {/* Show about  Route */}
         <Route
           exact
-          path='/about'
+          path="/about"
           component={AboutRoute}
         />
 
         <Route
           exact
-          path='/fonts'
+          path="/fonts"
           component={FontsRoute}
         />
       </Switch>

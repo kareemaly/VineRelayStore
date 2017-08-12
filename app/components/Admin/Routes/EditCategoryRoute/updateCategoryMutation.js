@@ -32,4 +32,4 @@ export default (input, onCompleted, onError) => {
       onError,
     },
   );
-}
+};

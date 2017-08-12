@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 26fb3c87155d54b82daf98f0b5ca3003
+ * @relayHash 506d4e7ce444f35b8684bc27f98a0c96
  */
 
 /* eslint-disable */
@@ -10,7 +10,9 @@
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
 export type EditBrandRouteQueryResponse = {|
-  +viewer: {| |};
+  +viewer: {|
+    +isAdmin: ?boolean;
+  |};
   +node: ?{| |};
 |};
 */
@@ -21,23 +23,22 @@ query EditBrandRouteQuery(
   $brandId: ID!
 ) {
   viewer {
-    ...EditBrandRoute_viewer
+    isAdmin
+    ...DashboardLayout_viewer
     id
   }
   node(id: $brandId) {
     __typename
-    ...EditBrandRoute_brand
+    ...EditBrand_brand
     id
   }
 }
 
-fragment EditBrandRoute_viewer on User {
-  isAdmin
-  ...DashboardLayout_viewer
-}
-
-fragment EditBrandRoute_brand on Brand {
-  ...EditBrand_brand
+fragment DashboardLayout_viewer on User {
+  displayName
+  firstName
+  lastName
+  email
 }
 
 fragment EditBrand_brand on Brand {
@@ -47,13 +48,6 @@ fragment EditBrand_brand on Brand {
   description
   coverImage
   logoImage
-}
-
-fragment DashboardLayout_viewer on User {
-  displayName
-  firstName
-  lastName
-  email
 }
 */
 
@@ -80,8 +74,15 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
             "kind": "FragmentSpread",
-            "name": "EditBrandRoute_viewer",
+            "name": "DashboardLayout_viewer",
             "args": null
           }
         ],
@@ -104,7 +105,7 @@ const batch /*: ConcreteBatch*/ = {
         "selections": [
           {
             "kind": "FragmentSpread",
-            "name": "EditBrandRoute_brand",
+            "name": "EditBrand_brand",
             "args": null
           }
         ],
@@ -142,6 +143,13 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "ScalarField",
             "alias": null,
             "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
             "name": "id",
             "storageKey": null
           },
@@ -149,13 +157,6 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "InlineFragment",
             "type": "User",
             "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "isAdmin",
-                "storageKey": null
-              },
               {
                 "kind": "ScalarField",
                 "alias": null,
@@ -264,7 +265,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query EditBrandRouteQuery(\n  $brandId: ID!\n) {\n  viewer {\n    ...EditBrandRoute_viewer\n    id\n  }\n  node(id: $brandId) {\n    __typename\n    ...EditBrandRoute_brand\n    id\n  }\n}\n\nfragment EditBrandRoute_viewer on User {\n  isAdmin\n  ...DashboardLayout_viewer\n}\n\nfragment EditBrandRoute_brand on Brand {\n  ...EditBrand_brand\n}\n\nfragment EditBrand_brand on Brand {\n  id\n  name\n  slug\n  description\n  coverImage\n  logoImage\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n"
+  "text": "query EditBrandRouteQuery(\n  $brandId: ID!\n) {\n  viewer {\n    isAdmin\n    ...DashboardLayout_viewer\n    id\n  }\n  node(id: $brandId) {\n    __typename\n    ...EditBrand_brand\n    id\n  }\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n\nfragment EditBrand_brand on Brand {\n  id\n  name\n  slug\n  description\n  coverImage\n  logoImage\n}\n"
 };
 
 module.exports = batch;

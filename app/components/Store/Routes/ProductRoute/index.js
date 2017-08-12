@@ -1,19 +1,25 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
 import StoreLayout from 'app/components/Store/Main/StoreLayout';
 import Paper from 'app/components/Store/Main/Paper';
 import ProductDetails from 'app/components/Store/Product/ProductDetails';
-import AdminFooter from 'app/components/Store/Main/AdminFooter';
 import Button from 'app/components/Store/Main/Button';
 import { cartActions } from 'app/actions';
 import { cartStore } from 'app/stores';
 
 
 class ProductRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    node: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    notifier: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     this.cartListener = cartStore.addListener(() => {
       this.forceUpdate();
@@ -24,12 +30,8 @@ class ProductRoute extends React.Component {
     this.cartListener.remove();
   }
 
-  isProductInCart = (product) => {
-    return cartStore.hasItem(product.id);
-  }
-
   onAddToCartClick = (product) => {
-    if(cartStore.hasItem(product.id)) {
+    if (cartStore.hasItem(product.id)) {
       // Remove product from cart
       cartActions.removeItem(product.id);
     } else {
@@ -43,6 +45,8 @@ class ProductRoute extends React.Component {
       );
     }
   }
+
+  isProductInCart = (product) => cartStore.hasItem(product.id)
 
   render() {
     const {
@@ -62,11 +66,11 @@ class ProductRoute extends React.Component {
           </Button>
         }
       >
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <ProductDetails
             isProductInCart={this.isProductInCart}
             onAddToCartClick={this.onAddToCartClick}
-            onHomeClick={() => history.push(`/`)}
+            onHomeClick={() => history.push('/')}
             onBrandClick={(brand) => history.push(`/brand/${brand.id}`)}
             onCategoryClick={(category) => history.push(`/category/${category.id}`)}
             product={product}
@@ -95,7 +99,7 @@ export default (props) => (
       }
     `}
     variables={{
-      productId: props.match.params.productId,
+      productId: props.match.params.productId, // eslint-disable-line react/prop-types
     }}
     render={({ error, props: relayProps }) => {
       if (error) {

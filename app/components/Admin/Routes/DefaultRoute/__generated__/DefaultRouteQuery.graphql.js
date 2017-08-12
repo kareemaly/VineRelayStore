@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash d0c42f52ed72fb6510f8b7443e0c0aec
+ * @relayHash e4d40720c09dbe5bb35647b3f939f0ae
  */
 
 /* eslint-disable */
@@ -10,7 +10,10 @@
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
 export type DefaultRouteQueryResponse = {|
-  +viewer: {| |};
+  +viewer: {|
+    +firstName: ?string;
+    +isAdmin: ?boolean;
+  |};
 |};
 */
 
@@ -18,15 +21,11 @@ export type DefaultRouteQueryResponse = {|
 /*
 query DefaultRouteQuery {
   viewer {
-    ...DefaultRoute_viewer
+    firstName
+    isAdmin
+    ...DashboardLayout_viewer
     id
   }
-}
-
-fragment DefaultRoute_viewer on User {
-  firstName
-  isAdmin
-  ...DashboardLayout_viewer
 }
 
 fragment DashboardLayout_viewer on User {
@@ -53,8 +52,22 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "firstName",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
             "kind": "FragmentSpread",
-            "name": "DefaultRoute_viewer",
+            "name": "DashboardLayout_viewer",
             "args": null
           }
         ],
@@ -85,6 +98,20 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "ScalarField",
             "alias": null,
             "args": null,
+            "name": "firstName",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "isAdmin",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
             "name": "id",
             "storageKey": null
           },
@@ -92,20 +119,6 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "InlineFragment",
             "type": "User",
             "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "firstName",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "isAdmin",
-                "storageKey": null
-              },
               {
                 "kind": "ScalarField",
                 "alias": null,
@@ -134,7 +147,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query DefaultRouteQuery {\n  viewer {\n    ...DefaultRoute_viewer\n    id\n  }\n}\n\nfragment DefaultRoute_viewer on User {\n  firstName\n  isAdmin\n  ...DashboardLayout_viewer\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n"
+  "text": "query DefaultRouteQuery {\n  viewer {\n    firstName\n    isAdmin\n    ...DashboardLayout_viewer\n    id\n  }\n}\n\nfragment DashboardLayout_viewer on User {\n  displayName\n  firstName\n  lastName\n  email\n}\n"
 };
 
 module.exports = batch;

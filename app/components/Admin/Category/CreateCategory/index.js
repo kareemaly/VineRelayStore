@@ -1,5 +1,4 @@
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TextField from 'material-ui/TextField';
@@ -18,7 +17,6 @@ const ButtonWrapper = styled.div`
 `;
 
 class CreateCategory extends React.Component {
-
   componentWillMount() {
     this.setState({
       category: {},
@@ -78,10 +76,6 @@ class CreateCategory extends React.Component {
 }
 
 CreateCategory.propTypes = {
-  category: PropTypes.shape({
-    name: PropTypes.string,
-    slug: PropTypes.string,
-  }).isRequired,
   errors: PropTypes.shape({
     name: PropTypes.string,
     slug: PropTypes.string,
@@ -90,13 +84,4 @@ CreateCategory.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default createFragmentContainer(
-  CreateCategory,
-  graphql`
-    fragment CreateCategory_category on Category {
-      id
-      name
-      slug
-    }
-  `
-);
+export default CreateCategory;

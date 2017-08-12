@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -32,6 +32,10 @@ const SectionTitle = ({ children }) => (
   </SectionTitleWrapper>
 );
 
+SectionTitle.propTypes = {
+  children: PropTypes.any.isRequired,
+};
+
 const Hero = styled.div`
   background: url('${(props) => props.src}');
   background-position: center;
@@ -39,42 +43,44 @@ const Hero = styled.div`
   height: calc(100vh - ${(props) => props.theme.headerHeight}px);
 `;
 
-class HomeRoute extends React.Component {
-  render() {
-    const {
-      brands,
-      categories,
-      history,
-      notifier,
-      viewer,
-    } = this.props;
+const HomeRoute = ({
+  brands,
+  categories,
+  history,
+  notifier,
+  viewer,
+}) => (
+  <StoreLayout
+    notifier={notifier}
+    viewer={viewer}
+  >
+    <Hero
+      src={coverImage}
+    />
+    <SectionTitle>Brand Catalog</SectionTitle>
+    <Paper paddings={['top', 'bottom', 'left', 'right']}>
+      <BrandsGrid
+        brands={brands}
+        onBrandClick={(id) => history.push(`brand/${id}`)}
+      />
+    </Paper>
+    <SectionTitle>Shop By Category</SectionTitle>
+    <Paper paddings={['top', 'bottom', 'left', 'right']}>
+      <CategoriesGrid
+        categories={categories}
+        onCategoryClick={(id) => history.push(`category/${id}`)}
+      />
+    </Paper>
+  </StoreLayout>
+);
 
-    return (
-      <StoreLayout
-        notifier={notifier}
-        viewer={viewer}
-      >
-        <Hero
-          src={coverImage}
-        />
-        <SectionTitle>Brand Catalog</SectionTitle>
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
-          <BrandsGrid
-            brands={brands}
-            onBrandClick={(id) => history.push(`brand/${id}`)}
-          />
-        </Paper>
-        <SectionTitle>Shop By Category</SectionTitle>
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
-          <CategoriesGrid
-            categories={categories}
-            onCategoryClick={(id) => history.push(`category/${id}`)}
-          />
-        </Paper>
-      </StoreLayout>
-    );
-  }
-}
+HomeRoute.propTypes = {
+  viewer: PropTypes.object.isRequired,
+  notifier: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  categories: PropTypes.object.isRequired,
+  brands: PropTypes.object.isRequired,
+};
 
 export default (props) => (
   <QueryRenderer

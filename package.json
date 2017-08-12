@@ -15,7 +15,9 @@
     "build:app": "webpack --config internals/webpack/webpack.prod.config.js --color -p --progress",
     "build:server": "./node_modules/.bin/babel ./server --out-dir ./build-server",
     "start:prod": "cross-env NODE_ENV=production node build-server",
-    "heroku-postbuild": "npm run build:prod"
+    "heroku-postbuild": "npm run build:prod",
+    "lint": "eslint app/**/*.js",
+    "lint:fix": "eslint app/**/*.js --fix"
   },
   "engines": {
     "node": "~6.9.0",
@@ -24,6 +26,7 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.0",
     "babel-plugin-module-alias": "^1.6.0",
     "babel-plugin-react-transform": "^2.0.2",
@@ -38,6 +41,13 @@
     "babel-runtime": "^6.23.0",
     "concurrently": "^3.4.0",
     "css-loader": "^0.28.4",
+    "eslint": "^4.4.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-import-resolver-webpack": "^0.8.3",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.1.0",
     "eventsource-polyfill": "^0.9.6",
     "favicons-webpack-plugin": "0.0.7",
     "file-loader": "^0.11.2",

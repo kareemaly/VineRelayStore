@@ -9,7 +9,7 @@
 /*::
 import type {ConcreteFragment} from 'relay-runtime';
 export type AdminFooter_viewer = {|
-  +isAdmin: ?boolean;
+  +displayName: ?string;
 |};
 */
 
@@ -24,7 +24,7 @@ const fragment /*: ConcreteFragment*/ = {
       "kind": "ScalarField",
       "alias": null,
       "args": null,
-      "name": "isAdmin",
+      "name": "displayName",
       "storageKey": null
     }
   ],

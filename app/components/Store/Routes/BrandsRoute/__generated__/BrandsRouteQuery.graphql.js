@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 770c510045ebc160b60102e4237cc328
+ * @relayHash 8ddde9c5fd27a7e3f32af6aa1fbe6c5c
  */
 
 /* eslint-disable */
@@ -52,7 +52,7 @@ fragment StoreLayout_viewer on User {
 }
 
 fragment AdminFooter_viewer on User {
-  isAdmin
+  displayName
 }
 
 fragment Notifier_notifier on Notifier {
@@ -225,6 +225,13 @@ const batch /*: ConcreteBatch*/ = {
                 "args": null,
                 "name": "isAdmin",
                 "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "displayName",
+                "storageKey": null
               }
             ]
           }
@@ -233,7 +240,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query BrandsRouteQuery {\n  brands {\n    ...BrandsGrid_brands\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n  viewer {\n    ...StoreLayout_viewer\n    id\n  }\n}\n\nfragment BrandsGrid_brands on BrandConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment StoreLayout_viewer on User {\n  isAdmin\n  ...AdminFooter_viewer\n}\n\nfragment AdminFooter_viewer on User {\n  isAdmin\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
+  "text": "query BrandsRouteQuery {\n  brands {\n    ...BrandsGrid_brands\n  }\n  notifier {\n    ...StoreLayout_notifier\n  }\n  viewer {\n    ...StoreLayout_viewer\n    id\n  }\n}\n\nfragment BrandsGrid_brands on BrandConnection {\n  edges {\n    node {\n      id\n      name\n      coverImage\n    }\n  }\n}\n\nfragment StoreLayout_notifier on Notifier {\n  message\n  ...Notifier_notifier\n}\n\nfragment StoreLayout_viewer on User {\n  isAdmin\n  ...AdminFooter_viewer\n}\n\nfragment AdminFooter_viewer on User {\n  displayName\n}\n\nfragment Notifier_notifier on Notifier {\n  message\n}\n"
 };
 
 module.exports = batch;

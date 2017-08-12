@@ -48,8 +48,8 @@ const ProductsGrid = ({ products, onProductClick, isProductInCart, onAddToCartCl
       desktop: 3,
     }}
   >
-    {products.edges.map((edge, index) => (
-      <ProductItem key={index}>
+    {products.edges.map((edge) => (
+      <ProductItem key={edge.node.id}>
         <ProductImage
           onClick={() => onProductClick(edge.node.id)}
           src={edge.node.mainImage}
@@ -67,7 +67,7 @@ const ProductsGrid = ({ products, onProductClick, isProductInCart, onAddToCartCl
           secondary={isProductInCart(edge.node)}
           onClick={() => onAddToCartClick(edge.node)}
         >
-          {isProductInCart(edge.node) ? `Remove from cart` : 'Add to cart'}
+          {isProductInCart(edge.node) ? 'Remove from cart' : 'Add to cart'}
         </AddToCartButton>
       </ProductItem>
     ))}
@@ -88,7 +88,7 @@ ProductsGrid.propTypes = {
   onProductClick: PropTypes.func.isRequired,
   isProductInCart: PropTypes.func.isRequired,
   onAddToCartClick: PropTypes.func.isRequired,
-}
+};
 
 export default createFragmentContainer(
   ProductsGrid,

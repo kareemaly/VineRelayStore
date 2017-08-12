@@ -1,6 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -17,10 +17,18 @@ import updateProductMutation from './updateProductMutation';
 
 
 class EditProductRoute extends React.Component {
+  static propTypes = {
+    brands: PropTypes.object.isRequired,
+    categories: PropTypes.object.isRequired,
+    viewer: PropTypes.object.isRequired,
+    node: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     // Not an admin so change to login
-    if(! this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin/login`);
+    if (!this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin/login');
     }
 
     this.setState({
@@ -31,13 +39,13 @@ class EditProductRoute extends React.Component {
 
   onUpdateSuccess = () => {
     this.setState({
-      snackbarMessage: `Product has been updated`,
+      snackbarMessage: 'Product has been updated',
     });
   }
 
   onUpdateError = (error) => {
     // Handle validation error
-    if(isValidationError(error)) {
+    if (isValidationError(error)) {
       this.setState({
         validationErrors: getErrorValidationObject(error),
         isLoading: false,
@@ -52,7 +60,7 @@ class EditProductRoute extends React.Component {
   }
 
   onUpdateComplete = (mutation, errors) => {
-    if(errors) {
+    if (errors) {
       this.onUpdateError(errors[0]);
     } else {
       this.onUpdateSuccess();
@@ -83,7 +91,7 @@ class EditProductRoute extends React.Component {
 
     return (
       <DashboardLayout viewer={viewer}>
-        <Paper paddings={[ 'top', 'bottom', 'left', 'right' ]}>
+        <Paper paddings={['top', 'bottom', 'left', 'right']}>
           <EditProduct
             product={product}
             brands={brands}
@@ -104,44 +112,39 @@ class EditProductRoute extends React.Component {
   }
 }
 
-export default (props) => {
-  const productId = props.match.params.productId;
-  return (
-    <QueryRenderer
-      environment={relayEnvironment}
-      query={graphql`
-        query EditProductRouteQuery($productId: ID!) {
-          viewer {
-            isAdmin
-            ...DashboardLayout_viewer
-          }
-          node(id: $productId) {
-            ...EditProduct_product
-          }
-          brands {
-            ...EditProduct_brands
-          }
-          categories {
-            ...EditProduct_categories
-          }
+export default (props) => (
+  <QueryRenderer
+    environment={relayEnvironment}
+    query={graphql`
+      query EditProductRouteQuery($productId: ID!) {
+        viewer {
+          isAdmin
+          ...DashboardLayout_viewer
         }
-      `}
-      variables={{
-        productId,
-      }}
-      render={({ error, props: relayProps }) => {
-        if (error) {
-          return <PageError error={error} />;
+        node(id: $productId) {
+          ...EditProduct_product
         }
+        brands {
+          ...EditProduct_brands
+        }
+        categories {
+          ...EditProduct_categories
+        }
+      }
+    `}
+    variables={{
+      productId: props.match.params.productId, // eslint-disable-line react/prop-types
+    }}
+    render={({ error, props: relayProps }) => {
+      if (error) {
+        return <PageError error={error} />;
+      }
 
-        if (relayProps) {
-          return (
-            <EditProductRoute {...props} {...relayProps} />
-          );
-        }
+      if (relayProps) {
+        return <EditProductRoute {...relayProps} {...props} />;
+      }
 
-        return <PageLoader />;
-      }}
-    />
-  );
-}
+      return <PageLoader />;
+    }}
+  />
+);

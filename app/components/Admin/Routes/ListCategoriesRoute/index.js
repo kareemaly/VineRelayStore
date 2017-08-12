@@ -1,6 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
+import PropTypes from 'prop-types';
+import { QueryRenderer, graphql } from 'react-relay';
 import relayEnvironment from 'app/config/relay';
 import PageError from 'app/components/Common/PageError';
 import PageLoader from 'app/components/Common/PageLoader';
@@ -14,10 +14,16 @@ import removeCategoryMutation from './removeCategoryMutation';
 
 
 class ListCategoriesRoute extends React.Component {
+  static propTypes = {
+    viewer: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    categories: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     // Not an admin so change to login
-    if(! this.props.viewer.isAdmin) {
-      this.props.history.replace(`/admin/login`);
+    if (!this.props.viewer.isAdmin) {
+      this.props.history.replace('/admin/login');
     }
 
     this.setState({
@@ -27,7 +33,7 @@ class ListCategoriesRoute extends React.Component {
 
   onRemoveSuccess = () => {
     this.setState({
-      snackbarMessage: `Category has been deleted`,
+      snackbarMessage: 'Category has been deleted',
     });
   }
 
@@ -38,7 +44,7 @@ class ListCategoriesRoute extends React.Component {
   }
 
   onRemoveComplete = (mutation, errors) => {
-    if(errors) {
+    if (errors) {
       this.onRemoveError(errors[0]);
     } else {
       this.onRemoveSuccess();
@@ -74,48 +80,34 @@ class ListCategoriesRoute extends React.Component {
           onRequestClose={() => this.setState({ snackbarMessage: '' })}
         />
         <FloatingCreateButton
-          onClick={() => history.push(`/admin/category/create`)}
+          onClick={() => history.push('/admin/category/create')}
         />
       </DashboardLayout>
     );
   }
 }
 
-const ListCategoriesRouteContainer = createFragmentContainer(
-  withRouter(ListCategoriesRoute),
-  graphql`
-    fragment ListCategoriesRoute_viewer on User {
-      firstName
-      isAdmin
-      ...DashboardLayout_viewer
-    }
-
-    fragment ListCategoriesRoute_categories on CategoryConnection {
-      ...ListCategories_categories
-    }
-  `
-);
-
-export default () => (
+export default (props) => (
   <QueryRenderer
     environment={relayEnvironment}
     query={graphql`
       query ListCategoriesRouteQuery {
         viewer {
-          ...ListCategoriesRoute_viewer
+          isAdmin
+          ...DashboardLayout_viewer
         }
         categories {
-          ...ListCategoriesRoute_categories
+          ...ListCategories_categories
         }
       }
     `}
-    render={({ error, props }) => {
+    render={({ error, props: relayProps }) => {
       if (error) {
         return <PageError error={error} />;
       }
 
-      if (props) {
-        return <ListCategoriesRouteContainer {...props} />;
+      if (relayProps) {
+        return <ListCategoriesRoute {...relayProps} {...props} />;
       }
 
       return <PageLoader />;
