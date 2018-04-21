@@ -48,6 +48,4 @@ build-server/
 server/graphql/__generated__/schema.json
 server/graphql/__generated__/schema.graphql
 
-# Re-enable this once relay-compiler releases with this pr
-# https://github.com/facebook/relay/pull/1966
-# app/components/**/__generated__
+app/components/**/__generated__
