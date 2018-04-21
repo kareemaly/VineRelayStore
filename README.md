@@ -24,4 +24,4 @@ Anyone and everyone is welcome to contribute to this project.
 
 License
 ----------
-This project is licensed under the MIT license, Copyright (c) 2017 Kareem Mohamed Aly. For more information see `LICENSE.md`.
+This project is licensed under the MIT license, Copyright (c) 2017 Kareem Elbahrawy. For more information see `LICENSE.md`.
