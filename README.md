@@ -1,4 +1,4 @@
-VineRelay
+VineRelayStore
 ---------------
 VineRelay is Content Management Boilerplate which enables you to quickly scaffold a shop with the basic features using React, Relay and GraphQL.
 
